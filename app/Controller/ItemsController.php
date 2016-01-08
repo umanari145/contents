@@ -35,6 +35,8 @@ class ItemsController extends AppController {
  */
 	public $uses = array();
 
+	public $layout ="contents";
+
 	public function index() {
 		$this->set('items',$this->Item->find('all'));
 	}
