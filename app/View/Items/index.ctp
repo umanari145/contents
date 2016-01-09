@@ -1,16 +1,26 @@
-
-<table cellpadding="0" cellspacing="0" >
-	<tr>
-		<th>No</th>
-   		<th>アイテム名</th>
-	</tr>
-
-    <?php foreach ($items as $item): ?>
-	<tr>
-		<td><?php echo $item['Item']['contents_num']; ?></td>
-		<td><?php echo $item['Item']['contents_name']; ?></td>
-	</tr>
-    <?php endforeach;?>
-    <!--items_area end-->
-</table>
-
+	<div class="col-md-6">
+	<?php foreach ($items as $item): ?>
+		<div class="media">
+			<div class="pull-left">
+						<?php echo $this->Html->image($item['Item']['smallPictureUrl'],
+								array(
+										'url'=>array(
+										'controller'=>'items',
+										'action'=>'view',
+										$item['Item']['id']
+								),
+										'class'=>'contents_image',
+										'id' =>'contents_image_id_' . $item['Item']['id']
+										));
+						 ?>
+				</div>
+			<div class="media-body">
+				<h4 class="media-heading">
+					<?php echo $item['Item']['productName']; ?>
+					</h4>
+					<?php echo $item['Item']['summary']; ?>
+				</div>
+			<td></td>
+		</div>
+	<?php endforeach;?>
+	</div>

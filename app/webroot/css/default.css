@@ -93,12 +93,8 @@ p {
 	background: #003d4c;
 	text-decoration: underline;
 }
-#content{
-	background: #fff;
-	clear: both;
-	color: #333;
-	padding: 10px 20px 40px 20px;
-	overflow: auto;
+.maincontents{
+	margin-top:100px;
 }
 #footer {
 	clear: both;

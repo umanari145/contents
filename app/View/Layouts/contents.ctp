@@ -38,17 +38,12 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 </head>
 <body>
 	<?php echo $this->element('headnav'); ?>
-	<div id="container">
 
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
-		</div>
-		<div id="content">
+	<div class="container maincontents">
+		<?php echo $this->element('leftnav'); ?>
+		<?php echo $this->Flash->render(); ?>
+		<?php echo $this->fetch('content'); ?>
 
-			<?php echo $this->Flash->render(); ?>
-
-			<?php echo $this->fetch('content'); ?>
-		</div>
 		<div id="footer">
 			<?php echo $this->Html->link(
 					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),

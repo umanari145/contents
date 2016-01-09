@@ -38,6 +38,14 @@ class ItemsController extends AppController {
 	public $layout ="contents";
 
 	public function index() {
-		$this->set('items',$this->Item->find('all'));
+		$this->set('items',$this->Item->getItemList());
+	}
+	public function view($id = null) {
+		$this->Item->id = $id;
+
+		if (! $this->Item->exists ()) {
+			throw new NotFoundException ( '存在しない商品です。' );
+		}
+		$this->set ( 'itemDetail',$this->Item->getItemDetail( $id) );
 	}
 }
