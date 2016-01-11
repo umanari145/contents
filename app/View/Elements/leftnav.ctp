@@ -1,4 +1,4 @@
- <div class="row col-md-4">
+ <div class="row col-md-2">
       <div class="sidebar-nav affix" role="complementary">
         <ul class="nav">
           <li><a href="#">一番上</a></li>

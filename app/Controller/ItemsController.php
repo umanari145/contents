@@ -38,7 +38,8 @@ class ItemsController extends AppController {
 	public $layout ="contents";
 
 	public function index() {
-		$this->set('items',$this->Item->getItemList());
+		$items = $this->paginate();
+		$this->set('items',$this->Item->getItemList($items));
 	}
 	public function view($id = null) {
 		$this->Item->id = $id;

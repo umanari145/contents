@@ -28,18 +28,7 @@ body {
 	font-size:90%;
 	margin: 0;
 }
-a {
-	color: #003d4c;
-	text-decoration: underline;
-	font-weight: bold;
-}
-a:hover {
-	color: #367889;
-	text-decoration:none;
-}
-a img {
-	border:none;
-}
+
 h1, h2, h3, h4 {
 	font-weight: normal;
 	margin-bottom:0.5em;
@@ -733,4 +722,8 @@ pre {
 /** Elements **/
 #url-rewriting-warning {
 	display:none;
+}
+
+div.list_summary{
+	margin-top:25px;
 }

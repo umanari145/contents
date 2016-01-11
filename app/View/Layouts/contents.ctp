@@ -31,6 +31,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->css('bootstrap');
 		echo $this->Html->script('jquery-1.11.3.min');
 		echo $this->Html->script('bootstrap.min');
+		echo $this->Html->script('default');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
@@ -41,21 +42,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 	<div class="container maincontents">
 		<?php echo $this->element('leftnav'); ?>
-		<?php echo $this->Flash->render(); ?>
-		<?php echo $this->fetch('content'); ?>
-
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
-				);
-			?>
-			<p>
-				<?php echo $cakeVersion; ?>
-			</p>
+		<div class="row col-md-8">
+			<?php echo $this->Flash->render(); ?>
+			<?php echo $this->fetch('content'); ?>
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+
 </body>
 </html>

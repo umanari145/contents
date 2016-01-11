@@ -1097,13 +1097,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #337ab7;
+  color: #000;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #23527c;
-  text-decoration: underline;
+  color: #000;
 }
 a:focus {
   outline: thin dotted;
@@ -6786,4 +6785,24 @@ button.close {
     margin-top: 0;
     margin-bottom: 0;
   }
+}
+
+a:hover img{
+opacity:0.6;
+filter:alpha(opacity=80);
+-ms-filter:"alpha( opacity=80 )";
+}
+
+div.media-body a{
+    color:#000;
+}
+
+div.media-body:hover{
+opacity:0.6;
+filter:alpha(opacity=80);
+-ms-filter:"alpha( opacity=80 )";
+}
+
+div.search-form{
+	position: fix;
 }

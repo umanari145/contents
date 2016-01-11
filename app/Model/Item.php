@@ -43,8 +43,7 @@ class Item extends Model {
 	 *
 	 * @return 商品一覧の取得
 	 */
-	public function getItemList() {
-		$contentsList = $this->find ( 'all' );
+	public function getItemList( $contentsList) {
 
 		foreach ( $contentsList as &$contents ) {
 			$smallPictrureUrl = str_replace ( "pl.jpg", "ps.jpg", $contents ['Item'] ['pictureUrl'] );
