@@ -1,12 +1,12 @@
  <div class="row col-md-2">
       <div class="sidebar-nav affix" role="complementary">
         <ul class="nav">
-          <li><a href="#">一番上</a></li>
-          <li><a href="#bottom">一番下</a></li>
-          <li><a href="#">一番上</a></li>
-          <li><a href="#bottom">一番下</a></li>
-          <li><a href="#">一番上</a></li>
-          <li><a href="#bottom">一番下</a></li>
+          <li><a href="#">カテゴリ1</a></li>
+          <li><a href="#">カテゴリ2</a></li>
+          <li><a href="#">カテゴリ3</a></li>
+          <li><a href="#">カテゴリ4</a></li>
+          <li><a href="#">カテゴリ5</a></li>
+          <li><a href="#">カテゴリ6</a></li>
         </ul>
       </div>
 </div>
