@@ -1,5 +1,5 @@
  <div class="row col-md-2">
-      <div class="sidebar-nav affix" role="complementary">
+      <div class="sidebar-nav">
         <ul class="nav">
           <li><a href="#">カテゴリ1</a></li>
           <li><a href="#">カテゴリ2</a></li>

@@ -1268,7 +1268,7 @@ h1,
 }
 h2,
 .h2 {
-  font-size: 30px;
+  font-size: 12px;
 }
 h3,
 .h3 {
@@ -6804,5 +6804,5 @@ filter:alpha(opacity=80);
 }
 
 div.search-form{
-	position: fix;
+    margin-top:50px;
 }
