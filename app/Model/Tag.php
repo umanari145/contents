@@ -28,52 +28,49 @@ App::uses ( 'Model', 'Model' );
  *
  * @package app.Model
  */
-class Item extends Model {
+class Tag extends Model {
 
 	public $hasAndBelongsToMany = [
-			'Tag' =>
-				[
-					'className'              => 'tag',
+			'Item' =>
+			[
+					'className'              => 'item',
 					'joinTable'              => 'item_tags',
-					'foreignKey'             => 'item_id',
-					'associationForeignKey'  => 'tag_id',
+					'foreignKey'             => 'tag_id',
+					'associationForeignKey'  => 'item_id',
 					'unique'                 => true
-				]
+			]
+		];
+
+	public function getTagList(){
+		$tags = $this->find ( 'all', null );
+
+		$tagList =[];
+
+		foreach ( $tags as $tag ){
+			$tagHash =[
+				'tagName' => $tag['Tag']['tag'],
+				'id'      => $tag['Tag']['id'],
+				'count' => count( $tag['Item'])
 			];
 
-	/**
-	 * アイテム一覧の取得
-	 *
-	 * @return 商品一覧の取得
-	 */
-	public function getItemList( $contentsList) {
-
-		foreach ( $contentsList as &$contents ) {
-			$smallPictrureUrl = str_replace ( "pl.jpg", "ps.jpg", $contents ['Item'] ['pictureUrl'] );
-			$contents ['Item'] ['smallPictureUrl'] = $smallPictrureUrl;
-		}
-		return $contentsList;
-	}
-
-	/**
-	 * 商品詳細のページ
-	 *
-	 * @param string $id id
-	 * @throws NotFoundException 商品が存在しないときのエラー
-	 * @return 商品詳細データ
-	 */
-	public function getItemDetail($id = null) {
-		if (! $this->exists ()) {
-			throw new NotFoundException ( '存在しない商品です。' );
+			$tagList[] = $tagHash;
 		}
 
-		$params = array(
-				'conditions' => array (
-						'id' => $id
-				)
-		);
+		foreach ((array) $tagList as $key => $value) {
+			$sort[$key] = $value['count'];
+		}
 
-		$contentsDetail = $this->find ( 'first', $params);
-		return $contentsDetail;
+		array_multisort($sort, SORT_DESC, $tagList);
+
+		$tagList2=[];
+		$loopCount = count( $tagList);
+		for($i=0; $i<$loopCount; $i++ ) {
+			if( $loopCount == 10 ) {
+				break;
+			}
+
+			$tagList2[] = $tagList[$i];
+		}
+		return $tagList2;
 	}
 }

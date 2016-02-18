@@ -1,12 +1,19 @@
- <div class="row col-md-2">
-      <div class="sidebar-nav">
-        <ul class="nav">
-          <li><a href="#">カテゴリ1</a></li>
-          <li><a href="#">カテゴリ2</a></li>
-          <li><a href="#">カテゴリ3</a></li>
-          <li><a href="#">カテゴリ4</a></li>
-          <li><a href="#">カテゴリ5</a></li>
-          <li><a href="#">カテゴリ6</a></li>
+
+<div class="row col-md-2">
+	<div class="sidebar-nav">
+		<ul class="nav">
+        <?php foreach ( $tagList as $tag): ?>
+        <li>
+        <?php
+									echo $this->Html->link ( __ ( $tag ['tagName'] . "(" . $tag ['count'] . ")" ), array (
+											'controller' => 'tags',
+											'action' => 'tagList',
+											$tag ['id']
+									) );
+
+									?>
+          </li>
+          <?php endforeach;; ?>
         </ul>
-      </div>
+	</div>
 </div>

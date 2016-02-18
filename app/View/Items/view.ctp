@@ -15,6 +15,20 @@
 		</div>
 	</div>
 	<div class="row">
+			<?php foreach ( $itemDetail["Tag"] as $tag ): ?>
+			<?php
+					echo $this->Html->link ( $tag['tag'], array (
+								'controller' => 'tags',
+								'action' => 'tagList',
+							     $tag['id']
+						), array (
+								'class' => 'btn btn-primary',
+								'role' => 'button'
+						) );
+						?>
+			<?php endforeach; ?>
+	</div>
+	<div class="row">
 		<?php echo $itemDetail['Item']['summary'];?>
 	</div>
 </div>

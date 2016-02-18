@@ -17,34 +17,42 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
-App::uses('AppController', 'Controller');
+App::uses ( 'AppController', 'Controller' );
 
 /**
  * Static content controller
  *
  * Override this controller by placing a copy in controllers directory of an application
  *
- * @package       app.Controller
+ * @package app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
+ *
  */
-class ItemsController extends AppController {
+class TagsController extends AppController {
 
-/**
- * @var array
- */
-	public $uses = ['Item','Tag'];
-
-	public $layout ="contents";
-
+	/**
+	 *
+	 * @var array
+	 */
+	//ここの宣言で一番最初のものがページャーたいｓｈ
+	public $uses = [
+			'Item',
+			'Tag'
+	];
+	public $layout = "contents";
 	public function beforeFilter() {
-		$this->set( 'tagList' , $this->Tag->getTagList() );
+		$this->set ( 'tagList', $this->Tag->getTagList () );
 	}
+	public function tagList($id) {
+		$this->paginate = [
+				'conditions' => [
+						'Tags.id' => $id
+				]
+		];
+		$items = $this->paginate ();
+		var_dump ( $items );
 
-	public function index() {
-		$items = $this->paginate();
-
-		$this->set('items',$this->Item->getItemList($items));
+		$this->set ( 'items', $items );
 	}
 	public function view($id = null) {
 		$this->Item->id = $id;
@@ -52,16 +60,6 @@ class ItemsController extends AppController {
 		if (! $this->Item->exists ()) {
 			throw new NotFoundException ( '存在しない商品です。' );
 		}
-		$this->set ( 'itemDetail',$this->Item->getItemDetail( $id) );
-	}
-
-	public function tag( $id = null ){
-		$this->Item->id = $id;
-
-		if (! $this->Item->exists ()) {
-			throw new NotFoundException ( '存在しない商品です。' );
-		}
-		$this->set ( 'itemDetail',$this->Item->getItemDetail( $id) );
-
+		$this->set ( 'itemDetail', $this->Item->getItemDetail ( $id ) );
 	}
 }
