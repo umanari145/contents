@@ -728,6 +728,59 @@ div.list_summary{
 	margin-top:25px;
 }
 
-div.item_tag{
+h2.contents_title{
+	height:50px;
+}
 
+h2.contents_title a:hover{
+	text-decoration:underline;
+	opacity:0.6;
+	filter:alpha(opacity=80);
+	-ms-filter:"alpha( opacity=80 )";
+
+}
+
+div.item_girl{
+	font-size:8pt;
+	height:25px;
+}
+
+a.girl_name{
+	font-weight:bold;
+}
+
+a.girl_name:hover{
+	text-decoration:underline;
+	opacity:0.6;
+	filter:alpha(opacity=80);
+	-ms-filter:"alpha( opacity=80 )";
+}
+
+div.item_tag{
+    height:40px;
+	font-size:8pt;
+}
+
+a.tag_name{
+	font-weight:bold;
+
+}
+a.tag_name:hover{
+	text-decoration:underline;
+	opacity:0.6;
+	filter:alpha(opacity=80);
+	-ms-filter:"alpha( opacity=80 )";
+}
+
+div.contents_summary{
+	margin-top:20px;
+}
+
+div.detail_girls{
+	margin-top:20px;
+	font-size:12pt;
+}
+
+div.detail_tags{
+	font-size:12pt;
 }

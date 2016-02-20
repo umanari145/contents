@@ -38,8 +38,17 @@ class Item extends Model {
 					'foreignKey'             => 'item_id',
 					'associationForeignKey'  => 'tag_id',
 					'unique'                 => true
-				]
-			];
+				],
+			'Girl' =>
+			[
+					'className'              => 'girl',
+					'joinTable'              => 'item_girls',
+					'foreignKey'             => 'item_id',
+					'associationForeignKey'  => 'girl_id',
+					'unique'                 => true
+			]
+
+	];
 
 	/**
 	 * アイテム一覧の取得

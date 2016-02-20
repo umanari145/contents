@@ -20,7 +20,7 @@
 
 
 		<div class="media-body">
-			<h2 class="media-heading">
+			<h2 class="media-heading contents_title">
 				<?php
 						echo $this->Html->link ( mb_substr ( $item['Item']['productName'], 0, 50 ) . "..",
 								array (
@@ -32,22 +32,43 @@
 							?>
 
 			</h2>
-			</a>
 
-			<div class="item_tag">
-				<?php foreach ( $item["Tag"] as $tag ): ?>
+			<!-- 女優 -->
+			<div class="item_girl">
+				<?php if( count($item['Girl']) > 0 ): ?>
+					<span>女優</span>
+				<?php endif; ?>
+				<?php foreach ( $item["Girl"] as $girl ): ?>
 				<?php
-						echo $this->Html->link ( $tag['tag'], array (
-									'controller' => 'tags',
-									'action' => 'tagList',
-								     $tag['id']
+						echo $this->Html->link ( $girl['name'], array (
+									'controller' => 'items',
+									'action' => 'index',
+								     'girl' =>$girl['id'],
 							), array (
-									'class' => 'btn btn-primary',
-									'role' => 'button'
+									'class' => 'girl_name',
 							) );
 							?>
 				<?php endforeach; ?>
 			</div>
+
+            <!-- タグ -->
+			<div class="item_tag">
+				<?php if( count($item['Tag']) > 0 ): ?>
+					<span>タグ</span>
+				<?php endif; ?>
+				<?php foreach ( $item["Tag"] as $tag ): ?>
+				<?php
+						echo $this->Html->link ( $tag['tag'], array (
+									'controller' => 'items',
+									'action' => 'index',
+								     'tag' => $tag['id']
+							), array (
+									'class' => 'tag_name'
+							) );
+							?>
+				<?php endforeach; ?>
+			</div>
+
 		</div>
 	</div>
 <?php endforeach;?>

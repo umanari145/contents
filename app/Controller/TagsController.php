@@ -50,7 +50,6 @@ class TagsController extends AppController {
 				]
 		];
 		$items = $this->paginate ();
-		var_dump ( $items );
 
 		$this->set ( 'items', $items );
 	}

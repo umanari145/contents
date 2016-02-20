@@ -6,9 +6,9 @@
         <li>
         <?php
 									echo $this->Html->link ( __ ( $tag ['tagName'] . "(" . $tag ['count'] . ")" ), array (
-											'controller' => 'tags',
-											'action' => 'tagList',
-											$tag ['id']
+											'controller' => 'items',
+											'action' => 'index',
+											'tag' => $tag ['id']
 									) );
 
 									?>

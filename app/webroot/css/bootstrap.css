@@ -6797,12 +6797,6 @@ div.media-body a{
     color:#000;
 }
 
-div.media-body:hover{
-opacity:0.6;
-filter:alpha(opacity=80);
--ms-filter:"alpha( opacity=80 )";
-}
-
 div.search-form{
     margin-top:50px;
 }

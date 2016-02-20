@@ -20,6 +20,8 @@
 
 App::uses('AppController', 'Controller');
 
+use Underbar\ArrayImpl as _;
+
 /**
  * Static content controller
  *
@@ -33,19 +35,71 @@ class ItemsController extends AppController {
 /**
  * @var array
  */
-	public $uses = ['Item','Tag'];
+	public $uses = ['Item','Tag','Girl','ItemGirl','ItemTag'];
 
 	public $layout ="contents";
 
 	public function beforeFilter() {
 		$this->set( 'tagList' , $this->Tag->getTagList() );
+		$this->set( 'girlList' , $this->Girl->getGirlList() );
 	}
 
 	public function index() {
-		$items = $this->paginate();
 
+		$itemIdArr=[];
+		if( !empty( $this->request->params['named']) ){
+			list( $itemIdArr, $urlOption) = $this->getQuery($this->request->params['named']);
+		}
+
+		$params=[];
+		if( !empty($itemIdArr)){
+			$params = [
+				'Item.id'=> $itemIdArr
+			];
+		}
+
+		$items = $this->paginate($params);
 		$this->set('items',$this->Item->getItemList($items));
 	}
+
+	private function getQuery($queryStr) {
+
+		$itemIdArr;
+		$urlOption;
+		//女優から商品IDを取得
+		if (! empty ( $queryStr ['girl'] )) {
+			$girlId = $queryStr ['girl'];
+			$itemIdTmp = $this->ItemGirl->find ( 'list', [
+					'fields' => 'item_id',
+					'conditions' => [
+							'ItemGirl.girl_id' => $girlId
+					]
+			] );
+			if( !empty($itemIdTmp)){
+				$itemIdArr = array_values( $itemIdTmp );
+			}
+			$urlOption =['url' => 'girl:' . urlencode($girlId)];
+		}
+
+		//タグから商品IDの取得
+		if (! empty ( $queryStr ['tag'] )) {
+			$tagId = $queryStr ['tag'];
+			$itemIdTmp = $this->ItemTag->find ( 'list', [
+					'fields' => 'item_id',
+					'conditions' => [
+							'ItemTag.tag_id' => $tagId
+					]
+			] );
+			if( !empty($itemIdTmp)){
+				$itemIdArr = array_values( $itemIdTmp );
+			}
+			$urlOption =['url' => 'tag:' . urlencode($tagId)];
+		}
+
+		return [$itemIdArr, $urlOption];
+	}
+
+
 	public function view($id = null) {
 		$this->Item->id = $id;
 
@@ -54,6 +108,7 @@ class ItemsController extends AppController {
 		}
 		$this->set ( 'itemDetail',$this->Item->getItemDetail( $id) );
 	}
+
 
 	public function tag( $id = null ){
 		$this->Item->id = $id;
