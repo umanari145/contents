@@ -1,5 +1,13 @@
 <?php echo $this->element('search'); ?>
 <div class="row col-lg-12">
+    <?php if( !empty($search_name)):?>
+        <span>キーワード:<?php echo $search_name; ?></span>
+    <?php endif;?>
+    <span>
+	    <?php
+	    echo $this->Paginator->counter('{:count} 件中 {:start}～{:end}件を表示');
+	    ?>
+    </span>
 <?php echo $this->element('pager'); ?>
 <?php foreach ($items as $item): ?>
 	<div class="media col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -73,4 +81,3 @@
 	</div>
 <?php endforeach;?>
 <?php echo $this->element('pager'); ?>
-</div>

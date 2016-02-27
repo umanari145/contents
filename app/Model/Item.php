@@ -85,4 +85,42 @@ class Item extends Model {
 		$contentsDetail = $this->find ( 'first', $params);
 		return $contentsDetail;
 	}
+
+
+	/**
+	 * 対象キーワードで該当する商品を探す
+	 *
+	 * @param string $keyword キーワード
+	 * @return 商品 IdArr
+	 */
+	public function getItemFromQueryStr( $keyword ="" ){
+
+		$idArr =[
+				'idList'=>[],
+				'count' => 0,
+				'search_name'=>""
+		];
+		if( isset( $keyword ) === true ) {
+			$params =[
+				'conditions' =>[
+						'OR'=>[
+							'Item.productName LIKE' => '%'. $keyword .'%',
+							'Item.actress LIKE' => '%'. $keyword .'%',
+							'Item.genre LIKE' => '%'. $keyword .'%',
+							'Item.summary LIKE' => '%'. $keyword .'%'
+						]
+				]
+			];
+
+			$idArr['search_name'] = $keyword;
+
+			$idArrTmp = $this->find( 'list', $params );
+
+			if ( count($idArrTmp) > 0 ) {
+			    $idArr['count'] = count($idArrTmp);
+				$idArr['idList'] = array_values( $idArrTmp );
+			}
+		}
+		return $idArr;
+	}
 }

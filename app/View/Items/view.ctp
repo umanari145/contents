@@ -27,9 +27,9 @@
 					<?php foreach ( $itemDetail["Girl"] as $girl ): ?>
 					<?php
 							echo $this->Html->link ( $girl['name'], array (
-										'controller' => 'girls',
-										'action' => 'girlList',
-									     $girl['id']
+										'controller' => 'items',
+										'action' => 'index',
+									     'girl'=>$girl['id']
 								), array (
 										'class' => 'girl_name',
 								) );
@@ -44,9 +44,9 @@
 					<?php foreach ( $itemDetail["Tag"] as $tag ): ?>
 					<?php
 							echo $this->Html->link ( $tag['tag'], array (
-										'controller' => 'tags',
-										'action' => 'tagList',
-									     $tag['id']
+										'controller' => 'items',
+										'action' => 'index',
+									     'tag'=>$tag['id']
 								), array (
 										'class' => 'tag_name',
 								) );
