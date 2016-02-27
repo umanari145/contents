@@ -41,6 +41,19 @@ class Tag extends Model {
 			]
 		];
 
+
+
+	/**
+	 * タグリストの出力
+	 *
+	 * @return id=>タグ名の配列
+	 */
+	public function getTagNameList(){
+		//スピードが遅くなるのではずす
+		$this->unbindModel(['hasAndBelongsToMany'=>'Item'], true);
+		return $this->find('list',['fields'=>['Tag.id','Tag.tag']]);
+	}
+
 	public function getTagList(){
 		$tags = $this->find ( 'all', null );
 

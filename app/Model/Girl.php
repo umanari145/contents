@@ -47,6 +47,9 @@ class Girl extends Model {
 	 * @return 女優リストの取得
 	 */
 	public function getGirlList(){
+        //高速化のためにはずす
+		$this->unbindModel(['hasAndBelongsToMany'=>'Item'], true);
+
 		$girls = $this->find ( 'all', null );
 
 		$girlList =[];

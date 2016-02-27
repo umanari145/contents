@@ -39,8 +39,10 @@ class ItemsController extends AppController {
 
 	public $layout ="contents";
 
+
 	public function beforeFilter() {
-		$this->set( 'tagList' , $this->Tag->getTagList() );
+        $tagList = $this->ItemTag->calcItemCountGroupByTag($this->Tag->getTagNameList());
+		$this->set( 'tagList' , $tagList);
 		$this->set( 'girlList' , $this->Girl->getGirlList() );
 	}
 
