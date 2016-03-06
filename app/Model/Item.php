@@ -29,6 +29,8 @@ App::uses ( 'Model', 'Model' );
  * @package app.Model
  */
 class Item extends Model {
+ 
+    public $name ="Item";
 
 	public $hasAndBelongsToMany = [
 			'Tag' =>
@@ -50,13 +52,18 @@ class Item extends Model {
 
 	];
 
+    /**
+    *  意味不明のエラー対策のタメにあるメソッド
+    */
+    public function hoge(){
+    }
+
 	/**
 	 * アイテム一覧の取得
 	 *
 	 * @return 商品一覧の取得
 	 */
-	public function getItemList( $contentsList) {
-
+	public function getItemList( $contentsList ) {
 		foreach ( $contentsList as &$contents ) {
 			$smallPictrureUrl = str_replace ( "pl.jpg", "ps.jpg", $contents ['Item'] ['pictureUrl'] );
 			$contents ['Item'] ['smallPictureUrl'] = $smallPictrureUrl;

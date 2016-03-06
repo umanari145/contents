@@ -38,6 +38,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	?>
 </head>
 <body>
+    <input type="hidden" name="site_url" id="site_url_id" value="<?php echo $siteUrl; ?>" >
 	<?php echo $this->element('headnav'); ?>
 
 	<div class="container maincontents">

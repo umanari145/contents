@@ -42,13 +42,17 @@ class ItemsController extends AppController {
 
 	public function beforeFilter() {
         $tagList = $this->ItemTag->calcItemCountGroupByTag($this->Tag->getTagNameList());
+		$this->set( 'siteUrl' , SITE_URL);
 		$this->set( 'tagList' , $tagList);
 		$this->set( 'girlList' , $this->Girl->getGirlList() );
 	}
 
 	public function index() {
-
-		$itemIdArr = $this->getQuery( $this->request);
+        
+        //原因不明だがタグか女優名で選択すると
+        //Itemにアクセスできなくなる。以下のメソッドがあるとアクセスできる
+        $this->Item->hoge();
+        $itemIdArr = $this->getQuery( $this->request);
 		$params=[];
 		$searchName="";
 		//検索条件が存在すれば検索を行う
@@ -58,10 +62,9 @@ class ItemsController extends AppController {
 			];
 			$searchName = $itemIdArr['search_name'];
 		}
-
 		$items = $this->paginate($params);
         $this->set('search_name' , $searchName);
-		$this->set('items',$this->Item->getItemList($items));
+        $this->set('items',$this->Item->getItemList($items));
 	}
 
 	private function getQuery( $param ){
@@ -100,7 +103,6 @@ class ItemsController extends AppController {
 		if (! empty ( $queryStr ['tag'] )) {
 			$itemIdArr = $this->getItemFromTagList( $queryStr );
 		}
-
 		return $itemIdArr;
 	}
 

@@ -94,7 +94,8 @@ Cache::config('default', array('engine' => 'File'));
 $currentDir = __DIR__;
 $currentDirUp = dirname(dirname($currentDir));
 
-require_once $currentDirUp . '\Vendor\autoload.php';
+require_once $currentDirUp . '/vendor/autoload.php';
+require_once $currentDirUp . '/app/Config/enviroment.php';
 
 Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',
