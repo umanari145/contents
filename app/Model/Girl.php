@@ -50,7 +50,13 @@ class Girl extends Model {
         //高速化のためにはずす
 		$this->unbindModel(['hasAndBelongsToMany'=>'Item'], true);
 
-		$girls = $this->find ( 'all', null );
+// 	    $result = Cache::read('girl_list', 'sql_cache' );
+//         if (!$result) {
+            $result = $this->find('all' ,null);
+//             Cache::write('girl_list', $result, 'sql_cache');
+//         }else{
+         	$girls = $result;
+//         }
 
 		$girlList =[];
 		foreach ( $girls as $girl ){
@@ -63,4 +69,22 @@ class Girl extends Model {
 		}
 		return $girlList;
 	}
+
+// 	/**
+// 	 * データが保存された場合はキャッシュを削除
+// 	 *
+// 	 * @param unknown $created
+// 	 */
+// 	public function afterSave($created) {
+// 		Cache::delete( 'girl_list', 'sql_cache' );
+// 	}
+
+// 	/**
+// 	 * データが削除された場合にはキャッシュを削除
+// 	 */
+// 	public function afterDelete() {
+// 		Cache::delete( 'girl_list', 'sql_cache' );
+// 	}
+
+
 }

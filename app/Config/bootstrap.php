@@ -115,3 +115,10 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+//キャッシュ
+// Cache::config('sql_cache', array(
+// 		'engine' => "Apc",
+// 		'duration' => 86400
+// ));
+
