@@ -737,7 +737,6 @@ h2.contents_title a:hover{
 	opacity:0.6;
 	filter:alpha(opacity=80);
 	-ms-filter:"alpha( opacity=80 )";
-
 }
 
 div.item_girl{
@@ -772,6 +771,12 @@ a.tag_name:hover{
 	-ms-filter:"alpha( opacity=80 )";
 }
 
+img.contents_image:hover{
+	opacity:0.6;
+	filter:alpha(opacity=80);
+	-ms-filter:"alpha( opacity=80 )";
+}
+
 div.contents_summary{
 	margin-top:20px;
 }
@@ -783,4 +788,18 @@ div.detail_girls{
 
 div.detail_tags{
 	font-size:12pt;
+}
+
+div.contents_link{
+    font-weight:bold;
+    margin-top:20px;
+    font-size:18pt;
+}
+
+div.contents_link a{
+   color:#ff0000;
+}
+
+div.contents_link a:hover{
+   text-decoration:underline;
 }

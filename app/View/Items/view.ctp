@@ -7,7 +7,8 @@
 		echo $this->Html->image ( $itemDetail ['Item'] ['pictureUrl'], array (
 				'class' => 'contents_image',
 				'id' => 'contents_image_id_' . $itemDetail ['Item'] ['id'],
-				'width'=>'600px'
+				'width'=>'600px',
+                'url' => $itemDetail['Item']['productUrl'] . AFFILIATE_ID 
 		) );
 		?>
  			<div class="media-body">
@@ -53,6 +54,10 @@
 								?>
 					<?php endforeach; ?>
 				</div>
+
+                <div class="contents_link">
+                    <a href="<?php echo $itemDetail['Item']['productUrl'] . AFFILIATE_ID; ?>" >動画はこちら</a>
+                </div>
 			</div>
 	</div>
 </div>

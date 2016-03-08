@@ -117,6 +117,8 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
+define( 'AFFILIATE_ID' ,'C5CEOBGm-001');
+
 //キャッシュ
 // Cache::config('sql_cache', array(
 // 		'engine' => "Apc",
