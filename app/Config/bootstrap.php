@@ -95,7 +95,7 @@ $currentDir = __DIR__;
 $currentDirUp = dirname(dirname($currentDir));
 
 require_once $currentDirUp . '/vendor/autoload.php';
-require_once $currentDirUp . '/app/Config/enviroment.php';
+require_once $currentDirUp . '/app/Config/siteinfo.php';
 
 Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',
@@ -116,8 +116,6 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
-
-define( 'AFFILIATE_ID' ,'C5CEOBGm-001');
 
 //キャッシュ
 // Cache::config('sql_cache', array(

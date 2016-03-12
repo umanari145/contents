@@ -19,6 +19,7 @@
  */
 
 App::uses('AppController', 'Controller');
+App::import('Vendor', 'IXR');
 
 use Underbar\ArrayImpl as _;
 
@@ -181,7 +182,16 @@ class ItemsController extends AppController {
 		$this->set ( 'itemDetail',$this->Item->getItemDetail( $id) );
 	}
 
-
+    public function ping(){
+       
+       //$client = new Hoge();
+       $client = new IXR_Client('http://rpc.pingomatic.com/');
+       $title = SITE_TITLE;//任意のサイト名
+       $siteUrl = SITE_URL ;//任意のサイトURL
+       $return = $client->query('weblogUpdates.ping',$title,$siteUrl);//Ping送信
+       $this->autoRender = false;
+    }
+    
 	public function tag( $id = null ){
 		$this->Item->id = $id;
 
