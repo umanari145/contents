@@ -12,8 +12,17 @@
 
 			<ul class="nav navbar-nav">
 				<!-- サイト説明 -->
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">サイト説明</a>
+                <li class="dropdown">
+                <?php                                                                                                  
+                echo $this->Html->link( 
+                        'サイト説明', 
+                        '/site/siteinfo',
+                        array(       
+                            'class' => 'dropdown-toggle',
+                            'target' => '_blank'
+                            )                          
+                        ); 
+                ?>              
 				</li>
 
 				<!-- 人気動画 -->

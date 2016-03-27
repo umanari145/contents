@@ -24,7 +24,6 @@
 body {
 	background: #003d4c;
 	color: #fff;
-	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	font-size:90%;
 	margin: 0;
 }
@@ -781,6 +780,11 @@ div.contents_summary{
 	margin-top:20px;
 }
 
+div#contents_summary_view{
+   font-size:14pt;
+   line-height:1.9em;
+}
+
 div.detail_girls{
 	margin-top:20px;
 	font-size:12pt;
@@ -802,4 +806,35 @@ div.contents_link a{
 
 div.contents_link a:hover{
    text-decoration:underline;
+}
+
+div.siteinfo{
+    margin-top:50px;
+    font-size:12pt;
+}
+
+ul.siteinfo_list li{
+   margin-top:10px;
+}
+
+div#site_info_id{
+   font-size:32pt;
+}
+
+div.sidebar-nav{
+   font-size:14pt;
+   margin-top:20px;
+}
+
+
+div.sidebar-nav li a:hover{
+	text-decoration: underline;
+    opacity:0.6;
+	filter:alpha(opacity=80);
+	-ms-filter:"alpha( opacity=80 )";
+}
+
+p#contents_title{
+    font-weight:bold;
+    font-size:18pt;
 }

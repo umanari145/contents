@@ -40,14 +40,6 @@ class ItemsController extends AppController {
 
 	public $layout ="contents";
 
-
-	public function beforeFilter() {
-        $tagList = $this->ItemTag->calcItemCountGroupByTag($this->Tag->getTagNameList());
-		$this->set( 'siteUrl' , SITE_URL);
-		$this->set( 'tagList' , $tagList);
-		$this->set( 'girlList' , $this->Girl->getGirlList() );
-	}
-
 	public function index() {
         
         //原因不明だがタグか女優名で選択すると

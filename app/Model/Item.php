@@ -66,7 +66,8 @@ class Item extends Model {
 	public function getItemList( $contentsList ) {
 		foreach ( $contentsList as &$contents ) {
 			$smallPictrureUrl = str_replace ( "pl.jpg", "ps.jpg", $contents ['Item'] ['pictureUrl'] );
-			$contents ['Item'] ['smallPictureUrl'] = $smallPictrureUrl;
+            $this->addMoveUrl( $contents ,'index');
+            $contents ['Item'] ['smallPictureUrl'] = $smallPictrureUrl;
 		}
 		return $contentsList;
 	}
@@ -90,9 +91,32 @@ class Item extends Model {
 		);
 
 		$contentsDetail = $this->find ( 'first', $params);
+        $this->addMoveUrl( $contentsDetail , 'detail');
 		return $contentsDetail;
 	}
 
+    /**
+    *  サンプル動画の追加
+    *  @param $item 動画
+    *  
+    */
+    private function addMoveUrl( &$item = null , $type ="index" ){
+        
+        $size['width'] = 0;
+        $size['height'] = 0;
+        switch( $type ){
+            case 'index':
+            $size['width'] = S_MOVE_WIDTH;
+            $size['height'] = S_MOVE_HEIGHT;
+            break;
+            case 'detail':
+            $size['width'] = MOVE_WIDTH;
+            $size['height'] = MOVE_HEIGHT;
+            break;
+        }
+
+        $item['Item']['moveUrl'] = sprintf('<iframe width="'. $size['width']. '" height="' . $size['height'] . '" src="http://www.dmm.co.jp/litevideo/-/part/=/affi_id=%s/cid=%s/size='. $size['width']. '_' . $size['height'] . '/" scrolling="no" frameborder="0" allowfullscreen></iframe>' , AFFILIATE_ID , $item['Item']['productCode'] );
+   }
 
 	/**
 	 * 対象キーワードで該当する商品を探す

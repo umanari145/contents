@@ -96,6 +96,8 @@ $currentDirUp = dirname(dirname($currentDir));
 
 require_once $currentDirUp . '/vendor/autoload.php';
 require_once $currentDirUp . '/app/Config/siteinfo.php';
+ini_set('memory_limit', '2048M');
+
 
 Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',

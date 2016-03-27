@@ -32,5 +32,13 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
+     public $uses = ['Item','Tag','Girl','ItemGirl','ItemTag'];
+
+    public function beforeFilter(){
+        $tagList = $this->ItemTag->calcItemCountGroupByTag($this->Tag->getTagNameList());
+        $this->set( 'siteUrl' , SITE_URL);
+        $this->set( 'tagList' , $tagList);
+        $this->set( 'girlList' , $this->Girl->getGirlList() );
+    }
 
 }

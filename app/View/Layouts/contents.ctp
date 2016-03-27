@@ -19,21 +19,29 @@
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo SITE_TITLE ;?>
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
-		echo $this->Html->css('default');
-		echo $this->Html->css('bootstrap');
-		echo $this->Html->script('jquery-1.11.3.min');
-		echo $this->Html->script('bootstrap.min');
-		echo $this->Html->script('default');
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
-	?>
-</head>
+	 <title>
+	 	<?php echo SITE_TITLE ;?>
+	 </title>
+	 <?php
+	 	echo $this->Html->css('default');
+	 	echo $this->Html->css('bootstrap');
+	 	echo $this->Html->script('jquery-1.11.3.min');
+	 	echo $this->Html->script('bootstrap.min');
+	 	echo $this->Html->script('default');
+	 	echo $this->fetch('meta');
+	 	echo $this->fetch('css');
+	 	echo $this->fetch('script');
+	 ?>
+     </head>
+     <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+         
+         ga('create', 'UA-75310888-1', 'auto');
+         ga('send', 'pageview');
+    </script>
 <body>
     <input type="hidden" name="site_url" id="site_url_id" value="<?php echo $siteUrl; ?>" >
 	<?php echo $this->element('headnav'); ?>
@@ -46,5 +54,6 @@
 			<?php //echo $this->element('sql_dump'); ?>
 		</div>
 	</div>
+    <?php // echo $this->element('footer'); ?>
 </body>
 </html>

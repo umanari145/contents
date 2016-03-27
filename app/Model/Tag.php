@@ -86,4 +86,16 @@ class Tag extends Model {
 		}
 		return $tagList2;
 	}
+    
+    public function getIncludeTag(){
+        $this->unbindModel(['hasAndBelongsToMany'=>'Item'], true);
+        $tagList = $this->find("list",
+            array(
+                'conditions' => array(
+                    'Tag.show_tag'=> 1
+                )
+            )
+        );
+        return $tagList;
+    }
 }

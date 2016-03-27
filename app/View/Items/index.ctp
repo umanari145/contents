@@ -12,7 +12,7 @@
 <?php foreach ($items as $item): ?>
 	<div class="media col-xs-6 col-sm-6 col-md-6 col-lg-6">
 		<div class="pull-left">
-					<?php
+            <?php
 
 					echo $this->Html->image ( $item ['Item'] ['smallPictureUrl'], array (
 								'url' => array (
