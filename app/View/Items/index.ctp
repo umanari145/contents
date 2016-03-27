@@ -30,7 +30,7 @@
 		<div class="media-body">
 			<h2 class="media-heading contents_title">
 				<?php
-						echo $this->Html->link ( mb_substr ( $item['Item']['productName'], 0, 50 ) . "..",
+						echo $this->Html->link ( mb_substr ( $item['Item']['title'], 0, 50 ) . "..",
 								array (
 									'controller' => 'items',
 									'action' => 'view',

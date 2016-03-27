@@ -1,11 +1,11 @@
 <div class="row">
-	<h2><p id="contents_title"><?php echo $itemDetail['Item']['productName'];?></p></h2>
+	<h2><p id="contents_title"><?php echo $itemDetail['Item']['title'];?></p></h2>
 	<div class="media">
 		<div class="pull-left">
 
         <?php
          echo $itemDetail['Item']['moveUrl'];
-        ?>  
+        ?>
  			<div class="media-body">
 					<h4 class="media-heading"></h4>
 			</div>

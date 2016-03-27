@@ -29,28 +29,28 @@ App::uses ( 'Model', 'Model' );
  * @package app.Model
  */
 class Item extends Model {
- 
+
     public $name ="Item";
 
-	public $hasAndBelongsToMany = [
+	public $hasAndBelongsToMany = array(
 			'Tag' =>
-				[
+				array(
 					'className'              => 'tag',
 					'joinTable'              => 'item_tags',
 					'foreignKey'             => 'item_id',
 					'associationForeignKey'  => 'tag_id',
 					'unique'                 => true
-				],
+				),
 			'Girl' =>
-			[
+			array(
 					'className'              => 'girl',
 					'joinTable'              => 'item_girls',
 					'foreignKey'             => 'item_id',
 					'associationForeignKey'  => 'girl_id',
 					'unique'                 => true
-			]
+			)
 
-	];
+	);
 
     /**
     *  意味不明のエラー対策のタメにあるメソッド
@@ -65,8 +65,8 @@ class Item extends Model {
 	 */
 	public function getItemList( $contentsList ) {
 		foreach ( $contentsList as &$contents ) {
-			$smallPictrureUrl = str_replace ( "pl.jpg", "ps.jpg", $contents ['Item'] ['pictureUrl'] );
             $this->addMoveUrl( $contents ,'index');
+            $smallPictrureUrl =  sprintf('http://pics.dmm.co.jp/digital/video/%s/%sps.jpg', $contents['Item']['id'],$contents['Item']['id'] );
             $contents ['Item'] ['smallPictureUrl'] = $smallPictrureUrl;
 		}
 		return $contentsList;
@@ -98,10 +98,10 @@ class Item extends Model {
     /**
     *  サンプル動画の追加
     *  @param $item 動画
-    *  
+    *
     */
     private function addMoveUrl( &$item = null , $type ="index" ){
-        
+
         $size['width'] = 0;
         $size['height'] = 0;
         switch( $type ){
@@ -115,7 +115,7 @@ class Item extends Model {
             break;
         }
 
-        $item['Item']['moveUrl'] = sprintf('<iframe width="'. $size['width']. '" height="' . $size['height'] . '" src="http://www.dmm.co.jp/litevideo/-/part/=/affi_id=%s/cid=%s/size='. $size['width']. '_' . $size['height'] . '/" scrolling="no" frameborder="0" allowfullscreen></iframe>' , AFFILIATE_ID , $item['Item']['productCode'] );
+        $item['Item']['moveUrl'] = sprintf('<iframe width="'. $size['width']. '" height="' . $size['height'] . '" src="http://www.dmm.co.jp/litevideo/-/part/=/affi_id=%s/cid=%s/size='. $size['width']. '_' . $size['height'] . '/" scrolling="no" frameborder="0" allowfullscreen></iframe>' , AFFILIATE_ID , $item['Item']['id'] );
    }
 
 	/**
@@ -126,22 +126,22 @@ class Item extends Model {
 	 */
 	public function getItemFromQueryStr( $keyword ="" ){
 
-		$idArr =[
-				'idList'=>[],
+		$idArr =array(
+				'idList'=>array(),
 				'count' => 0,
 				'search_name'=>""
-		];
+		);
 		if( isset( $keyword ) === true ) {
-			$params =[
-				'conditions' =>[
-						'OR'=>[
-							'Item.productName LIKE' => '%'. $keyword .'%',
+			$params =array(
+				'conditions' =>array(
+						'OR'=>array(
+							'Item.title LIKE' => '%'. $keyword .'%',
 							'Item.actress LIKE' => '%'. $keyword .'%',
 							'Item.genre LIKE' => '%'. $keyword .'%',
-							'Item.summary LIKE' => '%'. $keyword .'%'
-						]
-				]
-			];
+							'Item.comment LIKE' => '%'. $keyword .'%'
+						)
+				)
+			);
 
 			$idArr['search_name'] = $keyword;
 

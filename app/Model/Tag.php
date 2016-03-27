@@ -30,16 +30,16 @@ App::uses ( 'Model', 'Model' );
  */
 class Tag extends Model {
 
-	public $hasAndBelongsToMany = [
+	public $hasAndBelongsToMany = array(
 			'Item' =>
-			[
+			array(
 					'className'              => 'item',
 					'joinTable'              => 'item_tags',
 					'foreignKey'             => 'tag_id',
 					'associationForeignKey'  => 'item_id',
 					'unique'                 => true
-			]
-		];
+			)
+		);
 
 
 
@@ -50,21 +50,21 @@ class Tag extends Model {
 	 */
 	public function getTagNameList(){
 		//スピードが遅くなるのではずす
-		$this->unbindModel(['hasAndBelongsToMany'=>'Item'], true);
-		return $this->find('list',['fields'=>['Tag.id','Tag.tag']]);
+		$this->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
+		return $this->find('list',array('fields'=>array('Tag.id','Tag.tag')));
 	}
 
 	public function getTagList(){
 		$tags = $this->find ( 'all', null );
 
-		$tagList =[];
+		$tagList =array();
 
 		foreach ( $tags as $tag ){
-			$tagHash =[
+			$tagHash =array(
 				'tagName' => $tag['Tag']['tag'],
 				'id'      => $tag['Tag']['id'],
 				'count' => count( $tag['Item'])
-			];
+			);
 
 			$tagList[] = $tagHash;
 		}
@@ -75,7 +75,7 @@ class Tag extends Model {
 
 		array_multisort($sort, SORT_DESC, $tagList);
 
-		$tagList2=[];
+		$tagList2=array();
 		$loopCount = count( $tagList);
 		for($i=0; $i<$loopCount; $i++ ) {
 			if( $loopCount == 10 ) {
@@ -86,9 +86,9 @@ class Tag extends Model {
 		}
 		return $tagList2;
 	}
-    
+
     public function getIncludeTag(){
-        $this->unbindModel(['hasAndBelongsToMany'=>'Item'], true);
+        $this->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
         $tagList = $this->find("list",
             array(
                 'conditions' => array(

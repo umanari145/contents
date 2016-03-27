@@ -32,13 +32,21 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-     public $uses = ['Item','Tag','Girl','ItemGirl','ItemTag'];
+     public $uses = array('Item','Tag','Girl','ItemGirl','ItemTag');
 
     public function beforeFilter(){
         $tagList = $this->ItemTag->calcItemCountGroupByTag($this->Tag->getTagNameList());
         $this->set( 'siteUrl' , SITE_URL);
         $this->set( 'tagList' , $tagList);
-        $this->set( 'girlList' , $this->Girl->getGirlList() );
+//        $this->set( 'girlList' , $this->Girl->getGirlList() );
+        $this->set( 'girlList' , array() );
     }
+
+	public function debugSQLlog( $sqlLog = array()){
+		foreach ( $sqlLog['log'] as $sqlEachLog ) {
+			$this->log($sqlEachLog['query']);
+			$this->log($sqlEachLog['took']/1000 . "s");
+		}
+	}
 
 }

@@ -36,33 +36,44 @@ class ItemsController extends AppController {
 /**
  * @var array
  */
-	public $uses = ['Item','Tag','Girl','ItemGirl','ItemTag'];
+	public $uses = array('Item','Tag','Girl','ItemGirl','ItemTag');
 
 	public $layout ="contents";
 
+	public $paginate = array(
+			'limit' => 8,
+			'order' => array(
+					'Item.item_order' => 'asc'
+			)
+	);
+
 	public function index() {
-        
+
         //原因不明だがタグか女優名で選択すると
         //Itemにアクセスできなくなる。以下のメソッドがあるとアクセスできる
         $this->Item->hoge();
         $itemIdArr = $this->getQuery( $this->request);
-		$params=[];
+		$params=array();
 		$searchName="";
 		//検索条件が存在すれば検索を行う
-		if( $itemIdArr !== []){
-			$params = [
+		if( $itemIdArr !== array()){
+			$params = array(
 				'Item.id'=> $itemIdArr['idList']
-			];
+			);
 			$searchName = $itemIdArr['search_name'];
 		}
 		$items = $this->paginate($params);
+
+		$sqlLog = $this->Item->getDataSource()->getLog(false, false);
+		$this->debugSQLlog( $sqlLog );
+
         $this->set('search_name' , $searchName);
         $this->set('items',$this->Item->getItemList($items));
 	}
 
 	private function getQuery( $param ){
 
-		$itemIdArr =[];
+		$itemIdArr =array();
 		//クエリがあるかないか()
 		if( !empty($param->params['named']['girl']) ||
 			!empty($param->params['named']['tag'])  ||
@@ -75,11 +86,11 @@ class ItemsController extends AppController {
 
 	private function getCategoryQuery($queryStr) {
 
-		$itemIdArr =[
+		$itemIdArr =array(
 				'idList'=> "",
 				'count'=>0,
 				'search_name'=>""
-		];
+		);
 
 		//キーワードから商品IDを取得
 		if (! empty ( $queryStr ['keyword'] )) {
@@ -105,23 +116,23 @@ class ItemsController extends AppController {
 	 * @param unknown $queryStr 女優id
 	 * @return 対象商品id
 	 */
-	private function getItemFromGirlList( $queryStr = []) {
+	private function getItemFromGirlList( $queryStr = array()) {
 
 		$girlId = $queryStr ['girl'];
 
-		$itemIdTmp = $this->ItemGirl->find ( 'list', [
+		$itemIdTmp = $this->ItemGirl->find ( 'list', array(
 				'fields' => 'item_id',
-				'conditions' => [
+				'conditions' => array(
 						'ItemGirl.girl_id' => $girlId
-				]
-		] );
+				)
+		) );
 
-		$girlNameTmp= $this->Girl->find('first',[
+		$girlNameTmp= $this->Girl->find('first',array(
 				'fields' => 'name',
-				'conditions' => [
+				'conditions' => array(
 						'Girl.id' => $girlId
-				]
-		]);
+				)
+		));
 
 		$itemIdArr['search_name'] = $girlNameTmp['Girl']['name'];
 
@@ -139,22 +150,22 @@ class ItemsController extends AppController {
 	 * @param unknown $queryStr タグid
 	 * @return 対象商品id
 	 */
-    private function getItemFromTagList( $queryStr = []) {
+    private function getItemFromTagList( $queryStr = array()) {
     	$tagId = $queryStr ['tag'];
 
-    	$itemIdTmp = $this->ItemTag->find ( 'list', [
+    	$itemIdTmp = $this->ItemTag->find ( 'list', array(
     			'fields' => 'item_id',
-    			'conditions' => [
+    			'conditions' => array(
     					'ItemTag.tag_id' => $tagId
-    			]
-    	] );
+    			)
+    	) );
 
-    	$tagNameTmp= $this->Tag->find('first',[
+    	$tagNameTmp= $this->Tag->find('first',array(
     			'fields' => 'tag',
-    			'conditions' => [
+    			'conditions' => array(
     					'Tag.id' => $tagId
-    			]
-    	]);
+    			)
+    	));
 
     	$itemIdArr['search_name'] = $tagNameTmp['Tag']['tag'];
 
@@ -175,7 +186,7 @@ class ItemsController extends AppController {
 	}
 
     public function ping(){
-       
+
        //$client = new Hoge();
        $client = new IXR_Client('http://rpc.pingomatic.com/');
        $title = SITE_TITLE;//任意のサイト名
@@ -183,7 +194,7 @@ class ItemsController extends AppController {
        $return = $client->query('weblogUpdates.ping',$title,$siteUrl);//Ping送信
        $this->autoRender = false;
     }
-    
+
 	public function tag( $id = null ){
 		$this->Item->id = $id;
 

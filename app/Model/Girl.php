@@ -30,16 +30,16 @@ App::uses ( 'Model', 'Model' );
 */
 class Girl extends Model {
 
-	public $hasAndBelongsToMany = [
+	public $hasAndBelongsToMany = array(
 			'Item' =>
-			[
+			array(
 					'className'              => 'item',
 					'joinTable'              => 'item_girls',
 					'foreignKey'             => 'girl_id',
 					'associationForeignKey'  => 'item_id',
 					'unique'                 => true
-			]
-	];
+			)
+	);
 
 	/**
 	 * 女優リスト
@@ -48,7 +48,7 @@ class Girl extends Model {
 	 */
 	public function getGirlList(){
         //高速化のためにはずす
-		$this->unbindModel(['hasAndBelongsToMany'=>'Item'], true);
+		$this->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
 
 // 	    $result = Cache::read('girl_list', 'sql_cache' );
 //         if (!$result) {
@@ -58,12 +58,12 @@ class Girl extends Model {
          	$girls = $result;
 //         }
 
-		$girlList =[];
+		$girlList =array();
 		foreach ( $girls as $girl ){
-			$girlHash =[
+			$girlHash =array(
 					'girlName' => $girl['Girl']['name'],
 					'id'      => $girl['Girl']['id']
-			];
+			);
 
 			$girlList[] = $girlHash;
 		}
