@@ -4,7 +4,13 @@
 		<div class="pull-left">
 
         <?php
-         echo $itemDetail['Item']['moveUrl'];
+        echo $this->Html->image ( $itemDetail['Item'] ['largePictureUrl'], array (
+        		'url' => $itemDetail['Item']['URL'] . AFFILIATE_ID ,
+        		'class' => 'contents_image',
+        		'id' => 'contents_image_id_' . $itemDetail['Item'] ['id']
+           )
+        );
+
         ?>
  			<div class="media-body">
 					<h4 class="media-heading"></h4>
@@ -50,7 +56,7 @@
 				</div>
 
                 <div class="contents_link">
-                    <a href="<?php echo $itemDetail['Item']['productUrl'] . AFFILIATE_ID; ?>" >もっと見たい方はこちら </a>
+                    <a href="<?php echo $itemDetail['Item']['URL'] . AFFILIATE_ID; ?>" >動画はこちら </a>
                 </div>
 			</div>
 	</div>

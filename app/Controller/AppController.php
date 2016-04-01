@@ -44,8 +44,10 @@ class AppController extends Controller {
 
 	public function debugSQLlog( $sqlLog = array()){
 		foreach ( $sqlLog['log'] as $sqlEachLog ) {
+			$this->log("---------------------------------------------------------------------------------------");
 			$this->log($sqlEachLog['query']);
 			$this->log($sqlEachLog['took']/1000 . "s");
+			$this->log("---------------------------------------------------------------------------------------");
 		}
 	}
 

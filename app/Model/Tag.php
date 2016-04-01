@@ -98,4 +98,24 @@ class Tag extends Model {
         );
         return $tagList;
     }
+
+    /**
+     * whereinで指定されたitem_idからTagデータを取り出す
+     *
+     *
+     */
+    public function makeTagDataWhereInItemId ( $itemIdArr = array() ) {
+    	$sql =" SELECT  "
+			."     Item.id, "
+			."     ItemTag.tag_id, "
+			."     Tag.tag "
+			." FROM "
+			."     item_tags ItemTag JOIN items Item "
+			." ON  ItemTag.item_id = Item.id "
+			."     LEFT JOIN tags Tag "
+			."     ON  ItemTag.tag_id = Tag.id "
+			." WHERE "
+			."     ItemTag.item_id IN( :item_id_str ); ";
+
+    }
 }

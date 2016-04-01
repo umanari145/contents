@@ -64,4 +64,40 @@ class ItemTag extends Model {
 		return $tagList2;
 	}
 
+	/**
+	 * 商品idの配列から含まれるタグのデータを取得する
+	 *
+	 * @param unknown $itemIdArr
+	 * @return 商品id,タグid,タグ名を含んだ配列
+	 */
+	public function makeTagDataWhereInItemId( $itemIdArr = array()) {
+		$this->bindModel(array('belongsTo'=>array('Tag')));
+		$tagData = array();
+
+		$tagData = $this->find('all',
+			array(
+				'fields' => array(
+					'ItemTag.item_id',
+					'ItemTag.tag_id' ,
+						'Tag.tag'
+				),
+				'conditions' => array(
+					'ItemTag.item_id ' => $itemIdArr
+				)
+			)
+		);
+
+		$tagData2 = array();
+		foreach ( $tagData as $tag ) {
+			$tmp = array(
+				'item_id' => $tag['ItemTag']['item_id'] ,
+				'tag_id'  => $tag['ItemTag']['tag_id'] ,
+				'tag'     => $tag['Tag']['tag']
+			);
+			$tagData2[] = $tmp;
+		}
+
+		return $tagData2;
+	}
+
 }

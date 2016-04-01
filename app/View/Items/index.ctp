@@ -46,7 +46,8 @@
 				<?php if( count($item['Girl']) > 0 ): ?>
 					<span>女優</span>
 				<?php endif; ?>
-				<?php foreach ( $item["Girl"] as $girl ): ?>
+				<?php foreach ( $item["Girl"] as $count =>$girl ): ?>
+				<?php if( $count < 7 ): ?>
 				<?php
 						echo $this->Html->link ( $girl['name'], array (
 									'controller' => 'items',
@@ -56,6 +57,7 @@
 									'class' => 'girl_name',
 							) );
 							?>
+				<?php endif; ?>
 				<?php endforeach; ?>
 			</div>
 
@@ -64,7 +66,8 @@
 				<?php if( count($item['Tag']) > 0 ): ?>
 					<span>タグ</span>
 				<?php endif; ?>
-				<?php foreach ( $item["Tag"] as $tag ): ?>
+				<?php foreach ( $item["Tag"] as $count2 => $tag ): ?>
+				<?php if( $count2 < 7 ): ?>
 				<?php
 						echo $this->Html->link ( $tag['tag'], array (
 									'controller' => 'items',
@@ -74,6 +77,7 @@
 									'class' => 'tag_name'
 							) );
 							?>
+				<?php endif; ?>
 				<?php endforeach; ?>
 			</div>
 

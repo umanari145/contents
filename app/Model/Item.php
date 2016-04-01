@@ -18,7 +18,7 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-App::uses ( 'Model', 'Model' );
+App::uses ( 'AppModel', 'Model' );
 
 /**
  * Application model for Cake.
@@ -28,7 +28,7 @@ App::uses ( 'Model', 'Model' );
  *
  * @package app.Model
  */
-class Item extends Model {
+class Item extends AppModel {
 
     public $name ="Item";
 
@@ -52,10 +52,170 @@ class Item extends Model {
 
 	);
 
+	public $basic_sql=" select * from items as Item order by Item.item_order asc ";
+
+	public $basic_sql_count = " select COUNT(Item.id) from items Item ";
+
+    public function paginate($conditions,$fields,$order,$limit,$page=1,$recursive=null,$extra=array()){
+        if($page==0){$page = 1;}
+        $recursive = -1;
+        $offset = $page * $limit - $limit;
+        $sql = $this->basic_sql . ' limit ' . $limit . ' offset ' . $offset;
+        return $this->query($sql);
+    }
+
+    public function paginateCount($conditions=null,$recursive=0,$extra=array()){
+        $this->recursive = $recursive;
+        $results = $this->query($this->basic_sql_count);
+
+        $count=0;
+        if( isset($results[0][0]["COUNT(Item.id)"]) === true ) {
+        	$count = $results[0][0]["COUNT(Item.id)"];
+        }
+
+        return $count;
+    }
+
+	/**
+	 * 女優から商品を取得するSQLのセット
+	 *
+	 */
+    public function setGirlSQL( $girl_id ) {
+		$this->basic_sql       = $this->makeGirlSQL( 'all' , $girl_id );
+		$this->basic_sql_count = $this->makeGirlSQL( 'count' , $girl_id );
+    }
+
+    /**
+     * タグから商品を取得するSQLのセット
+     *
+     */
+    public function setTagSQL( $tag_id ) {
+    	$this->basic_sql       = $this->makeTagSQL( 'all' , $tag_id );
+    	$this->basic_sql_count = $this->makeTagSQL( 'count' , $tag_id );
+    }
+
+    /**
+     * キーワードから商品を取得するSQLのセット
+     *
+     */
+    public function setItemFromQueryStr( $keyword ) {
+    	$this->basic_sql       = $this->makeItemKeyword( 'all' , $keyword );
+    	$this->basic_sql_count = $this->makeItemKeyword( 'count' , $keyword );
+    }
+
+    /**
+     * girl_idからの商品データの取得
+     *
+     * @param unknown $type all(通常のカラムを取得)/count(件数取得)
+     * @param unknown $girl_id 女優ID
+     */
+    private function makeGirlSQL( $type = 'all', $girl_id ){
+
+    	$col = "";
+    	switch( $type ) {
+    		case 'all':
+    			$col= 'Item.* , Girl.*';
+    			break;
+    		case 'count':
+    			$col = 'COUNT(Item.id) ';
+    			break;
+    	}
+
+      	$sql = " SELECT "
+			.  $col
+			. " FROM "
+			. "    item_girls ItemGirl "
+			. "	    LEFT JOIN "
+			. "	        girls Girl "
+			. "	    ON  ItemGirl.girl_id = Girl.id JOIN "
+			. "	        items Item "
+			. "	    ON  ItemGirl.item_id = Item.id "
+			. "	WHERE "
+			. "	    Girl.id = " . $girl_id
+			. "	ORDER BY "
+			. "	    item_order ASC " ;
+      	return $sql;
+    }
+
+    /**
+     * tag_idからの商品データの取得
+     *
+     * @param unknown $type all(通常のカラムを取得)/count(件数取得)
+     * @param unknown $tag_id タグID
+     */
+    private function makeTagSQL( $type = 'all', $tag_id ){
+
+    	$col = "";
+    	switch( $type ) {
+    		case 'all':
+    			$col= 'Item.* , Tag.*';
+    			break;
+    		case 'count':
+    			$col = 'COUNT(Item.id) ';
+    			break;
+    	}
+
+    	$sql = " SELECT "
+    		.  $col
+    		. " FROM "
+    		. "    item_tags ItemTag "
+    		. "	    LEFT JOIN "
+    		. "	        tags Tag "
+    		. "	    ON  ItemTag.tag_id = Tag.id JOIN "
+    		. "	        items Item "
+			. "	    ON  ItemTag.item_id = Item.id "
+    		. "	WHERE "
+    		. "	    Tag.id = " . $tag_id
+    		. "	ORDER BY "
+    		. "	    item_order ASC " ;
+    	return $sql;
+    }
+
+
+    /**
+     * keywordを検索文字列としてSQLを作る
+     *
+     * @param unknown $type all(通常のカラムを取得)/count(件数取得)
+     * @param $keyword キーワード
+     * @return sql
+     *
+     */
+    private function makeItemKeyword( $type ='all', $keyword ) {
+
+    	$col = "";
+    	switch( $type ) {
+    		case 'all':
+    			$col= 'Item.*';
+    			break;
+    		case 'count':
+    			$col = 'COUNT(Item.id) ';
+    			break;
+    	}
+
+
+    	$sql= " SELECT  "
+	    	. $col
+	   		." FROM  "
+	    	."     items as Item   "
+	    	." WHERE  "
+	    	."    Item.title like '%". $keyword . "%'  "
+	    	." OR "
+	    	."    Item.actress like '%" . $keyword. "%'  "
+	    	." OR "
+	    	."    Item.genre like '%" . $keyword ."%'  "
+	    	." OR "
+	  		."   Item.comment like '%" . $keyword ."%'  "
+	    	." ORDER BY  "
+	    	."    Item.item_order  "
+	    	." ASC ";
+    	return $sql;
+    }
+
     /**
     *  意味不明のエラー対策のタメにあるメソッド
     */
     public function hoge(){
+
     }
 
 	/**
@@ -65,8 +225,9 @@ class Item extends Model {
 	 */
 	public function getItemList( $contentsList ) {
 		foreach ( $contentsList as &$contents ) {
-            $this->addMoveUrl( $contents ,'index');
+            $this->addAttribute( $contents ,'index');
             $smallPictrureUrl =  sprintf('http://pics.dmm.co.jp/digital/video/%s/%sps.jpg', $contents['Item']['id'],$contents['Item']['id'] );
+
             $contents ['Item'] ['smallPictureUrl'] = $smallPictrureUrl;
 		}
 		return $contentsList;
@@ -91,7 +252,9 @@ class Item extends Model {
 		);
 
 		$contentsDetail = $this->find ( 'first', $params);
-        $this->addMoveUrl( $contentsDetail , 'detail');
+		$largePictrureUrl =  sprintf('http://pics.dmm.co.jp/digital/video/%s/%spl.jpg', $contentsDetail['Item']['id'],$contentsDetail['Item']['id'] );
+		$contentsDetail ['Item'] ['largePictureUrl'] = $largePictrureUrl;
+        $this->addAttribute( $contentsDetail , 'detail');
 		return $contentsDetail;
 	}
 
@@ -100,7 +263,7 @@ class Item extends Model {
     *  @param $item 動画
     *
     */
-    private function addMoveUrl( &$item = null , $type ="index" ){
+    private function addAttribute( &$item = null , $type ="index" ){
 
         $size['width'] = 0;
         $size['height'] = 0;

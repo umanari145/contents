@@ -41,7 +41,7 @@ class ItemsController extends AppController {
 	public $layout ="contents";
 
 	public $paginate = array(
-			'limit' => 8,
+			'limit' => 10,
 			'order' => array(
 					'Item.item_order' => 'asc'
 			)
@@ -49,65 +49,132 @@ class ItemsController extends AppController {
 
 	public function index() {
 
+		$searchName="";
         //原因不明だがタグか女優名で選択すると
         //Itemにアクセスできなくなる。以下のメソッドがあるとアクセスできる
         $this->Item->hoge();
-        $itemIdArr = $this->getQuery( $this->request);
+        $searchName = $this->getQuery( $this->request );
 		$params=array();
-		$searchName="";
 		//検索条件が存在すれば検索を行う
-		if( $itemIdArr !== array()){
-			$params = array(
-				'Item.id'=> $itemIdArr['idList']
-			);
-			$searchName = $itemIdArr['search_name'];
-		}
-		$items = $this->paginate($params);
+
+		$items  = $this->paginate($params);
+		$items2 = $this->setGirlAndTag( $items );
 
 		$sqlLog = $this->Item->getDataSource()->getLog(false, false);
 		$this->debugSQLlog( $sqlLog );
 
         $this->set('search_name' , $searchName);
-        $this->set('items',$this->Item->getItemList($items));
+        $this->set('items',$this->Item->getItemList($items2));
 	}
 
+	/**
+	 * 女優データとタグデータをセットする
+	 *
+	 * @param unknown $items 商品id
+	 */
+	private  function  setGirlAndTag( $items ) {
+		$itemIdArr = array();
+		//itemIdを取り出すためだけにループをまわす
+		foreach ( $items as $item ) {
+			$itemId      = $item['Item']['id'];
+			$itemIdArr[] = $itemId;
+		}
+
+		$tagData2 = $this->ItemTag->makeTagDataWhereInItemId( $itemIdArr );
+		$girlData2 = $this->ItemGirl->makeGirlDataWhereInItemId( $itemIdArr );
+
+		$tagHashGroupByItemId  = _::groupBy( $tagData2, function($ele) { return $ele["item_id"]; } );
+		$girlHashGroupByItemId = _::groupBy( $girlData2, function($ele) { return $ele["item_id"]; } );
+
+		//女優、タグデータと結合する
+		foreach ( $items as &$item) {
+			list( $tagData3, $girlData3) = $this->merggeTgAndGirls( $item['Item']['id'] , $tagHashGroupByItemId , $girlHashGroupByItemId );
+			$item['Tag'] = $tagData3;
+			$item['Girl'] = $girlData3;
+
+		}
+		return $items;
+	}
+
+	/**
+	 * itemIdでグルーピングされた女優とタグデータを出力する
+	 *
+	 * @param unknown $itemId 商品id
+	 * @param unknown $tagHashGroupByItemId 商品idでグルーピングされたタグデータ
+	 * @param unknown $tagHashGroupByItemId 商品idでグルーピングされた女優データ
+	 */
+	private function merggeTgAndGirls( $itemId , $tagHashGroupByItemId = array(), $girlHashGroupByItemId = array()){
+
+		$tagData3  = array();
+		//タグの処理
+		if( isset($tagHashGroupByItemId[$itemId]) === true ){
+			$tagEachDataArr = $tagHashGroupByItemId[$itemId];
+			foreach ( $tagEachDataArr as $tag) {
+				$tagData3[] = array(
+					'id'  => $tag['tag_id'],
+					'tag' => $tag['tag']
+				);
+			}
+		}
+
+		$girlData3 = array();
+		//女優データの処理
+		if( isset($girlHashGroupByItemId[$itemId]) === true ){
+			$girlEachDataArr = $girlHashGroupByItemId[$itemId];
+			foreach ( $girlEachDataArr as $girl) {
+				$girlData3[] = array(
+						'id'  => $girl['girl_id'],
+						'name' => $girl['name']
+				);
+			}
+		}
+		return array( $tagData3, $girlData3);
+	}
+
+	/**
+	 *
+	 * @param unknown $param パラメーター
+	 * @return 検索文字
+	 */
 	private function getQuery( $param ){
 
+		$searchName;
 		$itemIdArr =array();
 		//クエリがあるかないか()
 		if( !empty($param->params['named']['girl']) ||
 			!empty($param->params['named']['tag'])  ||
 			!empty($param->params['named']['keyword'])) {
-	    	$itemIdArr = $this->getCategoryQuery( $param->params['named'] );
+	    	$searchName = $this->getCategoryQuery( $param->params['named'] );
 	    }
-
-	    return $itemIdArr;
+		return $searchName;
 	}
 
+	/**
+	 * 検索文字
+	 *
+	 * @param unknown $queryStr 検索クエリ
+	 * @return 検索文字
+	 */
 	private function getCategoryQuery($queryStr) {
 
-		$itemIdArr =array(
-				'idList'=> "",
-				'count'=>0,
-				'search_name'=>""
-		);
-
+		$searchName;
 		//キーワードから商品IDを取得
 		if (! empty ( $queryStr ['keyword'] )) {
-			$itemIdArr = $this->Item->getItemFromQueryStr( $queryStr['keyword'] );
+			$searchName = $queryStr['keyword'];
+			$this->Item->setItemFromQueryStr( $queryStr['keyword'] );
 		}
 
 		//女優から商品IDを取得
 		if (! empty ( $queryStr ['girl'] )) {
-			$itemIdArr = $this->getItemFromGirlList( $queryStr );
+			$searchName =  $this->getItemFromGirlList( $queryStr );
 		}
 
 
 		//タグから商品IDの取得
 		if (! empty ( $queryStr ['tag'] )) {
-			$itemIdArr = $this->getItemFromTagList( $queryStr );
+			$searchName = $this->getItemFromTagList( $queryStr );
 		}
-		return $itemIdArr;
+		return $searchName;
 	}
 
 	/**
@@ -120,60 +187,30 @@ class ItemsController extends AppController {
 
 		$girlId = $queryStr ['girl'];
 
-		$itemIdTmp = $this->ItemGirl->find ( 'list', array(
-				'fields' => 'item_id',
-				'conditions' => array(
-						'ItemGirl.girl_id' => $girlId
-				)
-		) );
+		$this->Girl->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
+		$girlData = $this->Girl->find('first', array('conditions'=>array('Girl.id'=> $girlId)));
 
-		$girlNameTmp= $this->Girl->find('first',array(
-				'fields' => 'name',
-				'conditions' => array(
-						'Girl.id' => $girlId
-				)
-		));
+		$this->Item->setGirlSQL( $girlId );
 
-		$itemIdArr['search_name'] = $girlNameTmp['Girl']['name'];
+		return $girlData['Girl']['name'];
 
-		if( count( $itemIdArr) > 0) {
-			$itemIdArr['count'] = count($itemIdArr);
-			$itemIdArr['idList'] = array_values( $itemIdTmp );
-		}
-
-		return $itemIdArr;
 	}
 
 	/**
 	 * 関連テーブルから対象のタグの商品idを出力する
 	 *
 	 * @param unknown $queryStr タグid
-	 * @return 対象商品id
+	 * @return タグ名
 	 */
     private function getItemFromTagList( $queryStr = array()) {
     	$tagId = $queryStr ['tag'];
 
-    	$itemIdTmp = $this->ItemTag->find ( 'list', array(
-    			'fields' => 'item_id',
-    			'conditions' => array(
-    					'ItemTag.tag_id' => $tagId
-    			)
-    	) );
+		$this->Tag->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
+		$tagData = $this->Tag->find('first', array('conditions'=>array('Tag.id'=> $tagId)));
 
-    	$tagNameTmp= $this->Tag->find('first',array(
-    			'fields' => 'tag',
-    			'conditions' => array(
-    					'Tag.id' => $tagId
-    			)
-    	));
+		$this->Item->setTagSQL( $tagId );
 
-    	$itemIdArr['search_name'] = $tagNameTmp['Tag']['tag'];
-
-    	if( count($itemIdTmp) > 0) {
-    		$itemIdArr['count'] = count($itemIdTmp);
-    		$itemIdArr['idList'] = array_values( $itemIdTmp );
-    	}
-		return $itemIdArr;
+		return $tagData['Tag']['tag'];
     }
 
 	public function view($id = null) {
