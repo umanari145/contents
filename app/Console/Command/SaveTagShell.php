@@ -1,62 +1,42 @@
 <?php
 App::uses ( 'AppShell', 'Console/Command' );
+
 class SaveTagShell extends AppShell {
 
 	// モデルを読み込む
-	public $uses = [
+	public $uses = array(
 			'Item',
 			'Tag'
-	];
+	);
 	public function main() {
 		$this->out ( "start_batch" );
 		$this->out ( date ( "Y-m-d H:i:s" ) );
-		$this->func1 ();
+		$this->getTagData ();
 		$this->out ( date ( "Y-m-d H:i:s" ) );
 		$this->out ( "last_batch" );
 	}
-	public function func1() {
 
-		//タグリストの取得
-		$tagList = $this->Item->find ( 'list', [
-				"fields" => [
-						'id',
-						'genre'
-				],
-				"conditions" => [
-						"delete_flg" => 0
-				]
-		] );
+	public function getTagData() {
+        //アダルト動画はfloor_id=43
+        $itemCount = 0;
+        for( $i=1; $i < 10 ;$i++ ) {
+            $start = 1 + ( $i - 1 ) * 100 ;
+            $url = "https://api.dmm.com/affiliate/v3/GenreSearch?"
+                   . "api_id=" . API_ID . "&affiliate_id=" .AFFILIATE_ID_USE_API
+                   . "&floor_id=43&hits=100&offset=" . $start . "&output=json";
 
-        $tagList2 = $this->makeTagArr( $tagList );
+            $res = file_get_contents( $url );
+            $arr =  json_decode($res,true);
 
-		$this->Tag->create();
-		$this->Tag->saveAll($tagList2);
+            if( !empty($arr['result']['genre'] )) {
+                foreach( $arr['result']['genre'] as $val ){
+                	 $this->Tag->saveTagEntity( $val);
+                     echo $val['genre_id'] . " " . $val['name'] . "\n";
+                }
+            }else{
+                echo "there is final ";
+                break;
+            }
+        }
 	}
-
-	/**
-	 * タグの配列(重複のぞく)を作成する
-	 *
-	 * @param unknown $tagList タグのリスト(１つの要素に空白を挟んだタグのリスト)
-	 */
-	public function makeTagArr( $tagList ){
-		$tagList2=[];
-		foreach ( $tagList as $tagline){
-			$trimedTagArr = array_map("trim", explode(" ", $tagline ));
-			//既存のタグになかったら入れる
-			foreach ( $trimedTagArr as $tag){
-				if( in_array( $tag ,$tagList2) === false ){
-					$tagList2[] = $tag;
-				}
-			}
-		}
-
-		$tagList3=[];
-		foreach ( $tagList2 as $tag2 ){
-			$tagList3[] =['tag' => $tag2];
-		}
-		return $tagList3;
-	}
-
-
-
 }

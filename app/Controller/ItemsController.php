@@ -138,7 +138,7 @@ class ItemsController extends AppController {
 	 */
 	private function getQuery( $param ){
 
-		$searchName;
+		$searchName="";
 		$itemIdArr =array();
 		//クエリがあるかないか()
 		if( !empty($param->params['named']['girl']) ||

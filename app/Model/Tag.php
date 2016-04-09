@@ -100,6 +100,40 @@ class Tag extends Model {
     }
 
     /**
+     * タグの登録
+     *
+     * @param unknown $tagData タグデータ
+     */
+    public function saveTagEntity( $tagData ) {
+
+    	//既存のデータにあるかどうかの確認
+        if( $this->existTag( $tagData['genre_id']) === false ) {
+        	$tagEntity = array(
+        		'id'  => $tagData['genre_id'],
+        		'tag' => $tagData['name']
+        	);
+        	$this->create();
+        	$this->save( $tagEntity);
+        }
+
+    }
+
+    /**
+     *  同一idジャンルが既存のテーブルにあるかいなか
+     *
+     * @param unknown $tagId タグid
+     * @return true(あり)/false()
+     */
+    public function existTag( $tagId ) {
+    	$count = $this->find('count',array(
+    			'conditions'=>array(
+    					'Tag.id' => $tagId
+    			)
+    	));
+    	return  ( $count >0 ) ? true:false;
+    }
+
+    /**
      * whereinで指定されたitem_idからTagデータを取り出す
      *
      *

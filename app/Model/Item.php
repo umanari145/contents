@@ -317,4 +317,19 @@ class Item extends AppModel {
 		}
 		return $idArr;
 	}
+
+	/**
+	 *  同一id商品が既存のテーブルにあるかいなか
+	 *
+	 * @param unknown $itemId 商品id
+	 * @return true(あり)/false()
+	 */
+	public function existItem( $itemId ) {
+		$itemCount = $this->find('count',array(
+			'conditions'=>array(
+					'Item.id' => $itemId
+			)
+		));
+		return  ( $itemCount >0 ) ? true:false;
+	}
 }

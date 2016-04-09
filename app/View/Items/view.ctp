@@ -3,6 +3,7 @@
 	<div class="media">
 		<div class="pull-left">
 
+		<?php if( DISP_LARGE_IMAGE === true ): ?>
         <?php
         echo $this->Html->image ( $itemDetail['Item'] ['largePictureUrl'], array (
         		'url' => $itemDetail['Item']['URL'] . AFFILIATE_ID ,
@@ -10,8 +11,17 @@
         		'id' => 'contents_image_id_' . $itemDetail['Item'] ['id']
            )
         );
-
         ?>
+        <?php endif; ?>
+
+		<?php if( DISP_MOVIE === true ): ?>
+		<p id="movie_area">
+        <?php
+			echo $itemDetail['Item']['moveUrl'];
+        ?>
+        </p>
+        <?php endif; ?>
+
  			<div class="media-body">
 					<h4 class="media-heading"></h4>
 			</div>
@@ -26,6 +36,7 @@
 					<?php endif; ?>
 
 					<?php foreach ( $itemDetail["Girl"] as $girl ): ?>
+
 					<?php
 							echo $this->Html->link ( $girl['name'], array (
 										'controller' => 'items',
@@ -55,8 +66,17 @@
 					<?php endforeach; ?>
 				</div>
 
+				<?php if( DISP_COMMENT === true ): ?>
+
+				<div id="contents_comment">
+                	<?php
+                		echo $itemDetail['Item']['comment'];
+                	?>
+               	</div>
+            	<?php endif;; ?>
+
                 <div class="contents_link">
-                    <a href="<?php echo $itemDetail['Item']['URL'] . AFFILIATE_ID; ?>" >動画はこちら </a>
+                    <a href="<?php echo $itemDetail['Item']['URL'] . AFFILIATE_ID; ?>" >もっと見たい方はこちら </a>
                 </div>
 			</div>
 	</div>

@@ -86,5 +86,20 @@ class Girl extends Model {
 // 		Cache::delete( 'girl_list', 'sql_cache' );
 // 	}
 
+	/**
+	 *
+	 * girlId => 1 というハッシュデータを返す
+	 *
+	 * @return 女優IDリスト
+	 */
+	public function  getGirlIdHash(){
+	    $this->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
+	    $girlIdList = array();
+
+	    $girlIdList = $this->find('list');
+
+        return $girlIdList;
+	}
+
 
 }

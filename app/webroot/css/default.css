@@ -838,3 +838,13 @@ p#contents_title{
     font-weight:bold;
     font-size:18pt;
 }
+
+p#movie_area{
+	width:750px;
+	margin:10px auto;
+}
+
+div#contents_comment{
+   margin-top:10px;
+   font-size:14pt;
+}
