@@ -31,5 +31,32 @@ App::uses ( 'Model', 'Model' );
 class ItemImage extends Model {
 
 
+	/**
+	 * 商品画像を取得
+	 *
+	 * @param string $itemId 商品Id
+	 * @return 画像のURL配列
+	 */
+	public function getItemImage($itemId = null ) {
+
+		$itemImageArr = array();
+
+		if( $itemId == null ) {
+			return $itemImageArr;
+		}
+
+		$itemImageArr = $this->find('all', array(
+				'fields' => array(
+					'image_url'
+				),
+				'conditions'=>
+				array(
+					'item_id' => $itemId
+				))
+		);
+
+
+		return $itemImageArr;
+	}
 
 }

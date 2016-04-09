@@ -36,7 +36,7 @@ class ItemsController extends AppController {
 /**
  * @var array
  */
-	public $uses = array('Item','Tag','Girl','ItemGirl','ItemTag');
+	public $uses = array('Item','Tag','Girl','ItemGirl','ItemTag','ItemImage');
 
 	public $layout ="contents";
 
@@ -219,6 +219,7 @@ class ItemsController extends AppController {
 		if (! $this->Item->exists ()) {
 			throw new NotFoundException ( '存在しない商品です。' );
 		}
+		$this->set ( 'itemImage' , $this->ItemImage->getItemImage($id));
 		$this->set ( 'itemDetail',$this->Item->getItemDetail( $id) );
 	}
 

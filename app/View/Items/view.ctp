@@ -78,6 +78,22 @@
                 <div class="contents_link">
                     <a href="<?php echo $itemDetail['Item']['URL'] . AFFILIATE_ID; ?>" >もっと見たい方はこちら </a>
                 </div>
+
+				<?php if( DISP_ITEM_IMAGE === true  && !empty($itemImage) ): ?>
+
+				<div id="cotents_image">
+                	<?php foreach ( $itemImage as $image):?>
+                	<?php
+                		echo $this->Html->image($image['ItemImage']['image_url']);
+                	?>
+                	<?php endforeach; ?>
+               	</div>
+            	<?php endif; ?>
+
+                <div class="contents_link">
+                    <a href="<?php echo $itemDetail['Item']['URL'] . AFFILIATE_ID; ?>" >もっと見たい方はこちら </a>
+                </div>
+
 			</div>
 	</div>
 </div>
