@@ -29,7 +29,7 @@ class SaveItemShell extends AppShell {
 
             $url = "https://api.dmm.com/affiliate/v3/ItemList?"
             ."api_id=". API_ID ."&affiliate_id=" . AFFILIATE_ID_USE_API
-            ."&site=DMM.R18&service=digital&genre=" . GENRE_ID . "&floor=videoa"
+            ."&site=DMM.R18&service=digital&article=genre&article_id=" . GENRE_ID . "&floor=videoa"
             ."&hits=100&offset=" . $start . "&sort=rank&output=json";
 
             echo "api get start " . $start ."\n";
@@ -105,7 +105,7 @@ class SaveItemShell extends AppShell {
                         $this->ItemTag->save( $data3 );
                     }
 
-                    if( $itemCount > 100 ) {
+                    if( $itemCount > 4000 ) {
                         break 2;
                     }
 
