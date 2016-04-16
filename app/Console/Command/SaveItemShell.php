@@ -60,14 +60,24 @@ class SaveItemShell extends AppShell {
                     $itemCount++;
                     $item['id'] = $item['content_id'];
 
-                    if( $this->Item->existItem( $item['id']) === true) {
-                    	continue;
+                    if( $itemCount > SAVE_COUNT_PER_TIME ) {
+                    	break 2;
                     }
 
-                    $item['item_order'] = $itemCount;
-                    $data['Item'] = $item;
-                    $this->Item->create();
-                    $this->Item->save( $data );
+
+                    if( $this->Item->existItem( $item['id']) === true) {
+                        //既存処理の更新
+                        $item['item_order'] = $itemCount;
+                        $data['Item'] = $item;
+                        $this->Item->save( $data );
+                        continue;
+
+                    } else {
+                        $item['item_order'] = $itemCount;
+                        $data['Item'] = $item;
+                        $this->Item->create();
+                        $this->Item->save( $data );
+                    }
 
                     if( !empty( $item["sampleImageURL"]["sample_s"]["image"])) {
 
@@ -103,10 +113,6 @@ class SaveItemShell extends AppShell {
                         );
                         $this->ItemTag->create();
                         $this->ItemTag->save( $data3 );
-                    }
-
-                    if( $itemCount > 4000 ) {
-                        break 2;
                     }
 
                     echo $data['Item']['title'] . "  ";

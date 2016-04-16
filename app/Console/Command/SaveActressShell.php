@@ -28,7 +28,7 @@ class saveActressShell extends AppShell {
             . "&hits=100&offset=" . $start  . "&output=json";
 
             echo "api get start " . $start ."\n";
-
+z
             $res = file_get_contents( $url );
             $arr =  json_decode($res,true);
             $girl100List = array();
