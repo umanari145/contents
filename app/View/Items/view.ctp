@@ -1,3 +1,15 @@
+<script type="text/javascript" >
+$(function(){
+        $('.contents_image').magnificPopup({
+             delegate: 'a', 
+             type: 'image',
+             gallery: { //ギャラリー表示にする
+                 enabled:true
+             }
+        });
+});
+</script>
+
 <div class="row">
     <h2><p id="contents_title"><?php echo $itemDetail['Item']['title'];?></p></h2>
     <div class="media">
@@ -7,14 +19,14 @@
         <?php
         echo $this->Html->image ( $itemDetail['Item'] ['largePictureUrl'], array (
                 'url' => $itemDetail['Item']['URL'] . AFFILIATE_ID ,
-                'class' => 'contents_image',
+                'class' => 'top_contents_image',
                 'id' => 'contents_image_id_' . $itemDetail['Item'] ['id']
            )
         );
         ?>
         <?php endif; ?>
 
-        <?php if( DISP_MOVIE === true ): ?>
+        <?php if( DISP_MOVIE === true && !empty( $itemDetail['Item']['moveUrl'])) : ?>
         <p id="movie_area">
         <?php
             echo $itemDetail['Item']['moveUrl'];
@@ -81,11 +93,21 @@
 
                 <?php if( DISP_ITEM_IMAGE === true  && !empty($itemImage) ): ?>
 
-                    <div id="cotents_image">
-                        <?php foreach ( $itemImage as $image):?>
-                        <?php
-                            echo $this->Html->image($image['ItemImage']['image_url']);
-                        ?>
+                    <div class="contents_image">
+                        <?php foreach ( $itemImage as $no => $image):?>
+                        <p class="contents_single_image">
+                        <?php if( !empty($largeItemImage[$no])): ?>
+                            <?php
+                                echo $this->Html->image($image,array(
+                                    'url' => $largeItemImage[$no]
+                                ));
+                            ?>
+                        <?php else:?>
+                            <?php
+                                echo $this->Html->image($image);
+                            ?>
+                        <?php endif; ?>
+                        </p>
                         <?php endforeach; ?>
                        </div>
 

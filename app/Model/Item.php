@@ -226,9 +226,8 @@ class Item extends AppModel {
 	public function getItemList( $contentsList ) {
 		foreach ( $contentsList as &$contents ) {
             $this->addAttribute( $contents ,'index');
-            $smallPictrureUrl =  sprintf('http://pics.dmm.co.jp/digital/video/%s/%sps.jpg', $contents['Item']['id'],$contents['Item']['id'] );
-
-            $contents ['Item'] ['smallPictureUrl'] = $smallPictrureUrl;
+            $smallPictureUrl = $contents['Item']['contents_image'] ;
+            $contents ['Item'] ['smallPictureUrl'] = $smallPictureUrl;
 		}
 		return $contentsList;
 	}
@@ -252,8 +251,9 @@ class Item extends AppModel {
 		);
 
 		$contentsDetail = $this->find ( 'first', $params);
-		$largePictrureUrl =  sprintf('http://pics.dmm.co.jp/digital/video/%s/%spl.jpg', $contentsDetail['Item']['id'],$contentsDetail['Item']['id'] );
+		$largePictrureUrl =  str_replace('ps.jpg','pl.jpg',$contentsDetail['Item']['contents_image']);
 		$contentsDetail ['Item'] ['largePictureUrl'] = $largePictrureUrl;
+        
         $this->addAttribute( $contentsDetail , 'detail');
 		return $contentsDetail;
 	}
@@ -277,8 +277,10 @@ class Item extends AppModel {
             $size['height'] = MOVE_HEIGHT;
             break;
         }
-
-        $item['Item']['moveUrl'] = sprintf('<iframe width="'. $size['width']. '" height="' . $size['height'] . '" src="http://www.dmm.co.jp/litevideo/-/part/=/affi_id=%s/cid=%s/size='. $size['width']. '_' . $size['height'] . '/" scrolling="no" frameborder="0" allowfullscreen></iframe>' , AFFILIATE_ID , $item['Item']['id'] );
+        
+        if( $this->is_url_exist( $item['Item']['move_url']) ){
+        $item['Item']['moveUrl'] = sprintf('<iframe width="'. $size['width']. '" height="' . $size['height'] . '" src="' .$item['Item']['move_url'] . '" scrolling="no" frameborder="0" allowfullscreen></iframe>' );
+        }
    }
 
 	/**
@@ -332,4 +334,26 @@ class Item extends AppModel {
 		));
 		return  ( $itemCount >0 ) ? true:false;
 	}
-}
+    
+    /**
+    *   動画が存在している
+    *
+    * @param $url URL
+    * @return true(存在する)/false(存在しない)
+    */
+    public function is_url_exist($url){       
+        $ch = curl_init($url);        
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if($code == 200){
+            $status = true;
+        }else{
+            $status = false;
+        }
+        curl_close($ch);
+        return $status;
+    }
+
+}    

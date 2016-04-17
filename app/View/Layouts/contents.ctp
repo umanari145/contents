@@ -25,9 +25,11 @@
 	 <?php
 	 	echo $this->Html->css('default');
 	 	echo $this->Html->css('bootstrap');
+	 	echo $this->Html->css('magnific-popup');
 	 	echo $this->Html->script('jquery-1.11.3.min');
 	 	echo $this->Html->script('bootstrap.min');
 	 	echo $this->Html->script('default');
+	 	echo $this->Html->script('jquery.magnific-popup.min');
 	 	echo $this->fetch('meta');
 	 	echo $this->fetch('css');
 	 	echo $this->fetch('script');

@@ -29,7 +29,7 @@ class SaveItemShell extends AppShell {
 
             $url = "https://api.dmm.com/affiliate/v3/ItemList?"
             ."api_id=". API_ID ."&affiliate_id=" . AFFILIATE_ID_USE_API
-            ."&site=DMM.R18&service=digital&article=genre&article_id=" . GENRE_ID . "&floor=videoa"
+            ."&site=DMM.R18&service=digital&floor=videoa"
             ."&hits=100&offset=" . $start . "&sort=rank&output=json";
 
             echo "api get start " . $start ."\n";
@@ -59,11 +59,15 @@ class SaveItemShell extends AppShell {
 
                     $itemCount++;
                     $item['id'] = $item['content_id'];
-
+                    $item['contents_image'] = $item['imageURL']['small'];
+                    
+                    if( !empty($item['sampleMovieURL']['size_720_480'])){
+                        $item['move_url'] = $item['sampleMovieURL']['size_720_480'];
+                    }
+                    
                     if( $itemCount > SAVE_COUNT_PER_TIME ) {
                     	break 2;
                     }
-
 
                     if( $this->Item->existItem( $item['id']) === true) {
                         //既存処理の更新

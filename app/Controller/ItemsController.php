@@ -219,7 +219,10 @@ class ItemsController extends AppController {
 		if (! $this->Item->exists ()) {
 			throw new NotFoundException ( '存在しない商品です。' );
 		}
-		$this->set ( 'itemImage' , $this->ItemImage->getItemImage($id));
+        $itemImage = array();
+        list( $itemImage['small'], $itemImage['large'] ) = $this->ItemImage->getItemImage($id);
+		$this->set ( 'itemImage' , $itemImage['small']);
+		$this->set ( 'largeItemImage' , $itemImage['large']);
 		$this->set ( 'itemDetail',$this->Item->getItemDetail( $id) );
 	}
 

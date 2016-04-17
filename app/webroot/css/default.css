@@ -770,7 +770,7 @@ a.tag_name:hover{
 	-ms-filter:"alpha( opacity=80 )";
 }
 
-img.contents_image:hover{
+img.top_contents_image:hover{
 	opacity:0.6;
 	filter:alpha(opacity=80);
 	-ms-filter:"alpha( opacity=80 )";
@@ -848,4 +848,21 @@ div#contents_comment{
    margin-top:10px;
    line-height:1.7em;
    font-size:14pt;
+   clear:both;
+}
+
+div.contents_image{
+   width:750px;
+}
+
+div.contents_image img:hover{
+  opacity:0.6;
+}
+p.contents_single_image{
+   margin:5px;
+   float:left;
+}
+
+.contents_link{
+  clear:both;
 }

@@ -36,27 +36,53 @@ class ItemImage extends Model {
 	 *
 	 * @param string $itemId 商品Id
 	 * @return 画像のURL配列
-	 */
-	public function getItemImage($itemId = null ) {
+     */
+    public function getItemImage($itemId = null ) {
 
-		$itemImageArr = array();
+        $itemImageArr = array();
 
-		if( $itemId == null ) {
-			return $itemImageArr;
-		}
+        if( $itemId == null ) {
+            return $itemImageArr;
+        }
 
-		$itemImageArr = $this->find('all', array(
-				'fields' => array(
-					'image_url'
-				),
-				'conditions'=>
-				array(
-					'item_id' => $itemId
-				))
-		);
+        $itemImageArr = $this->find('all', array(
+                    'fields' => array(
+                        'image_url'
+                        ),
+                    'conditions'=>
+                    array(
+                        'item_id' => $itemId
+                        ))
+                );
 
+        $smallUrlArr = array();   
+        $largeUrlArr = array();   
+        if( !empty($itemImageArr)){                                                                                                                                   
+            foreach( $itemImageArr as $image ){
+                $smallUrlArr[] = $image['ItemImage']['image_url'];
+                $largeImageUrl = preg_replace( '/^(.*)(-\d+\.jpg)$/','$1jp$2',$image['ItemImage']['image_url'] );
+                if( $this->is_url_exist ( $largeImageUrl ) ){
+                    $largeUrlArr[] = $largeImageUrl;
+                }  
+            }
+        }
+        return array($smallUrlArr , $largeUrlArr);
+    
+    }
+    
+    public function is_url_exist($url){
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-		return $itemImageArr;
-	}
+        if($code == 200){
+            $status = true;
+        }else{
+            $status = false;
+        }
+        curl_close($ch);
+        return $status;
+    }
 
 }
