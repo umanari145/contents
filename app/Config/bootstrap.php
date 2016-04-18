@@ -118,6 +118,11 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+Configure::write('Session', array(
+    'defaults' => 'cake',
+    'timeout' => 1440, //1days　←単位は分
+));
+ 
 
 //キャッシュ
 // Cache::config('sql_cache', array(
