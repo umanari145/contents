@@ -353,14 +353,14 @@ class Item extends AppModel {
                 'fields'=>array(
                        'id',
                        'title',
+                       'created',
                        'item_order'
                 ),
                 'order' => array(
                     'item_order' => 'ASC',
-                    'modified'   => 'ASC'
+                    'modified'   => 'DESC'
                 )
         ));
-
         return $itemData;
     }
     /**

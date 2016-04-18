@@ -20,7 +20,7 @@ class UpdateItemOrderShell extends AppShell {
         $itemData = $this->Item->getItemOrderLine();
         foreach ($itemData as $order_no => $item ) {
         	$order_no2 = $order_no + 1;
-            $item['item']['item_order'] = $order_no2;
+            $item['Item']['item_order'] = $order_no2;
             echo $order_no2 ." ". $item['Item']['title'] ."\n";
             $this->Item->save( $item );
         }
