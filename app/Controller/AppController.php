@@ -27,8 +27,8 @@ App::uses('Controller', 'Controller');
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
  *
- * @package		app.Controller
- * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ * @package        app.Controller
+ * @link        http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
 
@@ -36,25 +36,31 @@ class AppController extends Controller {
     public $components = array('Session');
 
     public function beforeFilter(){
-        
-        $tagList =  $this->Session->read("tagList"); 
+
+        $tagList =  $this->Session->read("tagList");
         if( empty( $tagList)){
             $tagList = $this->ItemTag->calcItemCountGroupByTag($this->Tag->getTagNameList());
             $this->Session->write("tagList" , $tagList);
         }
+
+        $popularGirlList = $this->Session->read("popularGirlList");
+        if( empty( $popularGirlList)) {
+            $popularGirlList = $this->ItemGirl->calculateGirlCount();
+            $this->Session->write("popularGirlList", $popularGirlList);
+        }
+
         $this->set( 'siteUrl' , SITE_URL);
         $this->set( 'tagList' , $tagList);
-//        $this->set( 'girlList' , $this->Girl->getGirlList() );
-        $this->set( 'girlList' , array() );
+        $this->set( 'popularGirlList' ,$popularGirlList );
     }
 
-	public function debugSQLlog( $sqlLog = array()){
-		foreach ( $sqlLog['log'] as $sqlEachLog ) {
-			$this->log("---------------------------------------------------------------------------------------");
-			$this->log($sqlEachLog['query']);
-			$this->log($sqlEachLog['took']/1000 . "s");
-			$this->log("---------------------------------------------------------------------------------------");
-		}
-	}
+    public function debugSQLlog( $sqlLog = array()){
+        foreach ( $sqlLog['log'] as $sqlEachLog ) {
+            $this->log("---------------------------------------------------------------------------------------");
+            $this->log($sqlEachLog['query']);
+            $this->log($sqlEachLog['took']/1000 . "s");
+            $this->log("---------------------------------------------------------------------------------------");
+        }
+    }
 
 }

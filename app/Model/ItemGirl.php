@@ -66,4 +66,30 @@ class ItemGirl extends Model {
 		return $girlData2;
 	}
 
+	/**
+	 * 女優ごとに出演商品数を降順で出力する
+	 *
+	 */
+	public function calculateGirlCount() {
+		$this->bindModel(array('belongsTo'=>array('Girl')));
+		$girlData = array();
+
+		$girlData = $this->find('all',
+				array(
+						'fields' => array(
+								'ItemGirl.girl_id' ,
+								'Girl.name',
+								'COUNT(ItemGirl.girl_id) as num'
+						),
+						'group' => array(
+								'ItemGirl.girl_id'
+						),
+						'order' => array(
+								'num' =>'DESC'
+						),
+						'limit' => 15
+				)
+		);
+		return $girlData;
+	}
 }
