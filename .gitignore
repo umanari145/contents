@@ -4,6 +4,7 @@
 /app/Config/enviroment.php
 /app/Config/siteinfo.php
 /app/Console/Command/log.txt
+/app/Console/Command/log_order.txt
 /app/tmp
 /lib/Cake/Console/Templates/skel/tmp/
 /plugins
