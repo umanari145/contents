@@ -728,7 +728,7 @@ div.list_summary{
 }
 
 h2.contents_title{
-	height:50px;
+	height:70px;
 }
 
 h2.contents_title a:hover{
@@ -738,6 +738,22 @@ h2.contents_title a:hover{
 	-ms-filter:"alpha( opacity=80 )";
 }
 
+h2.left_tag{
+	font-weight:bold;
+	font-size:16pt;
+}
+
+h2.left_girl{
+	font-weight:bold;
+	font-size:16pt;
+}
+
+
+div.media-body a.item_title{
+	font-weight:bold;
+	font-size:12pt;
+}
+
 div.item_girl{
 	font-size:8pt;
 	height:70px;
@@ -745,10 +761,12 @@ div.item_girl{
 
 a.girl_name{
 	font-weight:bold;
+	background:#FF69B4;
 }
 
 a.girl_name:hover{
 	text-decoration:underline;
+	background:#FF69B4;
 	opacity:0.6;
 	filter:alpha(opacity=80);
 	-ms-filter:"alpha( opacity=80 )";
@@ -761,10 +779,11 @@ div.item_tag{
 
 a.tag_name{
 	font-weight:bold;
-
+	background:#00FFFF;
 }
 a.tag_name:hover{
 	text-decoration:underline;
+	background:#00FFFF;
 	opacity:0.6;
 	filter:alpha(opacity=80);
 	-ms-filter:"alpha( opacity=80 )";
@@ -786,11 +805,13 @@ div#contents_summary_view{
 }
 
 div.detail_girls{
+	height:60px;
 	margin-top:20px;
 	font-size:12pt;
 }
 
 div.detail_tags{
+	height:60px;
 	font-size:12pt;
 }
 

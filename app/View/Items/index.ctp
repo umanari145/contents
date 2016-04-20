@@ -10,7 +10,7 @@
     </span>
 <?php echo $this->element('pager'); ?>
 <?php foreach ($items as $item): ?>
-	<div class="media col-xs-6 col-sm-6 col-md-6 col-lg-6">
+	<div class="media col-xs-12 col-sm-12 col-md-12 col-lg-12 item_box">
 		<div class="pull-left">
             <?php
 
@@ -29,14 +29,17 @@
 
 		<div class="media-body">
 			<h2 class="media-heading contents_title">
-				<?php
-						echo $this->Html->link ( mb_substr ( $item['Item']['title'], 0, 50 ) . "..",
+				<p>タイトル</p> <?php
+					$suf = ( mb_strlen( $item['Item']['title']) > 50) ? ".." : "";
+						echo $this->Html->link ( mb_substr ( $item['Item']['title'], 0, 50 ) . $suf,
 								array (
 									'controller' => 'items',
 									'action' => 'view',
 								    $item['Item']['id']
-							)
-								);
+							),array(
+								'class' => 'item_title'
+						)
+					);
 							?>
 
 			</h2>
@@ -44,7 +47,7 @@
 			<!-- 女優 -->
 			<div class="item_girl">
 				<?php if( count($item['Girl']) > 0 ): ?>
-					<span>女優</span>
+					<span><strong>女優</strong></span>
 				<?php endif; ?>
 				<?php foreach ( $item["Girl"] as $count =>$girl ): ?>
 				<?php if( $count < 7 ): ?>
@@ -54,7 +57,7 @@
 									'action' => 'index',
 								     'girl' =>$girl['id'],
 							), array (
-									'class' => 'girl_name',
+									'class' => 'girl_name btn btn-default',
 							) );
 							?>
 				<?php endif; ?>
@@ -74,7 +77,7 @@
 									'action' => 'index',
 								     'tag' => $tag['id']
 							), array (
-									'class' => 'tag_name'
+									'class' => 'tag_name btn btn-default'
 							) );
 							?>
 				<?php endif; ?>
