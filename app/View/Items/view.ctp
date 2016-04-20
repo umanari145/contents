@@ -1,7 +1,7 @@
 <script type="text/javascript" >
 $(function(){
         $('.contents_image').magnificPopup({
-             delegate: 'a', 
+             delegate: 'a',
              type: 'image',
              gallery: { //ギャラリー表示にする
                  enabled:true
@@ -55,7 +55,7 @@ $(function(){
                                         'action' => 'index',
                                          'girl'=>$girl['id']
                                 ), array (
-                                        'class' => 'girl_name',
+                                        'class' => 'girl_name btn btn-default',
                                 ) );
                                 ?>
                     <?php endforeach; ?>
@@ -72,7 +72,7 @@ $(function(){
                                         'action' => 'index',
                                          'tag'=>$tag['id']
                                 ), array (
-                                        'class' => 'tag_name',
+                                        'class' => 'tag_name btn btn-default',
                                 ) );
                                 ?>
                     <?php endforeach; ?>

@@ -1,7 +1,7 @@
 
-<div class="row col-md-3">
+<div class="row col-md-4">
 
-    <h2>タグ</h2>
+    <h2 class="left_tag">タグ</h2>
 	<div id="tag_list_area" class="sidebar-nav">
 		<ul class="nav">
         <?php foreach ( $tagList as $tag): ?>
@@ -18,7 +18,7 @@
         </ul>
 	</div>
 
-    <h2>人気女優</h2>
+    <h2 class="left_girl">人気女優</h2>
 	<div id="girl_list_area" class="sidebar-nav">
 		<ul class="nav">
         <?php foreach ( $popularGirlList as $popularGirl ): ?>
