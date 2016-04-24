@@ -777,6 +777,10 @@ div.item_tag{
 	font-size:8pt;
 }
 
+div.item_volume span{
+	font-size:8pt;
+}
+
 a.tag_name{
 	font-weight:bold;
 	background:#00FFFF;
@@ -812,6 +816,10 @@ div.detail_girls{
 
 div.detail_tags{
 	height:60px;
+	font-size:12pt;
+}
+
+div.detail_volume{
 	font-size:12pt;
 }
 

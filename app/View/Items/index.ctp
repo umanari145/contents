@@ -83,6 +83,9 @@
 				<?php endif; ?>
 				<?php endforeach; ?>
 			</div>
+			<div class="item_volume">
+                <span>時間 </span><?php echo $item['Item']['volume']; ?>分
+			</div>
 
 		</div>
 	</div>

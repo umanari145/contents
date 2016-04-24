@@ -77,7 +77,10 @@ $(function(){
                                 ?>
                     <?php endforeach; ?>
                 </div>
-
+                
+                <div class="detail_volume">
+                     <span>時間</span>  <?php echo $itemDetail['Item']['volume']; ?>分
+                </div>
                 <?php if( DISP_COMMENT === true ): ?>
 
                 <div id="contents_comment">

@@ -62,7 +62,7 @@ class ItemsController extends AppController {
 
 		$sqlLog = $this->Item->getDataSource()->getLog(false, false);
 		$this->debugSQLlog( $sqlLog );
-
+        
         $this->set('search_name' , $searchName);
         $this->set('items',$this->Item->getItemList($items2));
 	}
