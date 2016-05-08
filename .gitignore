@@ -5,6 +5,8 @@
 /app/Config/siteinfo.php
 /app/Console/Command/log.txt
 /app/Console/Command/log_order.txt
+/app/Console/Command/logs/
+/app/Console/Command/log_girl.txt
 /app/ping_log.txt
 /app/tmp
 /lib/Cake/Console/Templates/skel/tmp/
