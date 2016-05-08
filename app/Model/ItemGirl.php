@@ -48,7 +48,7 @@ class ItemGirl extends Model {
 					'Girl.name'
 				),
 				'conditions' => array(
-					'ItemGirl.item_id ' => $itemIdArr
+					'ItemGirl.item_id ' => $itemIdArr,
 				)
 			)
 		);

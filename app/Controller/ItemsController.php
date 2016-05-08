@@ -233,6 +233,7 @@ class ItemsController extends AppController {
        $title = SITE_TITLE;//任意のサイト名
        $siteUrl = SITE_URL ;//任意のサイトURL
        $return = $client->query('weblogUpdates.ping',$title,$siteUrl);//Ping送信
+       echo "success";
        $this->autoRender = false;
     }
 

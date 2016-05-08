@@ -39,7 +39,8 @@ class Item extends AppModel {
                     'joinTable'              => 'item_tags',
                     'foreignKey'             => 'item_id',
                     'associationForeignKey'  => 'tag_id',
-                    'unique'                 => true
+                    'unique'                 => true,
+                    'conditions'             => array('Item.delete_flg' => false )
                 ),
             'Girl' =>
             array(
@@ -47,14 +48,15 @@ class Item extends AppModel {
                     'joinTable'              => 'item_girls',
                     'foreignKey'             => 'item_id',
                     'associationForeignKey'  => 'girl_id',
-                    'unique'                 => true
+                    'unique'                 => true,
+                    'conditions'             => array('Item.delete_flg' => false )
             )
 
     );
 
-    public $basic_sql=" select * from items as Item order by Item.item_order asc ";
+    public $basic_sql=" select * from items as Item where Item.delete_flg = false  order by Item.item_order asc ";
 
-    public $basic_sql_count = " select COUNT(Item.id) from items Item ";
+    public $basic_sql_count = " select COUNT(Item.id) from items Item  where Item.delete_flg = false  ";
 
     public function paginate($conditions,$fields,$order,$limit,$page=1,$recursive=null,$extra=array()){
         if($page==0){$page = 1;}
@@ -127,9 +129,11 @@ class Item extends AppModel {
             . "    item_girls ItemGirl "
             . "        LEFT JOIN "
             . "            girls Girl "
-            . "        ON  ItemGirl.girl_id = Girl.id JOIN "
+            . "        ON  ItemGirl.girl_id = Girl.id "
+            . "        JOIN "
             . "            items Item "
             . "        ON  ItemGirl.item_id = Item.id "
+            . "            and Item.delete_flg = false "
             . "    WHERE "
             . "        Girl.id = " . $girl_id
             . "    ORDER BY "
@@ -161,9 +165,11 @@ class Item extends AppModel {
             . "    item_tags ItemTag "
             . "        LEFT JOIN "
             . "            tags Tag "
-            . "        ON  ItemTag.tag_id = Tag.id JOIN "
+            . "        ON  ItemTag.tag_id = Tag.id "
+            . "        JOIN "
             . "            items Item "
             . "        ON  ItemTag.item_id = Item.id "
+            . "            and Item.delete_flg = false "
             . "    WHERE "
             . "        Tag.id = " . $tag_id
             . "    ORDER BY "
@@ -198,13 +204,14 @@ class Item extends AppModel {
                ." FROM  "
             ."     items as Item   "
             ." WHERE  "
-            ."    Item.title like '%". $keyword . "%'  "
+            ."  Item.delete_flg = false and  "
+            ."  (  Item.title like '%". $keyword . "%'  "
             ." OR "
             ."    Item.actress like '%" . $keyword. "%'  "
             ." OR "
             ."    Item.genre like '%" . $keyword ."%'  "
             ." OR "
-              ."   Item.comment like '%" . $keyword ."%'  "
+              ."   Item.comment like '%" . $keyword ."%' )  "
             ." ORDER BY  "
             ."    Item.item_order  "
             ." ASC ";
@@ -224,6 +231,8 @@ class Item extends AppModel {
      * @return 商品一覧の取得
      */
     public function getItemList( $contentsList ) {
+
+
         foreach ( $contentsList as &$contents ) {
             $this->addAttribute( $contents ,'index');
             $smallPictureUrl = $contents['Item']['contents_image'] ;
