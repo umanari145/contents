@@ -30,62 +30,62 @@ App::uses ( 'Model', 'Model' );
  */
 class Tag extends Model {
 
-	public $hasAndBelongsToMany = array(
-			'Item' =>
-			array(
-					'className'              => 'item',
-					'joinTable'              => 'item_tags',
-					'foreignKey'             => 'tag_id',
-					'associationForeignKey'  => 'item_id',
-					'unique'                 => true
-			)
-		);
+    public $hasAndBelongsToMany = array(
+            'Item' =>
+            array(
+                    'className'              => 'item',
+                    'joinTable'              => 'item_tags',
+                    'foreignKey'             => 'tag_id',
+                    'associationForeignKey'  => 'item_id',
+                    'unique'                 => true
+            )
+        );
 
 
 
-	/**
-	 * タグリストの出力
-	 *
-	 * @return id=>タグ名の配列
-	 */
-	public function getTagNameList(){
-		//スピードが遅くなるのではずす
-		$this->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
-		return $this->find('list',array('fields'=>array('Tag.id','Tag.tag')));
-	}
+    /**
+     * タグリストの出力
+     *
+     * @return id=>タグ名の配列
+     */
+    public function getTagNameList(){
+        //スピードが遅くなるのではずす
+        $this->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
+        return $this->find('list',array('fields'=>array('Tag.id','Tag.tag')));
+    }
 
-	public function getTagList(){
-		$tags = $this->find ( 'all', null );
+    public function getTagList(){
+        $tags = $this->find ( 'all', null );
 
-		$tagList =array();
+        $tagList =array();
 
-		foreach ( $tags as $tag ){
-			$tagHash =array(
-				'tagName' => $tag['Tag']['tag'],
-				'id'      => $tag['Tag']['id'],
-				'count' => count( $tag['Item'])
-			);
+        foreach ( $tags as $tag ){
+            $tagHash =array(
+                'tagName' => $tag['Tag']['tag'],
+                'id'      => $tag['Tag']['id'],
+                'count' => count( $tag['Item'])
+            );
 
-			$tagList[] = $tagHash;
-		}
+            $tagList[] = $tagHash;
+        }
 
-		foreach ((array) $tagList as $key => $value) {
-			$sort[$key] = $value['count'];
-		}
+        foreach ((array) $tagList as $key => $value) {
+            $sort[$key] = $value['count'];
+        }
 
-		array_multisort($sort, SORT_DESC, $tagList);
+        array_multisort($sort, SORT_DESC, $tagList);
 
-		$tagList2=array();
-		$loopCount = count( $tagList);
-		for($i=0; $i<$loopCount; $i++ ) {
-			if( $loopCount == 10 ) {
-				break;
-			}
+        $tagList2=array();
+        $loopCount = count( $tagList);
+        for($i=0; $i<$loopCount; $i++ ) {
+            if( $loopCount == 10 ) {
+                break;
+            }
 
-			$tagList2[] = $tagList[$i];
-		}
-		return $tagList2;
-	}
+            $tagList2[] = $tagList[$i];
+        }
+        return $tagList2;
+    }
 
     public function getIncludeTag(){
         $this->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
@@ -103,15 +103,15 @@ class Tag extends Model {
         $this->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
         $tag = $this->find("all",
             array(
-                'fields' =>array( 
-                    'id' 
+                'fields' =>array(
+                    'id'
                 ),
                 'conditions' => array(
-                    'Tag.tag'=> $tagName 
+                    'Tag.tag'=> $tagName
                 )
             )
         );
-        
+
         $tagId ="";
 
         if( !empty($tag[0]['Tag']['id'])){
@@ -127,14 +127,14 @@ class Tag extends Model {
      */
     public function saveTagEntity( $tagData ) {
 
-    	//既存のデータにあるかどうかの確認
+        //既存のデータにあるかどうかの確認
         if( $this->existTag( $tagData['genre_id']) === false ) {
-        	$tagEntity = array(
-        		'id'  => $tagData['genre_id'],
-        		'tag' => $tagData['name']
-        	);
-        	$this->create();
-        	$this->save( $tagEntity);
+            $tagEntity = array(
+                'id'  => $tagData['genre_id'],
+                'tag' => $tagData['name']
+            );
+            $this->create();
+            $this->save( $tagEntity );
         }
 
     }
@@ -146,12 +146,12 @@ class Tag extends Model {
      * @return true(あり)/false()
      */
     public function existTag( $tagId ) {
-    	$count = $this->find('count',array(
-    			'conditions'=>array(
-    					'Tag.id' => $tagId
-    			)
-    	));
-    	return  ( $count >0 ) ? true:false;
+        $count = $this->find('count',array(
+                'conditions'=>array(
+                        'Tag.id' => $tagId
+                )
+        ));
+        return  ( $count >0 ) ? true:false;
     }
 
     /**
@@ -160,17 +160,18 @@ class Tag extends Model {
      *
      */
     public function makeTagDataWhereInItemId ( $itemIdArr = array() ) {
-    	$sql =" SELECT  "
-			."     Item.id, "
-			."     ItemTag.tag_id, "
-			."     Tag.tag "
-			." FROM "
-			."     item_tags ItemTag JOIN items Item "
-			." ON  ItemTag.item_id = Item.id "
-			."     LEFT JOIN tags Tag "
-			."     ON  ItemTag.tag_id = Tag.id "
-			." WHERE "
-			."     ItemTag.item_id IN( :item_id_str ); ";
+        $sql =" SELECT  "
+            ."     Item.id, "
+            ."     ItemTag.tag_id, "
+            ."     Tag.tag "
+            ." FROM "
+            ."     item_tags ItemTag JOIN items Item "
+            ." ON  ItemTag.item_id = Item.id "
+            ."     LEFT JOIN tags Tag "
+            ."     ON  ItemTag.tag_id = Tag.id "
+            ." WHERE "
+            ."     ItemTag.item_id IN( :item_id_str ); ";
 
     }
+
 }
