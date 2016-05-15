@@ -338,7 +338,7 @@ class Item extends AppModel {
     public function existItem( $itemId ) {
         $itemCount = $this->find('count',array(
             'conditions'=>array(
-                    'Item.id' => $itemId
+                    'Item.original_id' => $itemId
             )
         ));
         return  ( $itemCount >0 ) ? true:false;
@@ -393,4 +393,20 @@ class Item extends AppModel {
         return $status;
     }
 
+    public function existOriginalItem(){
+        $itemData = $this->find('all',array(
+                'fields'=>array(
+                       'id',
+                       'title',
+                       'created',
+                       'item_order'
+                ),
+                'conditions' => array(
+                    'item_order' => 'ASC',
+                    'modified'   => 'DESC'
+                )
+        ));
+        return $itemData;
+    }
+    
 }

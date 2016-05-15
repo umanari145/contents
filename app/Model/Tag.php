@@ -99,6 +99,27 @@ class Tag extends Model {
         return $tagList;
     }
 
+    public function getfindTagIdFromName( $tagName ){
+        $this->unbindModel(array('hasAndBelongsToMany'=>'Item'), true);
+        $tag = $this->find("all",
+            array(
+                'fields' =>array( 
+                    'id' 
+                ),
+                'conditions' => array(
+                    'Tag.tag'=> $tagName 
+                )
+            )
+        );
+        
+        $tagId ="";
+
+        if( !empty($tag[0]['Tag']['id'])){
+            $tagId = $tag[0]['Tag']['id'];
+        }
+
+        return $tagId;
+    }
     /**
      * タグの登録
      *
