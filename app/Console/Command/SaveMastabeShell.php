@@ -1,45 +1,36 @@
 <?php
-App::uses ( 'AppShell', 'Console/Command' );
 
-class SaveMastabeShell extends AppShell {
+App::uses ( 'SaveContentsShell', 'Console/Command' );
+class SaveMastabeShell extends SaveContentsShell {
 
     // モデルを読み込む
     public $uses = array(
             'Item',
             'Tag',
-            'Girl',
-            'ItemGirl',
             'ItemTag',
-            'ItemImage'
     );
-    public function main() {
-        $this->out ( "start_batch" );
-        $this->out ( date ( "Y-m-d H:i:s" ) );
-        $this->getItemData ();
-        $this->out ( date ( "Y-m-d H:i:s" ) );
-        $this->out ( "last_batch" );
-    }
+
+
     public function getItemData() {
-       
-       $html = file_get_contents( SECOND_URL ); 
-       
+
+       $html = file_get_contents( SECOND_URL );
+
        //リストページのデータを取得
        if( !empty( $html) ) {
-           preg_match_all('/.*?<span class="duration">(.*?)<\/span>.*?<div class="info">.*?<h2><a href="(.*?)">(.*?)<\/a><\/h2>.*?/s', $html , $res );
-           
-             
+           preg_match_all('/.*?<span class="duration">(.*?)<\/span>.*?<div class="info">.*?<h2><a href="\/video\/(.*?)\/">(.*?)<\/a><\/h2>.*?/s', $html , $res );
+
+
            $durationArr    = ( !empty( $res[1])) ? $res[1]:array() ;
-           
            $totalItemArr = array();
            foreach( $durationArr as $no => $duration ){
-               
-               $link  = ( !empty( $res[2][$no])) ? $res[2][$no] : "";
+
+               $id    = ( !empty( $res[2][$no])) ? $res[2][$no] : "";
                $title = ( !empty( $res[3][$no])) ? $res[3][$no] : "";
 
                $item = array(
-                   'time'  => $duration,
-                   'link'  => $link,
-                   'title' => $title
+                   'volume'      => $duration,
+                   'original_id' => "masta" . $id,
+                   'title'       => $title
                );
 
                $totalItemArr[] = $item;
@@ -49,30 +40,29 @@ class SaveMastabeShell extends AppShell {
     }
 
     private function extractContentsData( $totalItemArr ){
-        
+
         foreach( $totalItemArr as &$item) {
-             
-            $link = $item['link'];
-            $html = file_get_contents( "http://masutabe.info" . $link );
-            
+
+            $link = $item['original_id'];
+            $html = file_get_contents( "http://masutabe.info/video/" . $link ."/" );
+            $html = file_get_contents("http://masutabe.info/video/132091/");
             if( !empty( $html ) ) {
+            	echo $html;
                 preg_match_all( '/.*?<iframe src="(.*?)".*?/s', $html , $res2);
-                
+
                 $movieUrl   = ( !empty( $res2[1][0])) ? $res2[1][0]:"" ;
-                preg_match_all( '/<ul class="tagList">.*?<li><a href=".*?">(.*?)<\/a><\/li>.*?<\/ul>/s', $html , $res3);
-                
-                $tagStr ="";
-                if( !empty( $res3[0][0])) {
-                    $tagStr = strip_tags( $res3[0][0] ); 
-                } 
+                if( $movieUrl === "") {
+                	continue;
+                }
+                //マルチバイト対応
+                preg_match_all( '/.*?<li><a href="\/search\/[^\x01-\x7E]*?\/">([^\x01-\x7E]*?)<\/a><\/li>.*?/s', $html , $res3);
+                $tagArr = ( !empty( $res3[1]) )? $res3[1]:array();
                 $item['movie_url'] = $movieUrl;
-                $item['tagStr']    = $tagStr;
+                $this->saveItemAndTag( $item, $tagArr );
+
             }
         }
 
-        var_dump( $totalItemArr);
-        exit;
-    
     }
 
 }

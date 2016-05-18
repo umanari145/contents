@@ -10,22 +10,8 @@ class SaveContentsShell extends AppShell {
             'ItemTag',
             'ItemImage'
     );
-    public function main() {
 
-        $this->loadModel('TransactionManager');
-        $transaction = $this->TransactionManager->begin();
-        try {
-            $this->out ( "start_batch" );
-            $this->out ( date ( "Y-m-d H:i:s" ) );
-            $this->getItemData ();
-            $this->out ( date ( "Y-m-d H:i:s" ) );
-            $this->out ( "last_batch" );
-            $this->TransactionManager->commit($transaction);
-        }catch(Exception $e) {
-           echo $e->getMessage();
-           $this->TransactionManager->rollback($transaction);
-        }
-    }
+
     public function getItemData() {
 
        $html = file_get_contents( FIRST_URL );
@@ -33,9 +19,7 @@ class SaveContentsShell extends AppShell {
        //リストページのデータを取得
        if( !empty( $html) ) {
            preg_match_all('/<div class="thumb">(.*?)<\/div>.*?<div class="article_content">.*?<\/div>/s', $html , $res );
-
            $imageDataArr    = ( !empty( $res[1])) ? $res[1]:array() ;
-
            $this->extractContentsData( $imageDataArr );
        }
     }
@@ -67,7 +51,7 @@ class SaveContentsShell extends AppShell {
                      $tagArr = ( !empty( $res3[1]) )? $res3[1]:array();
 
                      $itemData = array(
-                         'original_id'  => $id,
+                         'original_id'  => "poyo" . $id,
                          'title'        => $title,
                          'movie_url'    => $movieUrl,
                          'volume'       => $time
@@ -84,15 +68,15 @@ class SaveContentsShell extends AppShell {
      * @param unknown $itemData 商品データ
      * @param unknown $tagArr タグ配列
      */
-    private function saveItemAndTag( $itemData , $tagArr ){
+    protected function saveItemAndTag( $itemData , $tagArr ){
         if( $this->Item->existItem( $itemData['original_id'] ) === false ){
             $this->Item->create();
             $this->Item->save( $itemData );
             $itemId =  $this->Item->getLastInsertId();
-            $this->log( "id : ". $itemId . "  title : " . $itemData);
+            $this->log( " id : ". $itemId . "  title : " . $itemData['title'], 'debug');
             foreach ( $tagArr as &$tag ) $tag = $this->Tag->getfindTagIdFromName( $tag );
             $this->ItemTag->saveItemTagRelation( $itemId, $tagArr );
-
+            exit();
         }
     }
 

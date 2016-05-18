@@ -110,6 +110,9 @@ class ItemTag extends Model {
 
     	$tagArr2 = array();
         foreach( $tagIdArr as $tagId ){
+
+        	if( empty($tagId)) continue;
+
             $tagEntity = array(
                     'item_id' => $itemId,
                     'tag_id'  => $tagId

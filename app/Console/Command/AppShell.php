@@ -27,4 +27,22 @@ App::uses('Shell', 'Console');
  */
 class AppShell extends Shell {
 
+
+    public function main() {
+
+        $this->loadModel('TransactionManager');
+        $transaction = $this->TransactionManager->begin();
+        try {
+            $this->out ( "start_batch" );
+            $this->out ( date ( "Y-m-d H:i:s" ) );
+            $this->getItemData ();
+            $this->out ( date ( "Y-m-d H:i:s" ) );
+            $this->out ( "last_batch" );
+            $this->TransactionManager->commit($transaction);
+        }catch(Exception $e) {
+            $this->log( $e->getMessage(),'error');
+            $this->TransactionManager->rollback($transaction);
+        }
+    }
+
 }
