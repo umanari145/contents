@@ -70,13 +70,13 @@ class SaveContentsShell extends AppShell {
      */
     protected function saveItemAndTag( $itemData , $tagArr ){
         if( $this->Item->existItem( $itemData['original_id'] ) === false ){
+        	if( empty($itemData['movie_url']) ) continue;
             $this->Item->create();
             $this->Item->save( $itemData );
             $itemId =  $this->Item->getLastInsertId();
             $this->log( " id : ". $itemId . "  title : " . $itemData['title'], 'debug');
             foreach ( $tagArr as &$tag ) $tag = $this->Tag->getfindTagIdFromName( $tag );
             $this->ItemTag->saveItemTagRelation( $itemId, $tagArr );
-            exit();
         }
     }
 
