@@ -45,10 +45,8 @@ class SaveMastabeShell extends SaveContentsShell {
 
             $link = $item['original_id'];
             $html = file_get_contents( "http://masutabe.info/video/" . $link ."/" );
-            $html = file_get_contents("http://masutabe.info/video/132091/");
             if( !empty( $html ) ) {
-            	echo $html;
-                preg_match_all( '/.*?<iframe src="(.*?)".*?/s', $html , $res2);
+                preg_match_all( '/.*?(<iframe src=.*?<\/iframe>).*?/s', $html , $res2);
 
                 $movieUrl   = ( !empty( $res2[1][0])) ? $res2[1][0]:"" ;
                 if( $movieUrl === "") {

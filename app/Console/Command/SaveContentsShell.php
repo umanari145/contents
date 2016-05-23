@@ -42,7 +42,7 @@ class SaveContentsShell extends AppShell {
                  $html = file_get_contents( FIRST_DOMAIN . "video.php?id=" . $id );
 
                  if( !empty( $html ) ) {
-                     preg_match_all( '/.*?<li><iframe src="(.*?)".*?/s', $html , $res2);
+                     preg_match_all( '/.*?<li>(<iframe src=.*?<\/iframe>).*?/s', $html , $res2);
 
                      $movieUrl   = ( !empty( $res2[1][0])) ? $res2[1][0]:"" ;
 
@@ -70,7 +70,6 @@ class SaveContentsShell extends AppShell {
      */
     protected function saveItemAndTag( $itemData , $tagArr ){
         if( $this->Item->existItem( $itemData['original_id'] ) === false ){
-        	if( empty($itemData['movie_url']) ) continue;
             $this->Item->create();
             $this->Item->save( $itemData );
             $itemId =  $this->Item->getLastInsertId();
