@@ -723,12 +723,16 @@ pre {
 	display:none;
 }
 
+#nav-header-title{
+	font-size:28px;
+}
+
 div.list_summary{
 	margin-top:25px;
 }
 
 h2.contents_title{
-	height:70px;
+	height:40px;
 }
 
 h2.contents_title a:hover{
@@ -739,6 +743,7 @@ h2.contents_title a:hover{
 }
 
 h2.left_tag{
+	padding:20px;
 	font-weight:bold;
 	font-size:16pt;
 }
@@ -750,8 +755,7 @@ h2.left_girl{
 
 
 div.media-body a.item_title{
-	font-weight:bold;
-	font-size:12pt;
+	font-size:8pt;
 }
 
 div.item_girl{
@@ -772,8 +776,12 @@ a.girl_name:hover{
 	-ms-filter:"alpha( opacity=80 )";
 }
 
+div.item_box{
+	height:200px;
+}
+
 div.item_tag{
-    height:40px;
+    height:80px;
 	font-size:8pt;
 }
 
@@ -782,6 +790,7 @@ div.item_volume span{
 }
 
 a.tag_name{
+	margin:2px;
 	font-weight:bold;
 	background:#00FFFF;
 }
@@ -851,10 +860,8 @@ div#site_info_id{
 }
 
 div.sidebar-nav{
-   font-size:14pt;
-   margin-top:20px;
+   font-size:10pt;
 }
-
 
 div.sidebar-nav li a:hover{
 	text-decoration: underline;

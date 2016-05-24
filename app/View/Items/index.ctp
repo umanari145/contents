@@ -9,8 +9,9 @@
 	    ?>
     </span>
 <?php echo $this->element('pager'); ?>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 <?php foreach ($items as $item): ?>
-	<div class="media col-xs-12 col-sm-12 col-md-12 col-lg-12 item_box">
+	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 item_box">
 		<div class="pull-left">
             <?php
 
@@ -29,7 +30,7 @@
 
 		<div class="media-body">
 			<h2 class="media-heading contents_title">
-				<p>タイトル</p> <?php
+				 <?php
 					$suf = ( mb_strlen( $item['Item']['title']) > 50) ? ".." : "";
 						echo $this->Html->link ( mb_substr ( $item['Item']['title'], 0, 50 ) . $suf,
 								array (
@@ -43,27 +44,9 @@
 							?>
 
 			</h2>
-
-			<!-- 女優 -->
-			<div class="item_girl">
-				<?php if( count($item['Girl']) > 0 ): ?>
-					<span><strong>女優</strong></span>
-				<?php endif; ?>
-				<?php foreach ( $item["Girl"] as $count =>$girl ): ?>
-				<?php if( $count < 7 ): ?>
-				<?php
-						echo $this->Html->link ( $girl['name'], array (
-									'controller' => 'items',
-									'action' => 'index',
-								     'girl' =>$girl['id'],
-							), array (
-									'class' => 'girl_name btn btn-default',
-							) );
-							?>
-				<?php endif; ?>
-				<?php endforeach; ?>
+			<div class="item_volume">
+                <span>時間 </span><?php echo $item['Item']['volume']; ?>分
 			</div>
-
             <!-- タグ -->
 			<div class="item_tag">
 				<?php if( count($item['Tag']) > 0 ): ?>
@@ -77,17 +60,16 @@
 									'action' => 'index',
 								     'tag' => $tag['id']
 							), array (
-									'class' => 'tag_name btn btn-default'
+									'class' => 'tag_name btn btn-xs'
 							) );
 							?>
 				<?php endif; ?>
 				<?php endforeach; ?>
 			</div>
-			<div class="item_volume">
-                <span>時間 </span><?php echo $item['Item']['volume']; ?>分
-			</div>
+
 
 		</div>
 	</div>
 <?php endforeach;?>
+</div>
 <?php echo $this->element('pager'); ?>
