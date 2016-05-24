@@ -43,15 +43,17 @@ class AppController extends Controller {
             $this->Session->write("tagList" , $tagList);
         }
 
-        $popularGirlList = $this->Session->read("popularGirlList");
-        if( empty( $popularGirlList)) {
-            $popularGirlList = $this->ItemGirl->calculateGirlCount();
-            $this->Session->write("popularGirlList", $popularGirlList);
-        }
+        //女優は一時外す
+        //$popularGirlList = $this->Session->read("popularGirlList");
+        //if( empty( $popularGirlList)) {
+        //    $popularGirlList = $this->ItemGirl->calculateGirlCount();
+        //    $this->Session->write("popularGirlList", $popularGirlList);
+        //}
 
         $this->set( 'siteUrl' , SITE_URL);
         $this->set( 'tagList' , $tagList);
-        $this->set( 'popularGirlList' ,$popularGirlList );
+        //女優は一時外す
+        //$this->set( 'popularGirlList' ,$popularGirlList );
     }
 
     public function debugSQLlog( $sqlLog = array()){

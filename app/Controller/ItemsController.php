@@ -36,7 +36,7 @@ class ItemsController extends AppController {
 /**
  * @var array
  */
-	public $uses = array('Item','Tag','Girl','ItemGirl','ItemTag','ItemImage');
+	public $uses = array('Item','Tag','ItemTag','ItemImage');
 
 	public $layout ="contents";
 
@@ -62,7 +62,7 @@ class ItemsController extends AppController {
 
 		$sqlLog = $this->Item->getDataSource()->getLog(false, false);
 		$this->debugSQLlog( $sqlLog );
-        
+
         $this->set('search_name' , $searchName);
         $this->set('items',$this->Item->getItemList($items2));
 	}
@@ -81,16 +81,16 @@ class ItemsController extends AppController {
 		}
 
 		$tagData2 = $this->ItemTag->makeTagDataWhereInItemId( $itemIdArr );
-		$girlData2 = $this->ItemGirl->makeGirlDataWhereInItemId( $itemIdArr );
+		//$girlData2 = $this->ItemGirl->makeGirlDataWhereInItemId( $itemIdArr );
 
 		$tagHashGroupByItemId  = _::groupBy( $tagData2, function($ele) { return $ele["item_id"]; } );
-		$girlHashGroupByItemId = _::groupBy( $girlData2, function($ele) { return $ele["item_id"]; } );
+		$girlHashGroupByItemId = array();
 
 		//女優、タグデータと結合する
 		foreach ( $items as &$item) {
 			list( $tagData3, $girlData3) = $this->merggeTgAndGirls( $item['Item']['id'] , $tagHashGroupByItemId , $girlHashGroupByItemId );
 			$item['Tag'] = $tagData3;
-			$item['Girl'] = $girlData3;
+			//$item['Girl'] = $girlData3;
 
 		}
 		return $items;
@@ -119,15 +119,15 @@ class ItemsController extends AppController {
 
 		$girlData3 = array();
 		//女優データの処理
-		if( isset($girlHashGroupByItemId[$itemId]) === true ){
-			$girlEachDataArr = $girlHashGroupByItemId[$itemId];
-			foreach ( $girlEachDataArr as $girl) {
-				$girlData3[] = array(
-						'id'  => $girl['girl_id'],
-						'name' => $girl['name']
-				);
-			}
-		}
+	//if( isset($girlHashGroupByItemId[$itemId]) === true ){
+	//	$girlEachDataArr = $girlHashGroupByItemId[$itemId];
+	//	foreach ( $girlEachDataArr as $girl) {
+	//		$girlData3[] = array(
+	//				'id'  => $girl['girl_id'],
+	//				'name' => $girl['name']
+	//		);
+	//	}
+	//}
 		return array( $tagData3, $girlData3);
 	}
 
@@ -220,10 +220,12 @@ class ItemsController extends AppController {
 			throw new NotFoundException ( '存在しない商品です。' );
 		}
         $itemImage = array();
+
         list( $itemImage['small'], $itemImage['large'] ) = $this->ItemImage->getItemImage($id);
-		$this->set ( 'itemImage' , $itemImage['small']);
+        $this->set ( 'itemImage' , $itemImage['small']);
 		$this->set ( 'largeItemImage' , $itemImage['large']);
-		$this->set ( 'itemDetail',$this->Item->getItemDetail( $id) );
+		$itemDetail = $this->Item->getItemDetail($id);
+		$this->set ( 'itemDetail', $itemDetail );
 	}
 
     public function ping(){

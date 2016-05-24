@@ -30,29 +30,7 @@ App::uses ( 'AppModel', 'Model' );
  */
 class Item extends AppModel {
 
-    public $name ="Item";
-
-    public $hasAndBelongsToMany = array(
-            'Tag' =>
-                array(
-                    'className'              => 'tag',
-                    'joinTable'              => 'item_tags',
-                    'foreignKey'             => 'item_id',
-                    'associationForeignKey'  => 'tag_id',
-                    'unique'                 => true,
-                    'conditions'             => array('Item.delete_flg' => false )
-                ),
-            'Girl' =>
-            array(
-                    'className'              => 'girl',
-                    'joinTable'              => 'item_girls',
-                    'foreignKey'             => 'item_id',
-                    'associationForeignKey'  => 'girl_id',
-                    'unique'                 => true,
-                    'conditions'             => array('Item.delete_flg' => false )
-            )
-
-    );
+   public $name ="Item";
 
     public $basic_sql=" select * from items as Item where Item.delete_flg = false  order by Item.item_order asc ";
 
@@ -207,8 +185,6 @@ class Item extends AppModel {
             ."  Item.delete_flg = false and  "
             ."  (  Item.title like '%". $keyword . "%'  "
             ." OR "
-            ."    Item.actress like '%" . $keyword. "%'  "
-            ." OR "
             ."    Item.genre like '%" . $keyword ."%'  "
             ." OR "
               ."   Item.comment like '%" . $keyword ."%' )  "
@@ -255,14 +231,11 @@ class Item extends AppModel {
 
         $params = array(
                 'conditions' => array (
-                        'id' => $id
+                        'Item.id' => $id
                 )
         );
 
         $contentsDetail = $this->find ( 'first', $params);
-        $largePictrureUrl =  str_replace('ps.jpg','pl.jpg',$contentsDetail['Item']['contents_image']);
-        $contentsDetail ['Item'] ['largePictureUrl'] = $largePictrureUrl;
-
         $this->addAttribute( $contentsDetail , 'detail');
         return $contentsDetail;
     }
@@ -274,22 +247,6 @@ class Item extends AppModel {
     */
     private function addAttribute( &$item = null , $type ="index" ){
 
-        $size['width'] = 0;
-        $size['height'] = 0;
-        switch( $type ){
-            case 'index':
-            $size['width'] = S_MOVE_WIDTH;
-            $size['height'] = S_MOVE_HEIGHT;
-            break;
-            case 'detail':
-            $size['width'] = MOVE_WIDTH;
-            $size['height'] = MOVE_HEIGHT;
-            break;
-        }
-
-        if( $this->is_url_exist( $item['Item']['move_url']) ){
-        $item['Item']['moveUrl'] = sprintf('<iframe width="'. $size['width']. '" height="' . $size['height'] . '" src="' .$item['Item']['move_url'] . '" scrolling="no" frameborder="0" allowfullscreen></iframe>' );
-        }
    }
 
     /**
@@ -310,7 +267,6 @@ class Item extends AppModel {
                 'conditions' =>array(
                         'OR'=>array(
                             'Item.title LIKE' => '%'. $keyword .'%',
-                            'Item.actress LIKE' => '%'. $keyword .'%',
                             'Item.genre LIKE' => '%'. $keyword .'%',
                             'Item.comment LIKE' => '%'. $keyword .'%'
                         )
@@ -408,5 +364,5 @@ class Item extends AppModel {
         ));
         return $itemData;
     }
-    
+
 }
