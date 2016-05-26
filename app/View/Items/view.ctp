@@ -1,12 +1,12 @@
 <div class="row">
     <h2><p id="contents_title"><?php echo $itemDetail['Item']['title'];?></p></h2>
     <div class="media">
-        <div class="pull-left">
+        <div class="pull-center">
 
-        <?php if( !empty( $itemDetail['Item']['movieUrl'])) : ?>
+        <?php if( !empty( $itemDetail['Item']['movie_url'])) : ?>
         <p id="movie_area">
         <?php
-            echo $itemDetail['Item']['movieUrl'];
+            echo $itemDetail['Item']['movie_url'];
         ?>
         </p>
         <?php endif; ?>
@@ -26,7 +26,7 @@
                             echo $this->Html->link ( $tag['tag'], array (
                                         'controller' => 'items',
                                         'action' => 'index',
-                                         'tag'=>$tag['id']
+                                         'tag'=>$tag['tag_id']
                                 ), array (
                                         'class' => 'tag_name btn btn-default',
                                 ) );

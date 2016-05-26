@@ -225,6 +225,8 @@ class ItemsController extends AppController {
         $this->set ( 'itemImage' , $itemImage['small']);
 		$this->set ( 'largeItemImage' , $itemImage['large']);
 		$itemDetail = $this->Item->getItemDetail($id);
+		$tagArr = $this->ItemTag->makeTagDataWhereInItemId( array($id));
+		$itemDetail['Tag'] = $tagArr;
 		$this->set ( 'itemDetail', $itemDetail );
 	}
 

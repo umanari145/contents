@@ -1,13 +1,12 @@
 
 
 <div class="rows col-lg-12 siteinfo">
-    <div id="site_info_id" class="text-center">JK-stationとは？</div>
-    <ul class="siteinfo_list">
-        <li>JK-stationは成人向けのアダルトサイトです。18歳未満のかたは閲覧できません。</li>
-        <li>JK-stationはアダルト動画に特化したサイトです。</li>
-        <li>JK-stationはインターネット上に公開されているアダルト動画を収集し、女優とタグによりカテゴライズしてデータベースに保存をしています。</li>
-        <li>JK-stationからリンク先への動画サイトの閲覧、サービスのご利用などは各自の責任で行ってください。リンク先のサービスにおいて発生したいかなる事象にも当サイトは一切の責任を負いません。</li>
-        <li>JK-station自体では動画のアップロード行為を一切行っておりません。</li>
-        <li>JK-stationは動画の収集、カテゴライズが目的であり、著作権の侵害を助長しているわけではありません。動画のご利用については各個人の責任でお願いします。</li>
+    <div id="site_info_id" class="text-center">JK-Collectionについて</div>
+    <ul class="siteinfo_account_list">
+        <li>JK-Collectionは成人向けのアダルトサイトです。18歳未満のかたはブラウザを閉じてください。</li>
+        <li>JK-CollectionはJK(女子校生)のアダルト動画に特化したサイトです。</li>
+        <li>JK-Collectionはインターネット上のJKのアダルト動画を収集し、タグをつけデータベースに保存をしています。</li>
+        <li>JK-Collectionからリンク先の動画サイトの閲覧、サービスのご利用などに関して一切の責任を取りません。リンク先の動画の閲覧、サービスのご利用に関しては各個人の責任でお願いします。</li>
+        <li>JK-Collectionはみやすいやすように動画を収集しているだけであり、著作権の侵害を助長しているわけではありません。</li>
     </ul>
 </div>
