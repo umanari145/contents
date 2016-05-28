@@ -4,7 +4,7 @@
     <h2><p id="contents_title"><?php echo $itemDetail['Item']['title'];?></p></h2>
 
     <!-- 動画エリア -->
-    <div class="media col-xs-12 col-sm-8 col-md-10 col-lg-10">
+    <div id="detail_move_area" class="media">
         <?php if( !empty( $itemDetail['Item']['movie_url'])) : ?>
         <?php echo $itemDetail['Item']['movie_url']; ?>
         <?php endif; ?>

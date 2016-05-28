@@ -919,6 +919,15 @@ p.contents_single_image{
    float:left;
 }
 
+div#detail_move_area{
+  clear:both;
+}
+
+div#detail_move_area iframe{
+  width:100%;
+  height:100%;
+}
+
 .contents_link{
   clear:both;
 }
