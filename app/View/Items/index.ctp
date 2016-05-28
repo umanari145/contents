@@ -14,14 +14,15 @@
 	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 item_box">
 		<div class="pull-left">
             <?php
-
 					echo $this->Html->image ( $item ['Item'] ['smallPictureUrl'], array (
 								'url' => array (
 										'controller' => 'items',
 										'action' => 'view',
 										$item ['Item'] ['id']
 								),
-								'class' => 'contents_image',
+							    'width'  => 150,
+							 	'height' => 120 ,
+							    'class' => 'contents_image',
 								'id' => 'contents_image_id_' . $item ['Item'] ['id']
 						) );
 	?>
@@ -45,7 +46,7 @@
 
 			</h2>
 			<div class="item_volume">
-                <span>時間 </span><?php echo $item['Item']['volume']; ?>分
+                <span>時間 </span><?php echo $item['Item']['volume']; ?>
 			</div>
             <!-- タグ -->
 			<div class="item_tag">

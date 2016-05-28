@@ -17,14 +17,16 @@ class SaveJksexvideoShell extends SaveContentsShell {
 
        //リストページのデータを取得
        if( !empty( $html) ) {
-           preg_match_all('/.*?<span.*?class="deco"><a.*?href=".*?jk(\d*?)" title="(.*?)">.*?<\/span>.*?/s', $html , $res );
+           preg_match_all('/.*?<span.*?class="deco"><a.*?href=".*?jk(\d*?)" title="(.*?)">.*?<\/span>.*?<img.*?data-lazy-src="(.*?)".*?>.*?/s', $html , $res );
 
-           $idArr  = ( !empty( $res[1])) ? $res[1] : array();
+           $idArr     = ( !empty( $res[1])) ? $res[1] : array();
+           $imageArr  = ( !empty( $res[3])) ? $res[3] : array();
 
            foreach( $idArr as $no => $id ){
 
                $title = ( !empty( $res[2][$no])) ? $res[2][$no] : "";
                $html2 = file_get_contents( THIRD_URL ."jk" . $id );
+               $image = ( !empty( $res[3][$no])) ? $res[3][$no] : "";
 
                if( !empty( $html2 ) ) {
                    preg_match_all('/.*?<iframe.*?src="(.*?)".*?>.*?/s', $html2 , $res2 );
@@ -40,10 +42,12 @@ class SaveJksexvideoShell extends SaveContentsShell {
                    $tagArr =  ( !empty( $res3[1])) ? $res3[1] : array();
 
                }
+
                $item = array(
-                  "original_id" => "jk" . $id ,
-                  "title"       => $title,
-                  "movie_url"   => $url
+                  "original_id"    => "jk" . $id ,
+                  "title"          => $title,
+                  "contents_image" => $image,
+                  "movie_url"      => $url
                );
                $this->saveItemAndTag( $item, $tagArr );
            }

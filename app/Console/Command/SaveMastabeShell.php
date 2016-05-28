@@ -17,7 +17,7 @@ class SaveMastabeShell extends SaveContentsShell {
 
        //リストページのデータを取得
        if( !empty( $html) ) {
-           preg_match_all('/.*?<img src="(.*?)">.*?<span class="duration">(.*?)<\/span>.*?<div class="info">.*?<h2><a href="\/video\/(.*?)\/">(.*?)<\/a><\/h2>.*?/s', $html , $res );
+           preg_match_all('/.*?<figure>.*?<img src="(.*?)">.*?<span class="duration">(.*?)<\/span>.*?<div class="info">.*?<h2><a href="\/video\/(.*?)\/">(.*?)<\/a><\/h2>.*?<\/figure>.*?/s', $html , $res );
 
            $durationArr    = ( !empty( $res[2])) ? $res[2]:array() ;
            $totalItemArr = array();
@@ -26,13 +26,12 @@ class SaveMastabeShell extends SaveContentsShell {
                $image  = ( !empty( $res[1][$no])) ? $res[1][$no] : "";
                $id     = ( !empty( $res[3][$no])) ? $res[3][$no] : "";
                $title  = ( !empty( $res[4][$no])) ? $res[4][$no] : "";
-var_dump( $image);
-exit;
-               $item = array(
 
-                   'volume'      => $duration,
-                   'original_id' => "masta" . $id,
-                   'title'       => $title
+               $item = array(
+                   'contents_image' => $image,
+                   'volume'         => $duration,
+                   'original_id'    => $id,
+                   'title'          => $title
                );
 
                $totalItemArr[] = $item;
@@ -48,13 +47,14 @@ exit;
         foreach( $totalItemArr as &$item) {
 
             $link = $item['original_id'];
-            $html = file_get_contents( "http://masutabe.info/video/" . $link ."/" );
-            if( !empty( $html ) ) {
-                preg_match_all( '/.*?(<iframe src=.*?<\/iframe>).*?/s', $html , $res2);
+            $html = file_get_contents( SECOND_DOMAIN ."video/" . $link ."/" );
 
+            if( !empty( $html ) ) {
+                preg_match_all( '/.*?(<iframe.*?<\/iframe>).*?/s', $html , $res2);
+                $item['original_id'] = "masta". $item['original_id'];
                 $movieUrl   = ( !empty( $res2[1][0])) ? $res2[1][0]:"" ;
                 if( $movieUrl === "") {
-                	continue;
+                    continue;
                 }
                 //マルチバイト対応
                 preg_match_all( '/.*?<li><a href="\/search\/[^\x01-\x7E]*?\/">([^\x01-\x7E]*?)<\/a><\/li>.*?/s', $html , $res3);
@@ -62,6 +62,8 @@ exit;
                 $item['movie_url'] = $movieUrl;
                 $this->saveItemAndTag( $item, $tagArr );
 
+            }else{
+                $this->log( " cannnot get masta" . $id , 'debug');
             }
         }
 

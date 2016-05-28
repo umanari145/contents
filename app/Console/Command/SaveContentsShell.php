@@ -38,8 +38,7 @@ class SaveContentsShell extends AppShell {
              $image  = ( !empty( $res[2][0])) ? $res[2][0]:"" ;
              $title  = ( !empty( $res[3][0])) ? $res[3][0]:"" ;
              $time   = ( !empty( $res[4][0])) ? $res[4][0]:"" ;
-var_dump( $image);
-exit;
+
              if( $id !== "" ){
 
                  $html = file_get_contents( FIRST_DOMAIN . "video.php?id=" . $id );
@@ -54,12 +53,15 @@ exit;
                      $tagArr = ( !empty( $res3[1]) )? $res3[1]:array();
 
                      $itemData = array(
-                         'original_id'  => "poyo" . $id,
-                         'title'        => $title,
-                         'movie_url'    => $movieUrl,
-                         'volume'       => $time
+                         'original_id'     => "poyo" . $id,
+                         'contents_image'  => $image,
+                         'title'           => $title,
+                         'movie_url'       => $movieUrl,
+                         'volume'          => $time
                      );
                      $this->saveItemAndTag( $itemData, $tagArr );
+                 }else{
+                     $this->log( " cannnot get poyo" . $id , 'debug');
                  }
              }
          }
