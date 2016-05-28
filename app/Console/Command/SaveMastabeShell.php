@@ -17,17 +17,19 @@ class SaveMastabeShell extends SaveContentsShell {
 
        //リストページのデータを取得
        if( !empty( $html) ) {
-           preg_match_all('/.*?<span class="duration">(.*?)<\/span>.*?<div class="info">.*?<h2><a href="\/video\/(.*?)\/">(.*?)<\/a><\/h2>.*?/s', $html , $res );
+           preg_match_all('/.*?<img src="(.*?)">.*?<span class="duration">(.*?)<\/span>.*?<div class="info">.*?<h2><a href="\/video\/(.*?)\/">(.*?)<\/a><\/h2>.*?/s', $html , $res );
 
-
-           $durationArr    = ( !empty( $res[1])) ? $res[1]:array() ;
+           $durationArr    = ( !empty( $res[2])) ? $res[2]:array() ;
            $totalItemArr = array();
+
            foreach( $durationArr as $no => $duration ){
-
-               $id    = ( !empty( $res[2][$no])) ? $res[2][$no] : "";
-               $title = ( !empty( $res[3][$no])) ? $res[3][$no] : "";
-
+               $image  = ( !empty( $res[1][$no])) ? $res[1][$no] : "";
+               $id     = ( !empty( $res[3][$no])) ? $res[3][$no] : "";
+               $title  = ( !empty( $res[4][$no])) ? $res[4][$no] : "";
+var_dump( $image);
+exit;
                $item = array(
+
                    'volume'      => $duration,
                    'original_id' => "masta" . $id,
                    'title'       => $title
@@ -36,6 +38,8 @@ class SaveMastabeShell extends SaveContentsShell {
                $totalItemArr[] = $item;
            }
            $this->extractContentsData( $totalItemArr );
+       }else{
+           $this->log( " this contents cannnot scraping " . SECOND_URL , 'debug');
        }
     }
 

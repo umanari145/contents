@@ -7,8 +7,7 @@ class SaveContentsShell extends AppShell {
     public $uses = array(
             'Item',
             'Tag',
-            'ItemTag',
-            'ItemImage'
+            'ItemTag'
     );
 
 
@@ -20,7 +19,10 @@ class SaveContentsShell extends AppShell {
        if( !empty( $html) ) {
            preg_match_all('/<div class="thumb">(.*?)<\/div>.*?<div class="article_content">.*?<\/div>/s', $html , $res );
            $imageDataArr    = ( !empty( $res[1])) ? $res[1]:array() ;
+
            $this->extractContentsData( $imageDataArr );
+       } else {
+           $this->log( " this contents cannnot scraping " . FIRST_URL , 'debug');
        }
     }
 
@@ -36,7 +38,8 @@ class SaveContentsShell extends AppShell {
              $image  = ( !empty( $res[2][0])) ? $res[2][0]:"" ;
              $title  = ( !empty( $res[3][0])) ? $res[3][0]:"" ;
              $time   = ( !empty( $res[4][0])) ? $res[4][0]:"" ;
-
+var_dump( $image);
+exit;
              if( $id !== "" ){
 
                  $html = file_get_contents( FIRST_DOMAIN . "video.php?id=" . $id );

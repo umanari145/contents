@@ -47,6 +47,8 @@ class SaveJksexvideoShell extends SaveContentsShell {
                );
                $this->saveItemAndTag( $item, $tagArr );
            }
+       } else {
+       	    $this->log( " this contents cannnot scraping " . THIRD_URL , 'debug');
        }
     }
 }
