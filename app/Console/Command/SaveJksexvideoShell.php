@@ -29,7 +29,7 @@ class SaveJksexvideoShell extends SaveContentsShell {
                $image = ( !empty( $res[3][$no])) ? $res[3][$no] : "";
 
                if( !empty( $html2 ) ) {
-                   preg_match_all('/.*?<iframe.*?src="(.*?)".*?>.*?/s', $html2 , $res2 );
+                   preg_match_all('/.*?(<iframe.*?>.*?<\/iframe>).*?/s', $html2 , $res2 );
 
                    $url = ( !empty( $res2[1][0])) ? $res2[1][0]:"";
 

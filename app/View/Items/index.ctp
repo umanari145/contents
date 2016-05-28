@@ -12,7 +12,7 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 <?php foreach ($items as $item): ?>
 	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 item_box">
-		<div class="pull-left">
+		<div class="pull-center index_image_area text-center">
             <?php
 					echo $this->Html->image ( $item ['Item'] ['smallPictureUrl'], array (
 								'url' => array (
@@ -20,8 +20,8 @@
 										'action' => 'view',
 										$item ['Item'] ['id']
 								),
-							    'width'  => 150,
-							 	'height' => 120 ,
+							    'width'  => 200,
+							 	'height' => 160 ,
 							    'class' => 'contents_image',
 								'id' => 'contents_image_id_' . $item ['Item'] ['id']
 						) );

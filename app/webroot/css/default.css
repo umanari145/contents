@@ -755,8 +755,10 @@ h2.left_girl{
 }
 
 
+
 div.media-body a.item_title{
-	font-size:8pt;
+	font-size:10pt;
+	font-weight:bold;
 }
 
 div.item_girl{
@@ -778,7 +780,7 @@ a.girl_name:hover{
 }
 
 div.item_box{
-	height:300px;
+	height:350px;
 }
 
 
@@ -889,11 +891,11 @@ div#contents_comment{
    clear:both;
 }
 
-div.contents_image{
-   width:750px;
+
+
+img.contents_image{
+	clear:both;
 }
-
-
 
 div.contents_image img:hover{
   opacity:0.6;
