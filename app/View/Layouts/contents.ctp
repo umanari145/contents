@@ -18,19 +18,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php echo $this->Html->charset(); ?>
-	 <meta content="width=device-width, initial-scale=1.0" name="viewport">
+	 <?php echo $this->Html->charset(); ?>
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	 <title>
 	 	<?php echo SITE_TITLE ;?>
 	 </title>
 	 <?php
 	 	echo $this->Html->css('default');
 	 	echo $this->Html->css('bootstrap');
-	 	echo $this->Html->css('magnific-popup');
 	 	echo $this->Html->script('jquery-1.11.3.min');
 	 	echo $this->Html->script('bootstrap.min');
 	 	echo $this->Html->script('default');
-	 	echo $this->Html->script('jquery.magnific-popup.min');
 	 	echo $this->fetch('meta');
 	 	echo $this->fetch('css');
 	 	echo $this->fetch('script');
@@ -50,14 +48,14 @@
     <input type="hidden" name="site_url" id="site_url_id" value="<?php echo $siteUrl; ?>" >
 	<?php echo $this->element('headnav'); ?>
 
-	<div class="container maincontents">
-		<?php echo $this->element('leftnav'); ?>
-		<div class="row col-md-8">
-			<?php echo $this->Flash->render(); ?>
+	<div class="container-fluid">
+		<div id="total_container" class="row">
 			<?php echo $this->fetch('content'); ?>
+   	    	<?php echo $this->element('leftnav'); ?>
 			<?php //echo $this->element('sql_dump'); ?>
-		</div>
-	</div>
+		</div><!-- total -->
+	</div><!-- container-fluid -->
+
     <?php // echo $this->element('footer'); ?>
 </body>
 </html>
