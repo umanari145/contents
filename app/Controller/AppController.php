@@ -37,11 +37,11 @@ class AppController extends Controller {
 
     public function beforeFilter(){
 
-        $tagList =  $this->Session->read("tagList");
-        if( empty( $tagList)){
+        //$tagList =  $this->Session->read("tagList");
+        //if( empty( $tagList)){
             $tagList = $this->ItemTag->calcItemCountGroupByTag($this->Tag->getTagNameList());
-            $this->Session->write("tagList" , $tagList);
-        }
+        //    $this->Session->write("tagList" , $tagList);
+        //}
 
         //女優は一時外す
         //$popularGirlList = $this->Session->read("popularGirlList");

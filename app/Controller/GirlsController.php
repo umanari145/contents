@@ -12,7 +12,6 @@ class GirlsController extends AppController {
 
 	public function index(){
 		$girlList = $this->Girl->getGirlList();
-
 	}
 
 }

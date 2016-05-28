@@ -9,6 +9,7 @@
 /app/Console/Command/log_girl.txt
 /app/ping_log.txt
 /app/tmp
+/app/webroot/img/
 /lib/Cake/Console/Templates/skel/tmp/
 /plugins
 /Plugin

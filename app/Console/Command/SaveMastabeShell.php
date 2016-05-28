@@ -27,16 +27,21 @@ class SaveMastabeShell extends SaveContentsShell {
                $id     = ( !empty( $res[3][$no])) ? $res[3][$no] : "";
                $title  = ( !empty( $res[4][$no])) ? $res[4][$no] : "";
 
+               if( preg_match('/^\/files/',$image) === 1 ) {
+                   $image = SECOND_DOMAIN . $image;
+               }
+
                $item = array(
-                   'contents_image' => $image,
                    'volume'         => $duration,
                    'original_id'    => $id,
-                   'title'          => $title
+                   'title'          => $title,
+                   'image_url'     => $image
                );
 
                $totalItemArr[] = $item;
            }
            $this->extractContentsData( $totalItemArr );
+
        }else{
            $this->log( " this contents cannnot scraping " . SECOND_URL , 'debug');
        }
@@ -51,7 +56,7 @@ class SaveMastabeShell extends SaveContentsShell {
 
             if( !empty( $html ) ) {
                 preg_match_all( '/.*?(<iframe.*?<\/iframe>).*?/s', $html , $res2);
-                $item['original_id'] = "masta". $item['original_id'];
+                $item['original_id'] = "mas". $item['original_id'];
                 $movieUrl   = ( !empty( $res2[1][0])) ? $res2[1][0]:"" ;
                 if( $movieUrl === "") {
                     continue;
@@ -61,6 +66,9 @@ class SaveMastabeShell extends SaveContentsShell {
                 $tagArr = ( !empty( $res3[1]) )? $res3[1]:array();
                 $item['movie_url'] = $movieUrl;
                 $this->saveItemAndTag( $item, $tagArr );
+
+                $imageName = $item['original_id'];
+                $this->downloadAndUploadImage( $item['image_url'], $imageName);
 
             }else{
                 $this->log( " cannnot get masta" . $id , 'debug');

@@ -39,6 +39,8 @@ class SaveContentsShell extends AppShell {
              $title  = ( !empty( $res[3][0])) ? $res[3][0]:"" ;
              $time   = ( !empty( $res[4][0])) ? $res[4][0]:"" ;
 
+
+
              if( $id !== "" ){
 
                  $html = file_get_contents( FIRST_DOMAIN . "video.php?id=" . $id );
@@ -53,13 +55,16 @@ class SaveContentsShell extends AppShell {
                      $tagArr = ( !empty( $res3[1]) )? $res3[1]:array();
 
                      $itemData = array(
-                         'original_id'     => "poyo" . $id,
-                         'contents_image'  => $image,
+                         'original_id'     => "p" . $id,
                          'title'           => $title,
                          'movie_url'       => $movieUrl,
                          'volume'          => $time
                      );
                      $this->saveItemAndTag( $itemData, $tagArr );
+
+                     $imageName = $itemData['original_id'];
+                     $this->downloadAndUploadImage( $image, $imageName);
+
                  }else{
                      $this->log( " cannnot get poyo" . $id , 'debug');
                  }
@@ -82,6 +87,21 @@ class SaveContentsShell extends AppShell {
             foreach ( $tagArr as &$tag ) $tag = $this->Tag->getfindTagIdFromName( $tag );
             $this->ItemTag->saveItemTagRelation( $itemId, $tagArr );
         }
+    }
+
+
+    /**
+     * 画像のダウンロード
+     *
+     * @param unknown $imageUrl 画像URL
+     * @param unknown $originalId オリジナルのID
+     */
+    protected function downloadAndUploadImage( $imageUrl , $originalId ) {
+    	$imageData = file_get_contents( $imageUrl );
+
+    	if( !empty( $imageData ) ) {
+    		file_put_contents( ROOT_DIR .'webroot/img/' .$originalId .'.jpg' , $imageData);
+    	}
     }
 
 }

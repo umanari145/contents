@@ -33,6 +33,7 @@ class SaveJksexvideoShell extends SaveContentsShell {
 
                    $url = ( !empty( $res2[1][0])) ? $res2[1][0]:"";
 
+
                    if( $url === "" ) {
                        preg_match_all('/.*?<div.*?class="video-container">(.*?)<\/div>.*?/s', $html2 , $res2 );
                        $url = ( !empty( $res2[1][0])) ? $res2[1][0]:"";
@@ -46,10 +47,11 @@ class SaveJksexvideoShell extends SaveContentsShell {
                $item = array(
                   "original_id"    => "jk" . $id ,
                   "title"          => $title,
-                  "contents_image" => $image,
                   "movie_url"      => $url
                );
                $this->saveItemAndTag( $item, $tagArr );
+               $imageName = $item['original_id'];
+               $this->downloadAndUploadImage( $image, $imageName);
            }
        } else {
        	    $this->log( " this contents cannnot scraping " . THIRD_URL , 'debug');

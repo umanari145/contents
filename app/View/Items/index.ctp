@@ -2,7 +2,7 @@
 <div class="total_main_contents_area pull-right col-xs-12 col-sm-8 col-md-10 col-lg-10">
 
     <!-- 検索窓 -->
-    <div class="col-xs-offset-1 col-xs-11 col-sm-offset-2 col-sm-6 col-sm-offset-2 col-md-8 col-sm-offset-2 col-lg-8" >
+    <div class="col-xs-offset-1 col-xs-11 col-sm-offset-2 col-sm-6 col-md-offset-8 col-md-2 col-lg-offset-8 col-lg-2" >
         <?php echo $this->element('search'); ?>
     </div>
 
@@ -35,14 +35,13 @@
                     <!-- 画像 -->
                     <div class="pull-left col-xs-12 col-sm-8 col-md-4 col-lg-3">
                         <?php
-                                echo $this->Html->image ( $item ['Item'] ['smallPictureUrl'], array (
+                                echo $this->Html->image ( $item ['Item'] ['original_id'] .".jpg", array (
                                             'url' => array (
                                                     'controller' => 'items',
                                                     'action' => 'view',
                                                     $item ['Item'] ['id']
                                             ),
                                             'width'  => 150,
-                                             'height' => 120 ,
                                             'class' => 'contents_image',
                                             'id' => 'contents_image_id_' . $item ['Item'] ['id']
                                     ) );

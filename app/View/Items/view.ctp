@@ -16,7 +16,7 @@
 
         <!-- 時間情報 -->
         <div class="detail_volume">
-             <span>時間</span>  <?php echo $itemDetail['Item']['volume']; ?>分
+             <span>時間</span>  <?php echo $itemDetail['Item']['volume']; ?>
         </div>
         <!-- 時間情報 -->
 
