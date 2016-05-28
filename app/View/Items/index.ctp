@@ -1,5 +1,5 @@
 <?php echo $this->element('search'); ?>
-<div class="row col-lg-12">
+<div>
     <?php if( !empty($search_name)):?>
         <span>キーワード:<?php echo $search_name; ?></span>
     <?php endif;?>
@@ -9,10 +9,10 @@
 	    ?>
     </span>
 <?php echo $this->element('pager'); ?>
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<div >
 <?php foreach ($items as $item): ?>
-	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 item_box">
-		<div class="pull-center index_image_area text-center">
+	<div >
+		<div class="pull-left">
             <?php
 					echo $this->Html->image ( $item ['Item'] ['smallPictureUrl'], array (
 								'url' => array (
@@ -20,8 +20,8 @@
 										'action' => 'view',
 										$item ['Item'] ['id']
 								),
-							    'width'  => 200,
-							 	'height' => 160 ,
+							    'width'  => 150,
+							 	'height' => 120 ,
 							    'class' => 'contents_image',
 								'id' => 'contents_image_id_' . $item ['Item'] ['id']
 						) );

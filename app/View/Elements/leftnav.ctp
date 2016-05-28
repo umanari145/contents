@@ -1,5 +1,5 @@
 
-<div class="row col-md-2">
+<div class="row col-xs-2 col-sm-2 col-md-2 col-lg-2">
 
     <h2 class="left_tag">タグ</h2>
 	<div id="tag_list_area" class="sidebar-nav">

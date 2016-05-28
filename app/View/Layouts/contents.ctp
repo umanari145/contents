@@ -19,6 +19,7 @@
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
+	 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 	 <title>
 	 	<?php echo SITE_TITLE ;?>
 	 </title>
