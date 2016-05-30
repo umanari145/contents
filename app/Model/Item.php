@@ -32,7 +32,7 @@ class Item extends AppModel {
 
    public $name ="Item";
 
-    public $basic_sql=" select * from items as Item where Item.delete_flg = false  order by Item.item_order asc ";
+    public $basic_sql=" select * from items as Item where Item.delete_flg = false  order by Item.id desc ";
 
     public $basic_sql_count = " select COUNT(Item.id) from items Item  where Item.delete_flg = false  ";
 
@@ -151,7 +151,7 @@ class Item extends AppModel {
             . "    WHERE "
             . "        Tag.id = " . $tag_id
             . "    ORDER BY "
-            . "        item_order ASC " ;
+            . "        Item.id DESC " ;
         return $sql;
     }
 
@@ -189,8 +189,8 @@ class Item extends AppModel {
             ." OR "
               ."   Item.comment like '%" . $keyword ."%' )  "
             ." ORDER BY  "
-            ."    Item.item_order  "
-            ." ASC ";
+            ."    Item.id "
+            ." DESC ";
         return $sql;
     }
 

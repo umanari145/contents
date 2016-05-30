@@ -43,7 +43,7 @@ class ItemsController extends AppController {
 	public $paginate = array(
 			'limit' => 10,
 			'order' => array(
-					'Item.item_order' => 'asc'
+					'Item.id' => 'desc'
 			)
 	);
 
