@@ -1,5 +1,6 @@
 #!/bin/bash
 
-cd /opt/contents/app/Console/Command/
-/usr/bin/php ../cake.php saveItem >> log.txt
-/usr/bin/php ../cake.php updateItemOrder >> log_order.txt
+cd /var/www/html/contents/app/Console/Command/
+/usr/bin/php ../cake.php saveContents 
+/usr/bin/php ../cake.php saveMastabe 
+/usr/bin/php ../cake.php saveJksexvideo 

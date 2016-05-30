@@ -79,7 +79,8 @@ class SaveContentsShell extends AppShell {
      * @param unknown $tagArr タグ配列
      */
     protected function saveItemAndTag( $itemData , $tagArr ){
-        if( $this->Item->existItem( $itemData['original_id'] ) === false ){
+        
+        if( $this->Item->existItem( $itemData['original_id'] ) === false && !empty($itemData['movie_url']) ){
             $this->Item->create();
             $this->Item->save( $itemData );
             $itemId =  $this->Item->getLastInsertId();
