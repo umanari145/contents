@@ -68,10 +68,13 @@ class SaveMastabeShell extends SaveContentsShell {
                 $dbRes = $this->saveItemAndTag( $item, $tagArr );
                 if( $dbRes === true ){
                     $imageName = $item['original_id'];
-                    $this->downloadAndUploadImage( $item['image_url'], $imageName);
+                    $fileRes = $this->downloadAndUploadImage( $item['image_url'], $imageName);
+                    if( $fileRes === false ) {
+                        throw new NotFoundException('ファイルの保存に失敗しました');
+                    }
                 }
             }else{
-                $this->log( " cannnot get masta" . $id , 'debug');
+                $this->log( " cannnot get masta" . $item['original_id'] , 'debug');
             }
         }
 

@@ -42,21 +42,26 @@ class SaveJksexvideoShell extends SaveContentsShell {
                    preg_match_all('/.*?rel="category tag">(.*?)<\/a>.*?/s', $html2 , $res3 );
                    $tagArr =  ( !empty( $res3[1])) ? $res3[1] : array();
 
-               }
+                   $item = array(
+                      "original_id"    => "jk" . $id ,
+                      "title"          => $title,
+                      "movie_url"      => $url
+                   );
+                   $dbRes = $this->saveItemAndTag( $item, $tagArr );
+                   if( $dbRes === true ) {
+                       $imageName = $item['original_id'];
+                       $fileRes = $this->downloadAndUploadImage( $image, $imageName);
 
-               $item = array(
-                  "original_id"    => "jk" . $id ,
-                  "title"          => $title,
-                  "movie_url"      => $url
-               );
-               $dbRes = $this->saveItemAndTag( $item, $tagArr );
-               if( $dbRes === true ) {
-                   $imageName = $item['original_id'];
-                   $this->downloadAndUploadImage( $image, $imageName);
+                       if( $fileRes === false ) {
+                           throw new NotFoundException('ファイルの保存に失敗しました');
+                       }
+                   }
+               }else{
+                   $this->log( " cannnot get jksex " . $id , 'debug');
                }
            }
        } else {
-       	    $this->log( " this contents cannnot scraping " . THIRD_URL , 'debug');
+       	    $this->log( " this contents cannnot scraping " .HIRD_URL , 'debug');
        }
     }
 }

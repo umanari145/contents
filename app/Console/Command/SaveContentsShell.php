@@ -13,6 +13,8 @@ class SaveContentsShell extends AppShell {
 
     public function getItemData() {
 
+       $this->log(  FIRST_URL ." start"  , 'debug');
+
        $html = file_get_contents( FIRST_URL );
 
        //リストページのデータを取得
@@ -61,10 +63,15 @@ class SaveContentsShell extends AppShell {
                          'volume'          => $time
                      );
                      $dbRes = $this->saveItemAndTag( $itemData, $tagArr );
-                     if( $dbRes === true ) {
+
+                    if( $dbRes === true ) {
                          $imageName = $itemData['original_id'];
-                         $this->downloadAndUploadImage( $image, $imageName);
-                     }
+                         $fileRes = $this->downloadAndUploadImage( $image, $imageName);
+
+                         if( $fileRes === false ) {
+                             throw new NotFoundException('ファイルの保存に失敗しました');
+                         }
+                    }
 
                  }else{
                      $this->log( " cannnot get poyo" . $id , 'debug');
@@ -100,13 +107,22 @@ class SaveContentsShell extends AppShell {
      *
      * @param unknown $imageUrl 画像URL
      * @param unknown $originalId オリジナルのID
+     * @param boolean fileの保存が成功かいなか
      */
     protected function downloadAndUploadImage( $imageUrl , $originalId ) {
     	$imageData = file_get_contents( $imageUrl );
 
     	if( !empty( $imageData ) ) {
-    		file_put_contents( ROOT_DIR .'webroot/img/' .$originalId .'.jpg' , $imageData);
+    	    $fileRes = file_put_contents( ROOT_DIR .'webroot/img/' .$originalId .'.jpg' , $imageData);
+
+            if( $fileRes === true ){
+                $this->log( " Download_image success " . $originalId, 'debug');
+            } else {
+                $this->log( " Download_image fail " . $originalId, 'debug');
+            }
     	}
+    	return $fileRes;
+
     }
 
 }
