@@ -13,6 +13,8 @@ class SaveJksexvideoShell extends SaveContentsShell {
 
     public function getItemData() {
 
+       $this->log(  THIRD_URL ." start"  , 'debug');
+
        $html = file_get_contents( THIRD_URL );
 
        //リストページのデータを取得

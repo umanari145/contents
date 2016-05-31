@@ -13,6 +13,8 @@ class SaveMastabeShell extends SaveContentsShell {
 
     public function getItemData() {
 
+       $this->log(  SECOND_URL ." start"  , 'debug');
+
        $html = file_get_contents( SECOND_URL );
 
        //リストページのデータを取得
