@@ -60,10 +60,11 @@ class SaveContentsShell extends AppShell {
                          'movie_url'       => $movieUrl,
                          'volume'          => $time
                      );
-                     $this->saveItemAndTag( $itemData, $tagArr );
-
-                     $imageName = $itemData['original_id'];
-                     $this->downloadAndUploadImage( $image, $imageName);
+                     $dbRes = $this->saveItemAndTag( $itemData, $tagArr );
+                     if( $dbRes === true ) {
+                         $imageName = $itemData['original_id'];
+                         $this->downloadAndUploadImage( $image, $imageName);
+                     }
 
                  }else{
                      $this->log( " cannnot get poyo" . $id , 'debug');
@@ -79,7 +80,7 @@ class SaveContentsShell extends AppShell {
      * @param unknown $tagArr タグ配列
      */
     protected function saveItemAndTag( $itemData , $tagArr ){
-        
+
         if( $this->Item->existItem( $itemData['original_id'] ) === false && !empty($itemData['movie_url']) ){
             $this->Item->create();
             $this->Item->save( $itemData );
@@ -87,6 +88,9 @@ class SaveContentsShell extends AppShell {
             $this->log( " id : ". $itemId . "  title : " . $itemData['title'], 'debug');
             foreach ( $tagArr as &$tag ) $tag = $this->Tag->getfindTagIdFromName( $tag );
             $this->ItemTag->saveItemTagRelation( $itemId, $tagArr );
+            return true;
+        }else{
+            return false;
         }
     }
 

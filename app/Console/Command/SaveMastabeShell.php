@@ -65,11 +65,11 @@ class SaveMastabeShell extends SaveContentsShell {
                 preg_match_all( '/.*?<li><a href="\/search\/[^\x01-\x7E]*?\/">([^\x01-\x7E]*?)<\/a><\/li>.*?/s', $html , $res3);
                 $tagArr = ( !empty( $res3[1]) )? $res3[1]:array();
                 $item['movie_url'] = $movieUrl;
-                $this->saveItemAndTag( $item, $tagArr );
-
-                $imageName = $item['original_id'];
-                $this->downloadAndUploadImage( $item['image_url'], $imageName);
-
+                $dbRes = $this->saveItemAndTag( $item, $tagArr );
+                if( $dbRes === true ){
+                    $imageName = $item['original_id'];
+                    $this->downloadAndUploadImage( $item['image_url'], $imageName);
+                }
             }else{
                 $this->log( " cannnot get masta" . $id , 'debug');
             }

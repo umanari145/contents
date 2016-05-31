@@ -49,9 +49,11 @@ class SaveJksexvideoShell extends SaveContentsShell {
                   "title"          => $title,
                   "movie_url"      => $url
                );
-               $this->saveItemAndTag( $item, $tagArr );
-               $imageName = $item['original_id'];
-               $this->downloadAndUploadImage( $image, $imageName);
+               $dbRes = $this->saveItemAndTag( $item, $tagArr );
+               if( $dbRes === true ) {
+                   $imageName = $item['original_id'];
+                   $this->downloadAndUploadImage( $image, $imageName);
+               }
            }
        } else {
        	    $this->log( " this contents cannnot scraping " . THIRD_URL , 'debug');
