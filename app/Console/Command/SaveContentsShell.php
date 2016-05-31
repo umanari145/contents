@@ -66,11 +66,7 @@ class SaveContentsShell extends AppShell {
 
                     if( $dbRes === true ) {
                          $imageName = $itemData['original_id'];
-                         $fileRes = $this->downloadAndUploadImage( $image, $imageName);
-
-                         if( $fileRes === false ) {
-                             throw new NotFoundException('ファイルの保存に失敗しました');
-                         }
+                         $this->downloadAndUploadImage( $image, $imageName);
                     }
 
                  }else{
@@ -107,21 +103,18 @@ class SaveContentsShell extends AppShell {
      *
      * @param unknown $imageUrl 画像URL
      * @param unknown $originalId オリジナルのID
-     * @param boolean fileの保存が成功かいなか
      */
     protected function downloadAndUploadImage( $imageUrl , $originalId ) {
     	$imageData = file_get_contents( $imageUrl );
 
     	if( !empty( $imageData ) ) {
-    	    $fileRes = file_put_contents( ROOT_DIR .'webroot/img/' .$originalId .'.jpg' , $imageData);
+    	    file_put_contents( ROOT_DIR .'webroot/img/' .$originalId .'.jpg' , $imageData);
 
-            if( $fileRes === true ){
-                $this->log( " Download_image success " . $originalId, 'debug');
-            } else {
-                $this->log( " Download_image fail " . $originalId, 'debug');
-            }
+    	    $this->log( " Download_image success " . $originalId, 'debug');
+
+    	}else{
+    	    $this->log( " Download_image fail " . $originalId, 'debug');
     	}
-    	return $fileRes;
 
     }
 

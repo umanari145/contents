@@ -50,11 +50,7 @@ class SaveJksexvideoShell extends SaveContentsShell {
                    $dbRes = $this->saveItemAndTag( $item, $tagArr );
                    if( $dbRes === true ) {
                        $imageName = $item['original_id'];
-                       $fileRes = $this->downloadAndUploadImage( $image, $imageName);
-
-                       if( $fileRes === false ) {
-                           throw new NotFoundException('ファイルの保存に失敗しました');
-                       }
+                       $this->downloadAndUploadImage( $image, $imageName);
                    }
                }else{
                    $this->log( " cannnot get jksex " . $id , 'debug');
