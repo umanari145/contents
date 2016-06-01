@@ -52,6 +52,8 @@ class SaveContentsShell extends AppShell {
 
                      $movieUrl   = ( !empty( $res2[1][0])) ? $res2[1][0]:"" ;
 
+                     $this->getContentsMovieId( $movieUrl);
+
                      preg_match_all( '/.*?<li><a href="search.php\?keyword=(.*?)">.*?<\/a><\/li>.*?/s', $html , $res3);
 
                      $tagArr = ( !empty( $res3[1]) )? $res3[1]:array();
@@ -62,6 +64,7 @@ class SaveContentsShell extends AppShell {
                          'movie_url'       => $movieUrl,
                          'volume'          => $time
                      );
+
                      $dbRes = $this->saveItemAndTag( $itemData, $tagArr );
 
                     if( $dbRes === true ) {
@@ -74,6 +77,23 @@ class SaveContentsShell extends AppShell {
                  }
              }
          }
+    }
+
+    /**
+     * 動画そのもののidを取得する
+     * @param unknown $movieUrl 動画ＵＲＬ
+     * @return 動画id
+     */
+    protected function getContentsMovieId( $movieUrl ){
+    	echo $movieUrl;
+        $contentsMovieId ="";
+        preg_match_all('/(id|mcd)=(\w+)/' , $movieUrl, $res);
+
+        if( !empty($res[2][0]) ){
+            $contentsMovieId = $res[2][0];
+        }
+        return $contentsMovieId;
+
     }
 
     /**

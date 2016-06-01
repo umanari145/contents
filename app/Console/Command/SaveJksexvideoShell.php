@@ -35,7 +35,6 @@ class SaveJksexvideoShell extends SaveContentsShell {
 
                    $url = ( !empty( $res2[1][0])) ? $res2[1][0]:"";
 
-
                    if( $url === "" ) {
                        preg_match_all('/.*?<div.*?class="video-container">(.*?)<\/div>.*?/s', $html2 , $res2 );
                        $url = ( !empty( $res2[1][0])) ? $res2[1][0]:"";
