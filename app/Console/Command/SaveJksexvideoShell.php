@@ -40,13 +40,16 @@ class SaveJksexvideoShell extends SaveContentsShell {
                        $url = ( !empty( $res2[1][0])) ? $res2[1][0]:"";
                    }
 
+                   $original_contents_id = $this->getContentsMovieId( $url );
+
                    preg_match_all('/.*?rel="category tag">(.*?)<\/a>.*?/s', $html2 , $res3 );
                    $tagArr =  ( !empty( $res3[1])) ? $res3[1] : array();
 
                    $item = array(
-                      "original_id"    => "jk" . $id ,
-                      "title"          => $title,
-                      "movie_url"      => $url
+                      "original_id"          => "jk" . $id ,
+                      "original_contents_id" => $original_contents_id,
+                      "title"                => $title,
+                      "movie_url"            => $url
                    );
                    $dbRes = $this->saveItemAndTag( $item, $tagArr );
                    if( $dbRes === true ) {

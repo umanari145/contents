@@ -151,7 +151,7 @@ class Tag extends Model {
                         'Tag.id' => $tagId
                 )
         ));
-        return  ( $count >0 ) ? true:false;
+        return  ( $count > 0 ) ? true:false;
     }
 
     /**

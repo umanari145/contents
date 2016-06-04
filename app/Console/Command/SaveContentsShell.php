@@ -52,17 +52,18 @@ class SaveContentsShell extends AppShell {
 
                      $movieUrl   = ( !empty( $res2[1][0])) ? $res2[1][0]:"" ;
 
-                     $this->getContentsMovieId( $movieUrl);
+                     $original_contents_id = $this->getContentsMovieId( $movieUrl );
 
                      preg_match_all( '/.*?<li><a href="search.php\?keyword=(.*?)">.*?<\/a><\/li>.*?/s', $html , $res3);
 
                      $tagArr = ( !empty( $res3[1]) )? $res3[1]:array();
 
                      $itemData = array(
-                         'original_id'     => "p" . $id,
-                         'title'           => $title,
-                         'movie_url'       => $movieUrl,
-                         'volume'          => $time
+                         'original_id'          => "p" . $id,
+                         'title'                => $title,
+                         'original_contents_id' => $original_contents_id,
+                         'movie_url'            => $movieUrl,
+                         'volume'               => $time
                      );
 
                      $dbRes = $this->saveItemAndTag( $itemData, $tagArr );
@@ -85,12 +86,12 @@ class SaveContentsShell extends AppShell {
      * @return 動画id
      */
     protected function getContentsMovieId( $movieUrl ){
-    	echo $movieUrl;
-        $contentsMovieId ="";
-        preg_match_all('/(id|mcd)=(\w+)/' , $movieUrl, $res);
 
-        if( !empty($res[2][0]) ){
-            $contentsMovieId = $res[2][0];
+        $contentsMovieId ="";
+        preg_match_all('/(id|mcd|embed|content)(=|\/)(\w+)/' , $movieUrl, $res);
+
+        if( !empty($res[3][0]) ){
+            $contentsMovieId = $res[3][0];
         }
         return $contentsMovieId;
 
@@ -104,12 +105,14 @@ class SaveContentsShell extends AppShell {
      */
     protected function saveItemAndTag( $itemData , $tagArr ){
 
-        if( $this->Item->existItem( $itemData['original_id'] ) === false && !empty($itemData['movie_url']) ){
+        if( $this->Item->existItem( $itemData ) === false && !empty($itemData['movie_url']) ){
             $this->Item->create();
             $this->Item->save( $itemData );
             $itemId =  $this->Item->getLastInsertId();
             $this->log( " id : ". $itemId . "  title : " . $itemData['title'], 'debug');
             foreach ( $tagArr as &$tag ) $tag = $this->Tag->getfindTagIdFromName( $tag );
+            $tagArr = array_unique( $tagArr );
+            $tagArr = array_filter( $tagArr );
             $this->ItemTag->saveItemTagRelation( $itemId, $tagArr );
             return true;
         }else{

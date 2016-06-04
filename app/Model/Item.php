@@ -211,8 +211,6 @@ class Item extends AppModel {
 
         foreach ( $contentsList as &$contents ) {
             $this->addAttribute( $contents ,'index');
-            $smallPictureUrl = $contents['Item']['contents_image'] ;
-            $contents ['Item'] ['smallPictureUrl'] = $smallPictureUrl;
         }
         return $contentsList;
     }
@@ -286,18 +284,34 @@ class Item extends AppModel {
     }
 
     /**
-     *  同一id商品が既存のテーブルにあるかいなか
+     *  同一id商品(同一サイト内も全サイトでもチェックする)が既存のテーブルにあるかいなか
      *
-     * @param unknown $itemId 商品id
+     * @param unknown $item 商品データ
      * @return true(あり)/false()
      */
-    public function existItem( $itemId ) {
+    public function existItem( $item ) {
+
+        $conditions = array();
+        if( !empty($item['original_contents_id']) ) {
+
+            $conditions = array(
+                  'or' => array(
+                       array( 'Item.original_id'          => $item['original_id'] ),
+                       array( 'Item.original_contents_id' => $item['original_contents_id'] )
+                  )
+            );
+
+        } else {
+            $conditions = array(
+                    'Item.original_id'     => $item['original_id']
+            );
+        }
+
         $itemCount = $this->find('count',array(
-            'conditions'=>array(
-                    'Item.original_id' => $itemId
-            )
+            'conditions' => $conditions
         ));
-        return  ( $itemCount >0 ) ? true:false;
+
+        return  ( $itemCount > 0 ) ? true:false;
     }
 
     /**

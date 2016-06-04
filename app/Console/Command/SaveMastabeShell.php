@@ -58,15 +58,22 @@ class SaveMastabeShell extends SaveContentsShell {
 
             if( !empty( $html ) ) {
                 preg_match_all( '/.*?(<iframe.*?<\/iframe>).*?/s', $html , $res2);
+
                 $item['original_id'] = "mas". $item['original_id'];
                 $movieUrl   = ( !empty( $res2[1][0])) ? $res2[1][0]:"" ;
                 if( $movieUrl === "") {
                     continue;
                 }
+
+                $original_contents_id = $this->getContentsMovieId( $movieUrl );
+
+                $item['original_contents_id'] = $original_contents_id;
+
                 //マルチバイト対応
                 preg_match_all( '/.*?<li><a href="\/search\/[^\x01-\x7E]*?\/">([^\x01-\x7E]*?)<\/a><\/li>.*?/s', $html , $res3);
                 $tagArr = ( !empty( $res3[1]) )? $res3[1]:array();
                 $item['movie_url'] = $movieUrl;
+
                 $dbRes = $this->saveItemAndTag( $item, $tagArr );
                 if( $dbRes === true ){
                     $imageName = $item['original_id'];
