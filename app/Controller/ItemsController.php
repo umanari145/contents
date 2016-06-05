@@ -239,14 +239,12 @@ class ItemsController extends AppController {
      * @return 高さと横幅
      */
     private function loadMovieSize() {
-    	$size = $this->Session->read( 'Movie' );
 
-        if( empty($size) === true ){
-            $size = array(
+        $size = array(
                         'width'  => 640,
                         'height' => 480
                     );
-        }
+
         return $size;
     }
 

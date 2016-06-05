@@ -247,6 +247,12 @@ class Item extends AppModel {
         $movieUrl = $contentsDetail['Item']['movie_url'];
         $movieUrl =  preg_replace( '/width=("|\'|)\d{3}("|\'|)*/', 'width="'. $size['width'] .'"', $movieUrl);
         $movieUrl =  preg_replace( '/height=("|\'|)\d{3}("|\'|)*/', 'height="'. $size['height'] .'"', $movieUrl);
+        //fc2パターン
+        $movieUrl =  preg_replace( '/ w=("|\'|)\d{3}("|\'|)*/', ' w="'. $size['width'] .'"', $movieUrl);
+        $movieUrl =  preg_replace( '/ h=("|\'|)\d{3}("|\'|)*/', ' h="'. $size['height'] .'"', $movieUrl);
+
+        //erovideoのパターン
+        $movieUrl =  preg_replace( '/"mcd=(.*?)".*?,.*?\d{3}.*?,.*?\d{3}.*?/', '"mcd=${1}" ,'. $size["width"] .' , '. $size["height"]  , $movieUrl);
 
         $contentsDetail['Item']['movie_url'] = $movieUrl;
 

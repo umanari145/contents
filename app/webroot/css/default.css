@@ -937,7 +937,9 @@ div#detail_move_area iframe{
 }
 
 div#attention{
+  margin-top:10px;
   color:#ff0000;
+  font-size:14pt;
   font-weight:bold;
 }
 
