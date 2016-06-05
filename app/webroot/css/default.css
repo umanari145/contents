@@ -924,6 +924,7 @@ div#detail_move_area{
   position: relative;
   width:100%;
   min-width:640px;
+  min-height:200px;
   height:480px;
   overflow: hidden;
 }
@@ -933,6 +934,11 @@ div#detail_move_area iframe{
   top: 0;
   left: 0;
   overflow:visible;
+}
+
+div#attention{
+  color:#ff0000;
+  font-weight:bold;
 }
 
 .contents_link{

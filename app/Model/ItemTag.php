@@ -46,13 +46,14 @@ class ItemTag extends Model {
     public function calcItemCountGroupByTag( $tagNameList ){
 
          $params = array(
-                 'fields'=>array('COUNT(id) as num' ,'ItemTag.tag_id'),
-                 'group'=>array('ItemTag.tag_id'),
-                 'order'=>array('num DESC')
+                 'fields' => array('COUNT(id) as num' ,'ItemTag.tag_id'),
+                 'group'  => array('ItemTag.tag_id'),
+                 'order'  => array('num DESC'),
+                 'limit'  => 15
          );
 
-
         $tagList = $this->find('all', $params);
+
         $tagList2 = array();
         foreach ( $tagList as $tag ) {
             $tagId = $tag['ItemTag']['tag_id'];

@@ -30,7 +30,9 @@ App::uses ( 'AppModel', 'Model' );
  */
 class Item extends AppModel {
 
-   public $name ="Item";
+
+
+	public $name ="Item";
 
     public $basic_sql=" select * from items as Item where Item.delete_flg = false  order by Item.id desc ";
 
@@ -218,11 +220,12 @@ class Item extends AppModel {
     /**
      * 商品詳細のページ
      *
-     * @param string $id id
+     * @param string $id
+     * @param $size 動画サイズ
      * @throws NotFoundException 商品が存在しないときのエラー
      * @return 商品詳細データ
      */
-    public function getItemDetail($id = null) {
+    public function getItemDetail($id = null, $size = array() ) {
         if (! $this->exists ()) {
             throw new NotFoundException ( '存在しない商品です。' );
         }
@@ -234,8 +237,19 @@ class Item extends AppModel {
         );
 
         $contentsDetail = $this->find ( 'first', $params);
-        $this->addAttribute( $contentsDetail , 'detail');
+        $this->setMovieSize( $contentsDetail, $size );
         return $contentsDetail;
+    }
+
+
+    private function setMovieSize( &$contentsDetail = array(), $size = array() ) {
+
+        $movieUrl = $contentsDetail['Item']['movie_url'];
+        $movieUrl =  preg_replace( '/width=("|\'|)\d{3}("|\'|)*/', 'width="'. $size['width'] .'"', $movieUrl);
+        $movieUrl =  preg_replace( '/height=("|\'|)\d{3}("|\'|)*/', 'height="'. $size['height'] .'"', $movieUrl);
+
+        $contentsDetail['Item']['movie_url'] = $movieUrl;
+
     }
 
     /**
@@ -243,9 +257,9 @@ class Item extends AppModel {
     *  @param $item 動画
     *
     */
-    private function addAttribute( &$item = null , $type ="index" ){
+    private function addAttribute( &$item = null, $size = array()){
 
-   }
+    }
 
     /**
      * 対象キーワードで該当する商品を探す
