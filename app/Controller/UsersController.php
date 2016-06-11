@@ -33,7 +33,10 @@ class UsersController extends AppController {
             if( $this->User->save( $this->request->data['User'] )){
                 $userId =  $this->User->getLastInsertId();
                 if( !empty($userId)) {
-                    $user['User']['id'] = $userId;
+                    $user = $this->User->find('first',array(
+                         'conditions' => array('User.id' => $userId)
+                    ));
+
                     $itemId = $this->Session->read('favorite_item_id');
                     $this->regsitFavoriteItemAndRedirect( $user['User'], $itemId );
                 }
@@ -65,8 +68,7 @@ class UsersController extends AppController {
                 $itemId = $this->Session->read('favorite_item_id');
                 $this->regsitFavoriteItemAndRedirect( $user, $itemId );
             } else {
-                echo 'fail';
-                exit;
+                $this->Session->setFlash ( 'ユーザー名かパスワードが間違っています。' );
             }
         }
     }
@@ -99,6 +101,7 @@ class UsersController extends AppController {
             );
 
         } else {
+        	$this->doLogin( $user );
             return $this->redirect(
                     array('controller' => 'items', 'action' => 'index' )
             );
