@@ -36,16 +36,31 @@ class ItemsController extends AppController {
 /**
  * @var array
  */
-    public $uses = array('Item','Tag','ItemTag','ItemImage');
+    public $uses = array('Item','Tag','ItemTag','UserItem');
 
     public $layout ="contents";
 
-    public $paginate = array(
-            'limit' => 10,
-            'order' => array(
-                    'Item.id' => 'desc'
+    public $components = array (
+            'Session',
+            'Paginator'
+    );
+
+
+    public $paginate = array (
+            'Item' => array (
+                    'limit' => 10,
+                    'order' => array (
+                            'Item.id' => 'desc'
+                    )
+            ),
+            'UserItem' => array (
+                    'limit' => 8
             )
     );
+
+
+
+
 
     public function index() {
 
@@ -67,6 +82,49 @@ class ItemsController extends AppController {
         $this->set('items',$this->Item->getItemList($items2));
     }
 
+    /**
+     * お気に入り一覧ページ
+     */
+    public function favorite(){
+
+    	$items = array();
+    	if( $this->isLogin() === true ){
+    		$params = array();
+    		$user = $this->getUser();
+    		$items = $this->getFavoriteItemWithPager( $user['id']);
+
+    	} else {
+    		return $this->redirect(
+    				array('controller' => 'items', 'action' => 'index' )
+    		);
+    	}
+    	$this->set('items' , $items);
+    }
+
+    /**
+     * お気にいり商品をbindして取得
+     *
+     * @param unknown $userId ユーザーID
+     * @return 商品データ
+     */
+    private function getFavoriteItemWithPager( $userId ){
+
+    	$this->UserItem->bindModel ( array (
+    			'belongsTo' => array (
+    					'Item' => array (
+    							'className' => 'Item',
+    							'foreignKey' => 'item_id',
+    							'conditions' => array('Item.delete_flg' => false)
+    					)
+    			)
+    	));
+
+    	$items0 = $this->Paginator->paginate( 'UserItem' ,
+    			array('UserItem.user_id' => $userId )
+    	);
+    	$items = $this->setGirlAndTag($items0);
+    	return $items;
+    }
 
     /**
      * 女優データとタグデータをセットする
@@ -227,8 +285,20 @@ class ItemsController extends AppController {
 
         $itemDetail = $this->Item->getItemDetail($id , $size);
 
+        $isFavorite = false;
+        if($this->isLogin() === true ) {
+            $user = $this->getUser();
+            $data =  array(
+                    'user_id' => $user['id'],
+                    'item_id' => $id
+            );
+
+            $isFavorite = $this->UserItem->hasFavorite( $data );
+        }
+
         $tagArr = $this->ItemTag->makeTagDataWhereInItemId( array($id));
         $itemDetail['Tag'] = $tagArr;
+        $this->set ( 'isFavorite', $isFavorite );
         $this->set ( 'itemDetail', $itemDetail );
     }
 
@@ -280,13 +350,13 @@ class ItemsController extends AppController {
             !empty( $data['width'] ) && preg_match( '/^\d{3}$/', $data['width'] )  === 1
         ) {
 
-        	$this->Session->write( 'Movie.width' , $data['width']);
+            $this->Session->write( 'Movie.width' , $data['width']);
             $this->Session->write( 'Movie.height' , $data['height']);
 
 
             echo "success";
         } else {
-        	echo "fail";
+            echo "fail";
         }
     }
 

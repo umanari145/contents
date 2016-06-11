@@ -1,6 +1,6 @@
 <?php 	echo $this->Html->script('resize'); ?>
 <div class="pull-right col-xs-12 col-sm-8 col-md-10 col-lg-10">
-
+    <input type="hidden" name="item_id" id="item_id" value="<?php echo $itemDetail['Item']['id']; ?>" >
     <!-- タイトル -->
     <h2><p id="contents_title"><?php echo $itemDetail['Item']['title'];?></p></h2>
 
@@ -49,6 +49,21 @@
         </div>
         <!-- タグ情報 -->
 
+        <div class="favorite_button">
+            <?php if( $isFavorite !== true): ?>
+                <button id="add_favorite" class="btn btn-success">お気にいりに追加する</button>
+            <?php else:?>
+                <button id="delete_favorite" class="btn btn-danger">お気にいりから削除する</button>
+            <?php endif; ?>
+        </div>
+
+        <!-- お気に入りエリア -->
+        <div id="favorite_item_area">
+
+        </div>
+        <!-- コメント -->
+
+
         <!-- コメント -->
         <?php if( DISP_COMMENT === true ): ?>
         <div id="contents_comment">
@@ -57,7 +72,8 @@
             ?>
         </div>
         <?php endif; ?>
-            <!-- コメント -->
+        <!-- コメント -->
+
     </div>
     <!-- 商品情報エリア -->
 

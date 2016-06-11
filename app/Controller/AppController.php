@@ -65,4 +65,52 @@ class AppController extends Controller {
         }
     }
 
+
+    /**
+     * ログイン処理
+     *
+     * @param unknown $user ユーザー
+     */
+    public function doLogin( $user = array() ){
+    	if( !empty( $user) ) $this->writeUserData( $user );
+    }
+
+    /**
+     * ユーザーデータの削除
+     *
+     */
+    public function doLogout(){
+		$this->Session->delete( 'User' );
+    }
+
+    /**
+     * ログインしているか否か
+     *
+     * @return boolean (ユーザー)/ false(ログインしていない)
+     */
+    public function isLogin(){
+    	$user = $this->Session->read('User');
+		return ( !empty($user) )? true : false ;
+    }
+
+    /**
+     * ユーザーの取得
+     *
+     * @return User ユーザーデータ
+     */
+    public function getUser(){
+    	if( $this->isLogin()){
+    		return $this->Session->read('User');
+    	} else {
+    		return false;
+    	}
+    }
+
+    /**
+     * セッションデータを書き込む
+     * @param $user ユーザー
+     */
+    public function writeUserData( $user = array() ){
+    	if( !empty( $user) ) $this->Session->write('User' , $user);
+    }
 }

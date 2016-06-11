@@ -98,6 +98,7 @@ require_once $currentDirUp . '/vendor/autoload.php';
 require_once $currentDirUp . '/app/Config/siteinfo.php';
 ini_set('memory_limit', '2048M');
 
+define( 'SALT_STRING' ,'BsJEjPCCgLEctt6Z' );
 
 Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',
@@ -122,7 +123,7 @@ Configure::write('Session', array(
     'defaults' => 'cake',
     'timeout' => 1440, //1days　←単位は分
 ));
- 
+
 
 //キャッシュ
 // Cache::config('sql_cache', array(
