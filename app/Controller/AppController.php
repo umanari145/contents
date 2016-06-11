@@ -58,13 +58,26 @@ class AppController extends Controller {
 
     public function debugSQLlog( $sqlLog = array()){
         foreach ( $sqlLog['log'] as $sqlEachLog ) {
-            $this->log("---------------------------------------------------------------------------------------");
-            $this->log($sqlEachLog['query']);
-            $this->log($sqlEachLog['took']/1000 . "s");
-            $this->log("---------------------------------------------------------------------------------------");
+            $this->log("---------------------------------------------------------------------------------------", 'debug');
+            $this->log($sqlEachLog['query'],'debug');
+            $this->log($sqlEachLog['took']/1000 . "s" , 'debug');
+            $this->log("---------------------------------------------------------------------------------------", 'debug');
         }
     }
 
+
+    public function beforeRender(){
+        $username = "ゲスト";
+        $isLogin = false;
+        if( $this->isLogin() === true ) {
+            $user     = $this->getUser();
+            $username = $user['username'];
+            $isLogin  = true;
+        }
+        $this->set('username', $username );
+        $this->set('isLogin', $isLogin );
+
+    }
 
     /**
      * ログイン処理

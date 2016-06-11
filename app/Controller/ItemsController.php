@@ -70,7 +70,6 @@ class ItemsController extends AppController {
         $this->Item->hoge();
         $searchName = $this->getQuery( $this->request );
         $params=array();
-        //検索条件が存在すれば検索を行う
 
         $items  = $this->paginate($params);
         $items2 = $this->setGirlAndTag( $items );

@@ -34,7 +34,7 @@ class Item extends AppModel {
 
 	public $name ="Item";
 
-    public $basic_sql=" select * from items as Item where Item.delete_flg = false  order by Item.id desc ";
+    public $basic_sql=" select Item.id, Item.original_id, Item.title, Item.volume from items as Item where Item.delete_flg = false  order by Item.id desc ";
 
     public $basic_sql_count = " select COUNT(Item.id) from items Item  where Item.delete_flg = false  ";
 

@@ -25,8 +25,17 @@
 
     <!-- メインコンテンツエリア -->
     <div class="total_contents_area col-xs-12 col-sm-8 col-md-10 col-lg-10">
+
+        <?php if( count( $items ) === 0 ):?>
+            <div id="no_favorite_message">
+                <?php echo "お気に入りはまだ一件も登録されていません"; ?>
+            </div>
+        <?php else:?>
             <!-- 各コンテンツの入れ物 -->
             <div class="row">
+
+                <?php ?>
+
                 <?php foreach ($items as $item): ?>
                 <!-- 各コンテンツ -->
                 <div class="index_contents_area col-xs-12 col-sm-8 col-md-4 col-lg-3">
@@ -100,7 +109,7 @@
                 <?php endforeach;?>
             </div>
             <!-- 各コンテンツのいれもの -->
-
+        <?php endif; ?>
     </div>
     <!-- メインコンテンツエリア -->
 

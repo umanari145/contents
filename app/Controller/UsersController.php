@@ -48,6 +48,9 @@ class UsersController extends AppController {
     public function logout() {
         $this->doLogout();
         //var_dump($this->Session->read('User'));
+        return $this->redirect(
+        		array('controller' => 'items', 'action' => 'index' )
+        );
     }
 
     /**

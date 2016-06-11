@@ -731,6 +731,12 @@ div#total_container{
 	font-size:20px;
 }
 
+div#login_username{
+	padding-top:15px;
+	font-weigt:bold;
+	color:#fff;
+}
+
 div.list_summary{
 	margin-top:25px;
 }
