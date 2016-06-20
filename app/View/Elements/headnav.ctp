@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top ">
     <div class="row">
 
-        <div class="navbar-header col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <div class="navbar-header col-xs-3 col-sm-3 col-md-2 col-lg-2">
         <?php
             echo $this->Html->link ( 'JK-Collection',
                 '/items/index',
@@ -14,7 +14,7 @@
         </div>
 
         <?php if( $isLogin === true ):?>
-        <ul class="nav navbar-nav col-xs-2 col-sm-2 col-md-2 col-lg-1">
+        <ul class="nav navbar-nav col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <!-- お気に入り -->
             <li class="dropdown">
                 <?php
@@ -30,14 +30,14 @@
         </ul>
         <?php endif; ?>
 
-        <ul class="nav navbar-nav col-xs-2 col-sm-2 col-md-2 col-lg-1">
+        <ul class="nav navbar-nav col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <!-- ログイン名 -->
             <li class="dropdown">
                 <div id="login_username">ユーザー名:<?php echo $username; ?></div>
             </li>
         </ul>
 
-        <ul class="nav navbar-nav col-xs-2 col-sm-2 col-md-2 col-lg-1">
+        <ul class="nav navbar-nav col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <!-- ログイン -->
             <li class="dropdown">
                 <?php if( $isLogin === false ):?>
@@ -65,7 +65,7 @@
         </ul>
 
         <?php if( $isLogin === false ):?>
-        <ul class="nav navbar-nav col-xs-2 col-sm-2 col-md-2 col-lg-1">
+        <ul class="nav navbar-nav col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <!-- 新規 -->
             <li class="dropdown">
                 <?php

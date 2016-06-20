@@ -15,12 +15,4 @@
     		'class' =>'btn btn-primary'
     )); ?>
     </p>
-    <p>
-    <?php
-    echo $this->Html->link ( '新規登録する',
-                     '/users/regist',
-                     array('class' => 'btn btn-primary')
-    );
-    ?>
-    </p>
 </div>
