@@ -174,4 +174,13 @@ class Tag extends Model {
 
     }
 
+    /**
+     * 管理画面用にタグのリストを作る
+     * @param unknown $param
+     */
+    public function makePulldownTagList() {
+    	$this->displayField = 'tag';
+    	$tagList = $this->find('list');
+		return $tagList;
+    }
 }

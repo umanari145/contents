@@ -51,7 +51,8 @@ class ItemsController extends AppController {
                     'limit' => 10,
                     'order' => array (
                             'Item.id' => 'desc'
-                    )
+                    ),
+                    'conditions' =>array('Item.delete_flg' => false)
             ),
             'UserItem' => array (
                     'limit' => 8

@@ -50,7 +50,7 @@ class AppController extends Controller {
         //    $this->Session->write("popularGirlList", $popularGirlList);
         //}
 
-        $this->set( 'siteUrl' , SITE_URL);
+        $this->set( 'siteUrl' , SITE_URL );
         $this->set( 'tagList' , $tagList);
         //女優は一時外す
         //$this->set( 'popularGirlList' ,$popularGirlList );

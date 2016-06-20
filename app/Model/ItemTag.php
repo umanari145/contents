@@ -103,6 +103,23 @@ class ItemTag extends Model {
     }
 
     /**
+     * 関連テーブルデータからtagのidのみを抽出する
+     *
+     * @param unknown $tagIdArr タグID配列
+     */
+    public function getTagIdFromTagData( $itemIdArr = array() ){
+		$tagData = $this->makeTagDataWhereInItemId( $itemIdArr );
+
+		$tagIdArr = array();
+		if( !empty($tagData) ){
+            foreach ( $tagData as $tag ) {
+                $tagIdArr[] = $tag['tag_id'];
+             }
+		}
+        return $tagIdArr;
+    }
+
+    /**
      * タグ配列を一括でインサートする
      *
      * @param $itemId 商品Id

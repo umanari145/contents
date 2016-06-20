@@ -30,6 +30,7 @@ class UsersController extends AppController {
     public function regist() {
 
         if ($this->request->is ( 'post' ) || $this->request->is ( 'put' )) {
+
             if( $this->User->save( $this->request->data['User'] )){
                 $userId =  $this->User->getLastInsertId();
                 if( !empty($userId)) {

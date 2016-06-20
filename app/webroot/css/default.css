@@ -956,3 +956,11 @@ div#attention{
 #flashMessage{
 	margin-top:40px;
 }
+
+div#admin_total_container{
+	margin-left:30px;
+}
+
+div#admin_total_container a:hover{
+	text-decoration:underline;
+}
