@@ -929,7 +929,7 @@ div#detail_move_area{
   clear:both;
   position: relative;
   width:100%;
-  min-width:640px;
+  min-width:320px;
   min-height:200px;
   height:480px;
   overflow: hidden;
