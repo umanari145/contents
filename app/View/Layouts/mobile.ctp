@@ -26,10 +26,13 @@
 	 <?php
 	 	echo $this->Html->css('default');
 	 	echo $this->Html->css('bootstrap');
+	 	echo $this->Html->css('jquery.sidr.dark.min');
 	 	echo $this->Html->script('jquery-1.11.3.min');
 	 	echo $this->Html->script('bootstrap.min');
 	 	echo $this->Html->script('jquery.infinitescroll.min');
+	 	echo $this->Html->script('jquery.sidr.min');
 	 	echo $this->Html->script('default');
+	 	echo $this->Html->script('mobile');
 	 	echo $this->fetch('meta');
 	 	echo $this->fetch('css');
 	 	echo $this->fetch('script');

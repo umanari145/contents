@@ -69,5 +69,11 @@
         </div>
         <?php endif; ?>
 
+        <div class="header-item">
+        <!-- タグ -->
+           <?php
+           echo $this->Html->link('タグ','#left-menu',array('id'=>'left-menu'));
+           ?>
+        </div>
     </div>
 </nav>

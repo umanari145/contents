@@ -1,5 +1,5 @@
 
-<div id="side_contents" class="pull-left col-xs-12 col-sm-4 col-md-2 col-lg-2">
+<div id="sidr-left">
     <h2 class="left_tag">タグ</h2>
     <div id="tag_list_area" class="sidebar-nav">
         <ul class="nav">
