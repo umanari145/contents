@@ -723,18 +723,32 @@ div#total_container{
    margin-top:60px;
 }
 
+.nav-header{
+	padding:10px 0 0 0;
+	color:#fff;
+}
+
+.nav-header a, .nav-header a:hover,.nav-header a:focus{
+	color:#fff;
+}
+
+.header_logo {
+	font-size:130%;
+	font-weight:bold;
+}
+
+#login_username{
+	padding-top:15px;
+	font-weigt:bold;
+	color:#fff;
+}
+
 #url-rewriting-warning {
 	display:none;
 }
 
 #nav-header-title{
 	font-size:20px;
-}
-
-div#login_username{
-	padding-top:15px;
-	font-weigt:bold;
-	color:#fff;
 }
 
 div.list_summary{
@@ -754,6 +768,10 @@ h2.contents_title a:hover{
 	opacity:0.6;
 	filter:alpha(opacity=80);
 	-ms-filter:"alpha( opacity=80 )";
+}
+
+.total_main_contents_area{
+	top:10px;
 }
 
 h2.left_tag{
@@ -963,4 +981,13 @@ div#admin_total_container{
 
 div#admin_total_container a:hover{
 	text-decoration:underline;
+}
+
+.header-container{
+	display:flex;
+}
+
+.header-item {
+	margin:auto 3px;
+	justify-content:space-around;
 }

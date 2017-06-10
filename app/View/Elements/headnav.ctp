@@ -33,7 +33,7 @@
         <ul class="nav navbar-nav col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <!-- ログイン名 -->
             <li class="dropdown">
-                <div id="login_username">ユーザー名:<?php echo $username; ?></div>
+                <div id="login_username"><?php echo $username; ?></div>
             </li>
         </ul>
 

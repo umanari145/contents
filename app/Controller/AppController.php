@@ -35,11 +35,12 @@ class AppController extends Controller {
     public $uses = array('Item','Tag','Girl','ItemGirl','ItemTag');
     public $components = array('Session');
 
+
     public function beforeFilter(){
 
         //$tagList =  $this->Session->read("tagList");
         //if( empty( $tagList)){
-            $tagList = $this->ItemTag->calcItemCountGroupByTag($this->Tag->getTagNameList());
+        $tagList = $this->ItemTag->calcItemCountGroupByTag($this->Tag->getTagNameList());
         //    $this->Session->write("tagList" , $tagList);
         //}
 
@@ -76,8 +77,64 @@ class AppController extends Controller {
         }
         $this->set('username', $username );
         $this->set('isLogin', $isLogin );
-
+        $this->getUserAgent();
     }
+
+
+    /**
+     * ユーザーエージェントにより、使い分けを行う
+     *
+     */
+    private function getUserAgent() {
+        $ua = ( !empty($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT']:"default";
+        $template;
+        if ($this->divMobile($ua)) {
+            //スマホ用
+            $this->layout = 'mobile';
+            $this->viewPath = 'Mobile/' . $this->viewPath;
+        } elseif ( $this->divTablet($ua)) {
+            //タブレットは現在スマホと同じ
+            $this->layout = 'mobile';
+            $this->viewPath = 'Mobile/' . $this->viewPath;
+        } else {
+            //PCはなにもしない
+        }
+    }
+
+    /**
+     * UAのモバイル判定
+     *
+     * @param ユーザーエージェント
+     * @return true(スマホ) / false(スマホ外)
+     */
+    private function divMobile($ua) {
+        //Android
+        if (strpos($ua, 'Android') !== false && strpos($ua,'Mobile') !== false ) return true;
+        //iphone
+        if (strpos($ua, 'iPhone') !== false) return true;
+        //windowsPhone
+        if (strpos($ua, 'Windows Phone') !== false) return true;
+
+        return false;
+    }
+
+
+    /**
+     * UAのタブレット判定
+     *
+     * @param ユーザーエージェント
+     * @return true(タブレット) / false(タブレット外)
+     */
+    private function divTablet($ua) {
+        if ( (strpos($ua, 'Android') !== false) || (strpos($ua, 'iPad') !== false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
 
     /**
      * ログイン処理
