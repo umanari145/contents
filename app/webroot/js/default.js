@@ -35,7 +35,6 @@ $(function(){
         });
 	});
 
-
 	$("#delete_favorite").click(function(){
 
 		var itemId = $("#item_id").val();
@@ -59,4 +58,13 @@ $(function(){
         });
 	});
 
+	$('.contents_block').infinitescroll({
+        navSelector : '.navigation',
+        nextSelector : '.navigation a',
+        itemSelector :'.index_contents_area',
+        loading: {
+            msg: null,
+            msgText: "<strong>動画ページを読み込んでいます。</strong>"
+          },
+	});
 });

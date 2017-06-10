@@ -10,6 +10,7 @@
 /app/ping_log.txt
 /app/tmp
 /app/webroot/img/
+/app/webroot/js/bower_components/
 /lib/Cake/Console/Templates/skel/tmp/
 /plugins
 /Plugin

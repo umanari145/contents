@@ -28,6 +28,7 @@
 	 	echo $this->Html->css('bootstrap');
 	 	echo $this->Html->script('jquery-1.11.3.min');
 	 	echo $this->Html->script('bootstrap.min');
+	 	echo $this->Html->script('jquery.infinitescroll.min');
 	 	echo $this->Html->script('default');
 	 	echo $this->fetch('meta');
 	 	echo $this->fetch('css');

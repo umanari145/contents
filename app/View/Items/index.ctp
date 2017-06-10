@@ -2,7 +2,7 @@
 <div class="total_main_contents_area pull-right col-xs-12 col-sm-8 col-md-10 col-lg-10">
 
     <!-- 検索窓 -->
-    <div class="col-xs-offset-1 col-xs-11 col-sm-offset-2 col-sm-6 col-md-offset-8 col-md-2 col-lg-offset-8 col-lg-2" >
+    <div class="col-xs-offset-1 col-xs-11 col-sm-offset-2 col-sm-6 col-md-offset-7 col-md-3 col-lg-offset-7 col-lg-3" >
         <?php echo $this->element('search'); ?>
     </div>
 
@@ -11,23 +11,13 @@
         <?php if( !empty($search_name)):?>
             <span>キーワード:<?php echo $search_name; ?></span>
         <?php endif;?>
-        <span>
-            <?php
-            echo $this->Paginator->counter('{:count} 件中 {:start}～{:end}件を表示');
-            ?>
-        </span>
-    </div>
-
-    <!-- ページャー -->
-    <div id="pager_area" class="col-xs-12 col-sm-8 col-md-10 col-lg-10">
-        <?php echo $this->element('pager'); ?>
     </div>
 
     <!-- メインコンテンツエリア -->
     <div class="total_contents_area col-xs-12 col-sm-8 col-md-10 col-lg-10">
 
             <!-- 各コンテンツの入れ物 -->
-            <div class="row">
+            <div class="row contents_block">
                 <?php foreach ($items as $item): ?>
                 <!-- 各コンテンツ -->
                 <div class="index_contents_area col-xs-12 col-sm-8 col-md-4 col-lg-3">
